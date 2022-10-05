@@ -1,0 +1,34 @@
+{% extends 'proc_venta/base2.html' %}
+{% load static %}
+{% block contenido2 %}
+<body id="bodylogin" class="text-center" >
+    
+    <main class="form-signin w-100 m-auto" id="loginsito">
+      <form>
+        <img class="mb-4 img-fluid" src="{% static 'proc_venta/img/logo.png' %}" alt="" width="200" height="140">
+        <h1 style="color: white;" class="h3 mb-3 fw-normal">Le Verduré</h1>
+    
+        <div class="form-floating">
+          <input  class="form-control" id="floatingInput" placeholder="name@example.com">
+          <label for="floatingInput">Usuario</label>
+        </div>
+        <div class="form-floating">
+          <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+          <label for="floatingPassword">Contraseña</label>
+        </div>
+    
+        <div class="checkbox mb-3">
+          <label class="rimember">
+            <input type="checkbox" value="remember-me" > Recordarme
+          </label>
+        </div>
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Iniciar sesión</button>
+        <a class="text-decoration-none" id="olvidelaclave" href="#">Olvidé mi Contraseña</a>
+        <p class="mt-5 mb-3 text-muted">&copy; 2022</p>
+      </form>
+    </main>
+    
+    
+        
+      </body>
+{% endblock %}
