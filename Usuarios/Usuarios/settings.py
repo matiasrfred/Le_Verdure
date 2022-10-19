@@ -39,13 +39,37 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cx_Oracle',
+    'rest_framework',
     'm_usuario',
-    'cx_Oracle'
-
+    'm_contrato',
+    'm_subasta',
+    'm_pdv',
+    'm_solicitudcompra',
+    'm_estadisticas',
+    'm_web',
 ]
 
 X_FRAME_OPTIONS = "SAMEORIGIN"
 SILENCED_SYSTEM_CHECKS = ["security.W019"]
+
+# Database
+# https://docs.djangoproject.com/en/4.0/ref/settings/#databases
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.oracle',
+        'NAME': '127.0.0.1:1521/xe',
+        'USER': 'vega',
+        'PASSWORD': '123',
+        'TEST': {
+            'USER': 'default_test',
+            'TBLSPACE': 'default_test_tbls',
+            'TBLSPACE_TMP': 'default_test_tbls_tmp',
+        },
+    },
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -78,22 +102,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'Usuarios.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.oracle',
-        'NAME': '127.0.0.1:1521/xe',
-        'USER': 'vega',
-        'PASSWORD': '123',
-        'TEST': {
-            'USER': 'default_test',
-            'TBLSPACE': 'default_test_tbls',
-            'TBLSPACE_TMP': 'default_test_tbls_tmp',
-        },
-    },
-}
 
 
 # Password validation
