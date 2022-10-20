@@ -41,13 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'cx_Oracle',
     'rest_framework',
-    'm_usuario',
-    'm_contrato',
-    'm_subasta',
-    'm_pdv',
-    'm_solicitudcompra',
     'm_estadisticas',
-    'm_web',
+
 ]
 
 X_FRAME_OPTIONS = "SAMEORIGIN"
