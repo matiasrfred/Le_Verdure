@@ -1,6 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 
+from django.db import models
+from django.contrib.auth.models import AbstractBaseUser
+
 class Pais(models.Model):
     id_pais = models.BigIntegerField(primary_key=True)
     n_pais = models.CharField(max_length=50)
@@ -12,7 +15,7 @@ class Pais(models.Model):
 class Estados(models.Model):
     id_estado = models.BigIntegerField(primary_key=True)
     n_estado = models.CharField(max_length=100)
-    pais_id_pais = models.ForeignKey(Pais, on_delete=models.DO_NOTHING, db_column='pais_id_pais', blank=True, null=True)
+    pais_id_pais = models.ForeignKey('Pais', on_delete=models.DO_NOTHING, db_column='pais_id_pais', blank=True, null=True)
 
     class Meta:
         managed = False
@@ -21,7 +24,7 @@ class Estados(models.Model):
 class Ciudad(models.Model):
     id_ciudad = models.BigIntegerField(primary_key=True)
     n_ciudad = models.CharField(max_length=50)
-    estados_id_estado = models.ForeignKey(Estados, on_delete=models.DO_NOTHING, db_column='estados_id_estado', blank=True, null=True)
+    estados_id_estado = models.ForeignKey('Estados', on_delete=models.DO_NOTHING, db_column='estados_id_estado', blank=True, null=True)
 
     class Meta:
         managed = False
@@ -39,7 +42,7 @@ class Producto(models.Model):
     id_prod = models.BigIntegerField(primary_key=True)
     n_prod = models.CharField(max_length=60)
     ruta_imagen = models.CharField(max_length=200)
-    calidad_id_calidad = models.ForeignKey(Calidad, on_delete=models.DO_NOTHING, db_column='calidad_id_calidad', blank=True, null=True)
+    calidad_id_calidad = models.ForeignKey('Calidad', on_delete=models.DO_NOTHING, db_column='calidad_id_calidad', blank=True, null=True)
 
     class Meta:
         managed = False
@@ -61,10 +64,10 @@ class Usuario(AbstractBaseUser):
     email = models.CharField(max_length=100)
     password = models.CharField(max_length=50)
     run = models.BigIntegerField()
-    usuario_activo = models.BooleanField(default=False)
-    superuser = models.BooleanField(default=False)
-    ciudad_id_ciudad = models.ForeignKey(Ciudad, on_delete=models.DO_NOTHING, db_column='ciudad_id_ciudad')
-    rol_id_rol = models.ForeignKey(Rol, on_delete=models.DO_NOTHING, db_column='rol_id_rol')
+    usuario_activo = models.IntegerField(default='0')
+    superuser = models.IntegerField(default='0')
+    ciudad_id_ciudad = models.ForeignKey('Ciudad', on_delete=models.DO_NOTHING, db_column='ciudad_id_ciudad')
+    rol_id_rol = models.ForeignKey('Rol', on_delete=models.DO_NOTHING, db_column='rol_id_rol')
     id_ciudad = models.BigIntegerField()
 
     USERNAME_FIELD = 'email'
@@ -78,8 +81,8 @@ class Contrato(models.Model):
     id_contrato = models.BigIntegerField(primary_key=True)
     fecha_inicio = models.DateField()
     fecha_termino = models.DateField()
-    contrato_activo = models.BooleanField(default = False)
-    usuario_id_usuario = models.OneToOneField(Usuario, on_delete=models.DO_NOTHING, db_column='usuario_id_usuario')
+    contrato_activo = models.IntegerField(default = False)
+    usuario_id_usuario = models.OneToOneField('Usuario', on_delete=models.DO_NOTHING, db_column='usuario_id_usuario')
 
     class Meta:
         managed = False
@@ -97,9 +100,9 @@ class SolicitudCompra(models.Model):
     id_solicitud = models.BigIntegerField(primary_key=True)
     fecha_solicitud = models.DateField()
     ctdad_necesaria = models.BigIntegerField()
-    estado_solicitud_id_estado = models.ForeignKey(EstadoSolicitud, on_delete=models.DO_NOTHING, db_column='estado_solicitud_id_estado')
-    producto_id_prod = models.ForeignKey(Producto, on_delete=models.DO_NOTHING, db_column='producto_id_prod')
-    usuario_id_usuario = models.ForeignKey(Usuario, on_delete=models.DO_NOTHING, db_column='usuario_id_usuario')
+    estado_solicitud_id_estado = models.ForeignKey('EstadoSolicitud', on_delete=models.DO_NOTHING, db_column='estado_solicitud_id_estado')
+    producto_id_prod = models.ForeignKey('Producto', on_delete=models.DO_NOTHING, db_column='producto_id_prod')
+    usuario_id_usuario = models.ForeignKey('Usuario', on_delete=models.DO_NOTHING, db_column='usuario_id_usuario')
 
     class Meta:
         managed = False
@@ -119,9 +122,9 @@ class Pdv(models.Model):
     fecha_termino = models.DateField()
     ctdad_reunida = models.BigIntegerField(blank=True, null=True)
     precio_total = models.BigIntegerField(blank=True, null=True)
-    estado_pdv_id_estadopdv = models.ForeignKey(EstadoPdv, on_delete=models.DO_NOTHING, db_column='estado_pdv_id_estadopdv')
-    solicitud_compra_id_solicitud = models.OneToOneField(SolicitudCompra, on_delete=models.DO_NOTHING, db_column='solicitud_compra_id_solicitud')
-    tipo_local = models.BooleanField(default=False)
+    estado_pdv_id_estadopdv = models.ForeignKey('EstadoPdv', on_delete=models.DO_NOTHING, db_column='estado_pdv_id_estadopdv')
+    solicitud_compra_id_solicitud = models.OneToOneField('SolicitudCompra', on_delete=models.DO_NOTHING, db_column='solicitud_compra_id_solicitud')
+    tipo_local = models.IntegerField(default='0')
 
     class Meta:
         managed = False
@@ -131,8 +134,8 @@ class Ofertantes(models.Model):
     id_oferta = models.BigIntegerField(primary_key=True)
     precio_oferta = models.BigIntegerField()
     ctdad_ofertada = models.BigIntegerField()
-    seleccion = models.BooleanField(default = False)
-    pdv_id_pdv = models.ForeignKey(Pdv, on_delete=models.DO_NOTHING, db_column='pdv_id_pdv', blank=True, null=True)
+    seleccion = models.IntegerField(default = False)
+    pdv_id_pdv = models.ForeignKey('Pdv', on_delete=models.DO_NOTHING, db_column='pdv_id_pdv', blank=True, null=True)
     usuario_id_usuario = models.ForeignKey('Usuario', on_delete=models.DO_NOTHING, db_column='usuario_id_usuario')
 
     class Meta:
@@ -141,10 +144,10 @@ class Ofertantes(models.Model):
 
 class CapTransporte(models.Model):
     id_transporte = models.BigIntegerField(primary_key=True)
-    refrigeracion = models.BooleanField(default = False, null=False)
+    refrigeracion = models.IntegerField(default = False, null=False)
     cap_carga = models.BigIntegerField()
     cap_tamano = models.BigIntegerField()
-    usuario_id_usuario = models.OneToOneField(Usuario, on_delete=models.DO_NOTHING, db_column='usuario_id_usuario')
+    usuario_id_usuario = models.OneToOneField('Usuario', on_delete=models.DO_NOTHING, db_column='usuario_id_usuario')
 
     class Meta:
         managed = False
@@ -158,13 +161,13 @@ class Subasta(models.Model):
     fecha_termino_sub = models.DateField()
     cond_carga = models.BigIntegerField()
     cond_tamano = models.BigIntegerField()
-    cond_refrigeracion = models.BooleanField(default=False,blank=True, null=True)
+    cond_refrigeracion = models.IntegerField(default='0',blank=True, null=True)
     valor_inicial = models.BigIntegerField()
     ultima_puja = models.BigIntegerField()
     ctdad_pujas = models.BigIntegerField()
-    pdv_id_pdv = models.ForeignKey(Pdv, on_delete=models.DO_NOTHING, db_column='pdv_id_pdv')
-    estado_sub = models.BooleanField(default=False,blank=True, null=True)
-    cap_transporte_id_transporte = models.ForeignKey(CapTransporte, on_delete=models.DO_NOTHING, db_column='cap_transporte_id_transporte')
+    pdv_id_pdv = models.ForeignKey('Pdv', on_delete=models.DO_NOTHING, db_column='pdv_id_pdv')
+    estado_sub = models.IntegerField(default='0',blank=True, null=True)
+    cap_transporte_id_transporte = models.ForeignKey('CapTransporte', on_delete=models.DO_NOTHING, db_column='cap_transporte_id_transporte')
 
     class Meta:
         managed = False
@@ -172,7 +175,7 @@ class Subasta(models.Model):
 
 class Estadisticas(models.Model):
     id_estad = models.BigIntegerField(primary_key=True)
-    subasta_id_subasta = models.OneToOneField(Subasta, on_delete=models.DO_NOTHING, db_column='subasta_id_subasta')
+    subasta_id_subasta = models.OneToOneField('Subasta', on_delete=models.DO_NOTHING, db_column='subasta_id_subasta')
 
     class Meta:
         managed = False
