@@ -1,5 +1,3 @@
-from django.db import models
-
 # Create your models here.
 
 from django.db import models
@@ -49,7 +47,6 @@ class Producto(models.Model):
         managed = False
         db_table = 'producto'
 
-
 class Rol(models.Model):
     id_rol = models.BigIntegerField(primary_key=True)
     n_rol = models.CharField(max_length=50)
@@ -78,17 +75,6 @@ class Usuario(AbstractBaseUser):
         managed = False
         db_table = 'usuario'
 
-class Contrato(models.Model):
-    id_contrato = models.BigIntegerField(primary_key=True)
-    fecha_inicio = models.DateField()
-    fecha_termino = models.DateField()
-    contrato_activo = models.IntegerField(default = False)
-    usuario_id_usuario = models.OneToOneField('Usuario', on_delete=models.DO_NOTHING, db_column='usuario_id_usuario')
-
-    class Meta:
-        managed = False
-        db_table = 'contrato'
-
 class EstadoSolicitud(models.Model):
     id_estado = models.BigIntegerField(primary_key=True)
     d_estado = models.CharField(max_length=50)
@@ -108,76 +94,3 @@ class SolicitudCompra(models.Model):
     class Meta:
         managed = False
         db_table = 'solicitud_compra'
-
-class EstadoPdv(models.Model):
-    id_estadopdv = models.BigIntegerField(primary_key=True)
-    d_estadopdv = models.CharField(max_length=60)
-
-    class Meta:
-        managed = False
-        db_table = 'estado_pdv'
-
-class Pdv(models.Model):
-    id_pdv = models.BigIntegerField(primary_key=True)
-    fecha_comienzo = models.DateField()
-    fecha_termino = models.DateField()
-    ctdad_reunida = models.BigIntegerField(blank=True, null=True)
-    precio_total = models.BigIntegerField(blank=True, null=True)
-    estado_pdv_id_estadopdv = models.ForeignKey('EstadoPdv', on_delete=models.DO_NOTHING, db_column='estado_pdv_id_estadopdv')
-    solicitud_compra_id_solicitud = models.OneToOneField('SolicitudCompra', on_delete=models.DO_NOTHING, db_column='solicitud_compra_id_solicitud')
-    tipo_local = models.IntegerField(default='0')
-
-    class Meta:
-        managed = False
-        db_table = 'pdv'
-
-class Ofertantes(models.Model):
-    id_oferta = models.BigIntegerField(primary_key=True)
-    precio_oferta = models.BigIntegerField()
-    ctdad_ofertada = models.BigIntegerField()
-    seleccion = models.IntegerField(default = False)
-    pdv_id_pdv = models.ForeignKey('Pdv', on_delete=models.DO_NOTHING, db_column='pdv_id_pdv', blank=True, null=True)
-    usuario_id_usuario = models.ForeignKey('Usuario', on_delete=models.DO_NOTHING, db_column='usuario_id_usuario')
-
-    class Meta:
-        managed = False
-        db_table = 'ofertantes'
-
-class CapTransporte(models.Model):
-    id_transporte = models.BigIntegerField(primary_key=True)
-    refrigeracion = models.IntegerField(default = False, null=False)
-    cap_carga = models.BigIntegerField()
-    cap_tamano = models.BigIntegerField()
-    usuario_id_usuario = models.OneToOneField('Usuario', on_delete=models.DO_NOTHING, db_column='usuario_id_usuario')
-
-    class Meta:
-        managed = False
-        db_table = 'cap_transporte'
-
-
-
-class Subasta(models.Model):
-    id_subasta = models.BigIntegerField(primary_key=True)
-    fecha_publicacion = models.DateField()
-    fecha_termino_sub = models.DateField()
-    cond_carga = models.BigIntegerField()
-    cond_tamano = models.BigIntegerField()
-    cond_refrigeracion = models.IntegerField(default='0',blank=True, null=True)
-    valor_inicial = models.BigIntegerField()
-    ultima_puja = models.BigIntegerField()
-    ctdad_pujas = models.BigIntegerField()
-    pdv_id_pdv = models.ForeignKey('Pdv', on_delete=models.DO_NOTHING, db_column='pdv_id_pdv')
-    estado_sub = models.IntegerField(default='0',blank=True, null=True)
-    cap_transporte_id_transporte = models.ForeignKey('CapTransporte', on_delete=models.DO_NOTHING, db_column='cap_transporte_id_transporte')
-
-    class Meta:
-        managed = False
-        db_table = 'subasta'
-
-class Estadisticas(models.Model):
-    id_estad = models.BigIntegerField(primary_key=True)
-    subasta_id_subasta = models.OneToOneField('Subasta', on_delete=models.DO_NOTHING, db_column='subasta_id_subasta')
-
-    class Meta:
-        managed = False
-        db_table = 'estadisticas'
