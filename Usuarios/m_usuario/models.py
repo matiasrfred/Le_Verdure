@@ -2,10 +2,6 @@ from cProfile import run
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 
-
-from django.db import models
-from django.contrib.auth.models import AbstractBaseUser
-
 class Pais(models.Model):
     id_pais = models.BigIntegerField(primary_key=True)
     n_pais = models.CharField(max_length=50)

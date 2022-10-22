@@ -1,10 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 
-# Create your models here.
-from django.db import models
-from django.contrib.auth.models import AbstractBaseUser
-
 class Pais(models.Model):
     id_pais = models.BigIntegerField(primary_key=True)
     n_pais = models.CharField(max_length=50)
@@ -77,17 +73,6 @@ class Usuario(AbstractBaseUser):
     class Meta:
         managed = False
         db_table = 'usuario'
-
-class Contrato(models.Model):
-    id_contrato = models.BigIntegerField(primary_key=True)
-    fecha_inicio = models.DateField()
-    fecha_termino = models.DateField()
-    contrato_activo = models.IntegerField(default = False)
-    usuario_id_usuario = models.OneToOneField('Usuario', on_delete=models.DO_NOTHING, db_column='usuario_id_usuario')
-
-    class Meta:
-        managed = False
-        db_table = 'contrato'
 
 class EstadoSolicitud(models.Model):
     id_estado = models.BigIntegerField(primary_key=True)
@@ -173,11 +158,3 @@ class Subasta(models.Model):
     class Meta:
         managed = False
         db_table = 'subasta'
-
-class Estadisticas(models.Model):
-    id_estad = models.BigIntegerField(primary_key=True)
-    subasta_id_subasta = models.OneToOneField('Subasta', on_delete=models.DO_NOTHING, db_column='subasta_id_subasta')
-
-    class Meta:
-        managed = False
-        db_table = 'estadisticas'

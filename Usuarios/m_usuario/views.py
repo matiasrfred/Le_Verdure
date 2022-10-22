@@ -5,7 +5,6 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from .models import Usuario
 from django.http.response import JsonResponse
-import json
 
 
 class usuarioView(View):
