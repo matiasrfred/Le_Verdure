@@ -13,3 +13,6 @@ def login(request):
 
 def pdvopen(request):
     return render(request, 'm_web/pdvopen.html')
+
+def pdvint(request):
+    return render(request, 'm_web/pdvint.html')
