@@ -10,6 +10,9 @@ class Pais(models.Model):
         managed = False
         db_table = 'pais'
 
+    def __str__(self):
+        return self.n_pais
+
 class Estados(models.Model):
     id_estado = models.BigIntegerField(primary_key=True)
     n_estado = models.CharField(max_length=100)
@@ -19,6 +22,9 @@ class Estados(models.Model):
         managed = False
         db_table = 'estados'
 
+    def __str__(self):
+        return self.n_estado
+        
 class Ciudad(models.Model):
     id_ciudad = models.BigIntegerField(primary_key=True)
     n_ciudad = models.CharField(max_length=50)
@@ -28,6 +34,8 @@ class Ciudad(models.Model):
         managed = False
         db_table = 'ciudad'
 
+    def __str__(self):
+        return self.n_ciudad
 
 class Rol(models.Model):
     id_rol = models.BigIntegerField(primary_key=True)
@@ -36,6 +44,9 @@ class Rol(models.Model):
     class Meta:
         managed = False
         db_table = 'rol'
+
+    def __str__(self):
+        return self.n_rol
 
 class Usuario(models.Model):
     id_usuario = models.BigIntegerField(primary_key=True)
@@ -57,6 +68,8 @@ class Usuario(models.Model):
         db_table = 'usuario'
         unique_together = (('email', 'run'),)
 
+    def __str__(self):
+        return self.nombre +' '+ self.apellido
 
 class CapTransporte(models.Model):
     id_transporte = models.BigIntegerField(primary_key=True)
@@ -68,5 +81,8 @@ class CapTransporte(models.Model):
     class Meta:
         managed = False
         db_table = 'cap_transporte'
+    
+    def __str__(self):
+        return self.id_transporte+' '+self.usuario_id_usuario
 
 
