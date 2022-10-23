@@ -5,7 +5,6 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from .models import Usuario,Pais
 from django.http.response import JsonResponse
-import requests
 from django.db import connection
 from .serializers import Usuario_srlzr,Usuario_allsrlzr
 from rest_framework import viewsets

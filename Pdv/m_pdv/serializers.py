@@ -13,3 +13,4 @@ class Pdv_allsrlzr(serializers.ModelSerializer):
     class Meta:
         model = Pdv
         fields = '__all__'
+
