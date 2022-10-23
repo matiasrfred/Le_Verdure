@@ -33,11 +33,11 @@ def modificar_solicitud(fecha_solicitud,ctdad_necesaria,estado_solicitud_id_esta
     salida = cursor.var(cx_Oracle.NUMBER)
     cursor.callproc('ACTUALIZAR_SOLICITUD_COMPRA',[fecha_solicitud,ctdad_necesaria,estado_solicitud_id_estado,producto_id_prod,usuario_id_usuario,salida])
 
-def eliminar_solicitud(email):
+def eliminar_solicitud(id_solicitud):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
-    cursor.callproc('ELIMINAR_SOLICITUD_COMPRA',[email,salida])
+    cursor.callproc('ELIMINAR_SOLICITUD_COMPRA',[id_solicitud,salida])
 
 ###############################################
 ########### View Solicitud Compra #############
@@ -68,7 +68,7 @@ class solicitudView(View):
 
     def post(self,request):
         jd = json.loads(request.body)
-        SolicitudCompra.objects.create(id_solicitud=jd['id_solicitud'],fecha_solicitud=jd['fecha_solicitud'],
+        agregar_solicitud(id_solicitud=jd['id_solicitud'],fecha_solicitud=jd['fecha_solicitud'],
         ctdad_necesaria=jd['ctdad_necesaria'],estado_solicitud_id_estado_id=jd['estado_solicitud_id_estado_id'],
         producto_id_prod_id=jd['producto_id_prod_id'],usuario_id_usuario_id=jd['usuario_id_usuario_id'])
         datos={'message' : "Succes"}
@@ -78,24 +78,20 @@ class solicitudView(View):
         jd = json.loads(request.body)
         solicitudes = list(SolicitudCompra.objects.filter(id_solicitud=id).values())
         if len(solicitudes) > 0:
-            solicitudes=SolicitudCompra.objects.get(id_solicitud=id)
-            solicitudes.id_solicitud=jd['id_solicitud']
-            solicitudes.fecha_solicitud=jd['fecha_solicitud']
-            solicitudes.ctdad_necesaria=jd['ctdad_necesaria']
-            solicitudes.estado_solicitud_id_estado_id=jd['estado_solicitud_id_estado_id']
-            solicitudes.producto_id_prod_id=jd['producto_id_prod_id']
-            solicitudes.usuario_id_usuario_id=jd['usuario_id_usuario_id']
-            solicitudes.save()
+            modificar_solicitud(id_solicitud=jd['id_solicitud'],fecha_solicitud=jd['fecha_solicitud'],
+            ctdad_necesaria=jd['ctdad_necesaria'],estado_solicitud_id_estado_id=jd['estado_solicitud_id_estado_id'],
+            producto_id_prod_id=jd['producto_id_prod_id'],usuario_id_usuario_id=jd['usuario_id_usuario_id'])
             datos={'message' : "Succes"}
             
         else:
             datos={'message' : "Solicitud de compra no encontrada ..."}
         return JsonResponse(datos)
 
-    def delete(self,request, id):
-        solicitud = list(SolicitudCompra.objects.filter(id_solicitud=id).values())
+    def delete(self,request, id_solicitud):
+        jd = json.loads(request.body)
+        solicitud = list(SolicitudCompra.objects.filter(id_solicitud=id_solicitud).values())
         if len(solicitud) > 0:
-            SolicitudCompra.objects.filter(id_solicitud=id).delete()
+            eliminar_solicitud(id_solicitud=id_solicitud)
             datos={'message' : "Succes"}
         else:
             datos={'message' : "Solicitud de compra no encontrada ..."}
