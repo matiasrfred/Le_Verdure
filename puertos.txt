@@ -4,4 +4,4 @@ PUERTO SOLICITUD_COMPRA ==          python manage.py runserver 8002
 PUERTO PDV ==                       python manage.py runserver 8003
 PUERTO SUBASTA ==                   python manage.py runserver 8004
 PUERTO ESTADISTICA ==               python manage.py runserver 8005
-PUERTO CONTRATOS ==                 python manage.py runserver 8006
+PUERTO WEB ==                       python manage.py runserver 8006
