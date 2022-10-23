@@ -55,4 +55,15 @@ class Rol_allsrlzr(serializers.ModelSerializer):
     class Meta:
         model = Rol
         fields = '__all__'
+    
+class Transporte_srlzr(serializers.ModelSerializer):
+    class Meta:
+        model = CapTransporte
+        fields = ['refrigeracion','cap_carga','cap_tamano','usuario_id_usuario']
+
+class Transporte_allsrlzr(serializers.ModelSerializer):
+
+    class Meta:
+        model = CapTransporte
+        fields = '__all__'
 

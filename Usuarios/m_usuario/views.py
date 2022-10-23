@@ -4,6 +4,8 @@ from django.views import View
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from .models import *
+from rest_framework import viewsets
+from .serializers import *
 from django.http.response import JsonResponse
 from django.db import connection
 import cx_Oracle
@@ -267,6 +269,15 @@ class usuarioView(View):
             datos={'message' : "Usuario no encontrado ..."}
         return JsonResponse(datos)
 
+class UsuarioViewset(viewsets.ModelViewSet):
+    queryset = Usuario.objects.filter(usuario_activo='1')
+    serializer_class = Usuario_srlzr
+
+
+class UsuarioAllViewset(viewsets.ModelViewSet):
+    queryset = Usuario.objects.all()
+    serializer_class = Usuario_allsrlzr
+
 ###########################################################
 class PaisView(View):
     @method_decorator(csrf_exempt)
@@ -317,7 +328,16 @@ class PaisView(View):
         else:
             datos={'message' : "Pais no encontrado ..."}
         return JsonResponse(datos)
-        
+
+class PaisViewset(viewsets.ModelViewSet):
+    queryset = Pais.objects.filter()
+    serializer_class = Pais_srlzr
+
+
+class PaisAllViewset(viewsets.ModelViewSet):
+    queryset = Pais.objects.all()
+    serializer_class = Pais_allsrlzr
+
 ###########################################################
 class EstadosView(View):
     @method_decorator(csrf_exempt)
@@ -368,6 +388,16 @@ class EstadosView(View):
         else:
             datos={'message' : "Estado no encontrado ..."}
         return JsonResponse(datos)
+
+class EstadosViewset(viewsets.ModelViewSet):
+    queryset = Estados.objects.filter()
+    serializer_class = Estados_srlzr
+
+
+class EstadosAllViewset(viewsets.ModelViewSet):
+    queryset = Estados.objects.all()
+    serializer_class = Estados_allsrlzr
+
 
 ###########################################################
 class CiudadView(View):
@@ -420,6 +450,15 @@ class CiudadView(View):
             datos={'message' : "Ciudad no encontrado ..."}
         return JsonResponse(datos)
 
+class CiudadViewset(viewsets.ModelViewSet):
+    queryset = Ciudad.objects.filter()
+    serializer_class = Ciudad_srlzr
+
+
+class CiudadAllViewset(viewsets.ModelViewSet):
+    queryset = Ciudad.objects.all()
+    serializer_class = Ciudad_allsrlzr
+
  ###########################################################
 class RolView(View):
     @method_decorator(csrf_exempt)
@@ -471,6 +510,15 @@ class RolView(View):
             datos={'message' : "Rol no encontrado ..."}
         return JsonResponse(datos)       
 
+class RolViewset(viewsets.ModelViewSet):
+    queryset = Rol.objects.filter()
+    serializer_class = Rol_srlzr
+
+
+class RolAllViewset(viewsets.ModelViewSet):
+    queryset = Rol.objects.all()
+    serializer_class = Rol_allsrlzr
+
 #########################################################################
 class TransporteView(View):
     @method_decorator(csrf_exempt)
@@ -521,3 +569,12 @@ class TransporteView(View):
         else:
             datos={'message' : "Transporte no encontrado ..."}
         return JsonResponse(datos)
+
+class TransporteViewset(viewsets.ModelViewSet):
+    queryset = CapTransporte.objects.filter()
+    serializer_class = Transporte_srlzr
+
+
+class TransporteAllViewset(viewsets.ModelViewSet):
+    queryset = CapTransporte.objects.all()
+    serializer_class = Transporte_allsrlzr
