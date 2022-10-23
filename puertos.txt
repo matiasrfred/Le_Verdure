@@ -1,0 +1,6 @@
+PUERTO USUARIO ==                   python manage.py runserver 8000
+PUERTO SUBASTA ==                   python manage.py runserver 8001
+PUERTO SOLICITUD_COMPRA ==          python manage.py runserver 8002
+PUERTO PDV ==                       python manage.py runserver 8003
+PUERTO ESTADISTICA ==               python manage.py runserver 8004
+PUERTO CONTRATOS ==                 python manage.py runserver 8005

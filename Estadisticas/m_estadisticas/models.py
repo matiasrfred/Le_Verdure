@@ -153,8 +153,6 @@ class CapTransporte(models.Model):
         managed = False
         db_table = 'cap_transporte'
 
-
-
 class Subasta(models.Model):
     id_subasta = models.BigIntegerField(primary_key=True)
     fecha_publicacion = models.DateField()
@@ -175,7 +173,7 @@ class Subasta(models.Model):
 
 class Estadisticas(models.Model):
     id_estad = models.BigIntegerField(primary_key=True)
-    subasta_id_subasta = models.OneToOneField('Subasta', on_delete=models.DO_NOTHING, db_column='subasta_id_subasta')
+    subasta_id_subasta = models.OneToOneField('Subasta', models.DO_NOTHING, db_column='subasta_id_subasta')
 
     class Meta:
         managed = False
