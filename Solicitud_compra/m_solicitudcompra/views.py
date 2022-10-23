@@ -1,12 +1,14 @@
-from Usuarios.m_usuario.views import agregar_estado
-from .models import *
-from django.db import connection
-from django.http.response import JsonResponse
+import json
+from unicodedata import name
 from django.views import View
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
+from .models import *
+from rest_framework import viewsets
+from .serializers import *
+from django.http.response import JsonResponse
+from django.db import connection
 import cx_Oracle
-import json
 
 
 # Create your views here.
@@ -147,24 +149,24 @@ def eliminar_estado_solicitud(id_estado):
 ########### View Solicitud Compra #############
 ###############################################
 
-class solicitudView(View):
+class SolicitudView(View):
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
         
-    def get(self, request, id=0):
+    def get(self, request, id_solicitud=0):
         if (id>0):
-            solicitudes=list(SolicitudCompra.objects.filter(id_solicitud=id).values())
+            solicitudes=list(SolicitudCompra.objects.filter(id_solicitud=id_solicitud).values())
             if len(solicitudes)>0:
                 solicitud = solicitudes[0]
-                datos = {'message' : "Succes" , 'solicitudes':solicitudes}
+                datos = {'message' : "Exitoso" , 'solicitud':solicitud}
             else:
                 datos={'message' : "Solicitud de compra no encontrada ..."}
             return JsonResponse(datos)
         else:
             solicitudes=list(SolicitudCompra.objects.values())
             if len(solicitudes)>0:
-                datos={'message' : "Succes" , 'solicitudes':solicitudes}
+                datos={'message' : "Exitoso" , 'solicitudes':solicitudes}
             else:
                 datos={'message' : "Solicitud de compra no encontrada ..."}
 
@@ -172,20 +174,16 @@ class solicitudView(View):
 
     def post(self,request):
         jd = json.loads(request.body)
-        agregar_solicitud(id_solicitud=jd['id_solicitud'],fecha_solicitud=jd['fecha_solicitud'],
-        ctdad_necesaria=jd['ctdad_necesaria'],estado_solicitud_id_estado_id=jd['estado_solicitud_id_estado_id'],
-        producto_id_prod_id=jd['producto_id_prod_id'],usuario_id_usuario_id=jd['usuario_id_usuario_id'])
-        datos={'message' : "Succes"}
+        agregar_solicitud(id_solicitud=jd['id_solicitud'],fecha_solicitud=jd['fecha_solicitud'],ctdad_necesaria=jd['ctdad_necesaria'],estado_solicitud_id_estado_id=jd['estado_solicitud_id_estado_id'],producto_id_prod_id=jd['producto_id_prod_id'],usuario_id_usuario_id=jd['usuario_id_usuario_id'])
+        datos={'message' : "Exitoso"}
         return JsonResponse(datos)
 
-    def put(self,request, id):
+    def put(self,request, id_solicitud):
         jd = json.loads(request.body)
-        solicitudes = list(SolicitudCompra.objects.filter(id_solicitud=id).values())
+        solicitudes = list(SolicitudCompra.objects.filter(id_solicitud=id_solicitud).values())
         if len(solicitudes) > 0:
-            modificar_solicitud(id_solicitud=jd['id_solicitud'],fecha_solicitud=jd['fecha_solicitud'],
-            ctdad_necesaria=jd['ctdad_necesaria'],estado_solicitud_id_estado_id=jd['estado_solicitud_id_estado_id'],
-            producto_id_prod_id=jd['producto_id_prod_id'],usuario_id_usuario_id=jd['usuario_id_usuario_id'])
-            datos={'message' : "Succes"}
+            modificar_solicitud(id_solicitud=jd['id_solicitud'],fecha_solicitud=jd['fecha_solicitud'],ctdad_necesaria=jd['ctdad_necesaria'],estado_solicitud_id_estado_id=jd['estado_solicitud_id_estado_id'],producto_id_prod_id=jd['producto_id_prod_id'],usuario_id_usuario_id=jd['usuario_id_usuario_id'])
+            datos={'message' : "Exitoso"}
             
         else:
             datos={'message' : "Solicitud de compra no encontrada ..."}
@@ -196,35 +194,43 @@ class solicitudView(View):
         solicitud = list(SolicitudCompra.objects.filter(id_solicitud=id_solicitud).values())
         if len(solicitud) > 0:
             eliminar_solicitud(id_solicitud=id_solicitud)
-            datos={'message' : "Succes"}
+            datos={'message' : "Exitoso"}
         else:
             datos={'message' : "Solicitud de compra no encontrada ..."}
         return JsonResponse(datos)
 
+class SolicitudViewset(viewsets.ModelViewSet):
+    queryset = SolicitudCompra.objects.filter(estado_solicitud_id_estado='1')
+    serializer_class = Solicitud_srlzr
+
+
+class SolicitudAllViewset(viewsets.ModelViewSet):
+    queryset = SolicitudCompra.objects.all()
+    serializer_class = Solicitud_allsrlzr
 
 ###############################################
 ############## View EstadoSolicitud ##################
 ###############################################
 
 
-class productoView(View):
+class ProductoView(View):
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
         
-    def get(self, request, id=0):
-        if (id>0):
-            productos=list(EstadoSolicitud.objects.filter(id_estado=id).values())
+    def get(self, request, id_prod=0):
+        if (id_prod>0):
+            productos=list(Producto.objects.filter(id_prod=id_prod).values())
             if len(productos)>0:
                 producto = productos[0]
-                datos = {'message' : "Succes" , 'productos':productos}
+                datos = {'message' : "Exitoso" , 'producto':producto}
             else:
                 datos={'message' : "EstadoSolicitud no encontrado ..."}
             return JsonResponse(datos)
         else:
             productos=list(EstadoSolicitud.objects.values())
             if len(productos)>0:
-                datos={'message' : "Succes" , 'productos':productos}
+                datos={'message' : "Exitoso" , 'productos':productos}
             else:
                 datos={'message' : "EstadoSolicitud no encontrado ..."}
 
@@ -232,90 +238,103 @@ class productoView(View):
 
     def post(self,request):
         jd = json.loads(request.body)
-        agregar_producto(id_estado=jd['id_estado'],d_estado=jd['d_estado'],
-        ruta_imagen=jd['ruta_imagen'],calidad_id_calidad=jd['calidad_id_calidad'])
-        datos={'message' : "Succes"}
+        agregar_producto(id_estado=jd['id_estado'],d_estado=jd['d_estado'],ruta_imagen=jd['ruta_imagen'],calidad_id_calidad=jd['calidad_id_calidad'])
+        datos={'message' : "Exitoso"}
         return JsonResponse(datos)
 
-    def put(self,request, id):
+    def put(self,request, id_prod):
         jd = json.loads(request.body)
-        productos = list(EstadoSolicitud.objects.filter(id_estado=id).values())
+        productos = list(Producto.objects.filter(id_prod=id_prod).values())
         if len(productos) > 0:
-            modificar_solicitud(id_estado=jd['id_estado'],d_estado=jd['d_estado'],
-        ruta_imagen=jd['ruta_imagen'],calidad_id_calidad=jd['calidad_id_calidad'])
-            datos={'message' : "Succes"}
+            modificar_solicitud(id_estado=jd['id_estado'],d_estado=jd['d_estado'],ruta_imagen=jd['ruta_imagen'],calidad_id_calidad=jd['calidad_id_calidad'])
+            datos={'message' : "Exitoso"}
             
         else:
-            datos={'message' : "EstadoSolicitud no encontrado ..."}
+            datos={'message' : "Producto no encontrado ..."}
         return JsonResponse(datos)
 
-    def delete(self,request, id_estado):
+    def delete(self,request, id_prod):
         jd = json.loads(request.body)
-        solicitud = list(SolicitudCompra.objects.filter(id_estado=id_estado).values())
+        solicitud = list(SolicitudCompra.objects.filter(id_prod=id_prod).values())
         if len(solicitud) > 0:
-            eliminar_producto(id_estado=id_estado)
-            datos={'message' : "Succes"}
+            eliminar_producto(id_prod=id_prod)
+            datos={'message' : "Exitoso"}
         else:
-            datos={'message' : "EstadoSolicitud no encontrado ..."}
+            datos={'message' : "Producto no encontrado ..."}
         return JsonResponse(datos)
+
+class ProductoViewset(viewsets.ModelViewSet):
+    queryset = Producto.objects.filter()
+    serializer_class = Producto_srlzr
+
+
+class ProductoAllViewset(viewsets.ModelViewSet):
+    queryset = Producto.objects.all()
+    serializer_class = Producto_allsrlzr
 
 ###############################################
 ############## View Calidad ###################
 ###############################################
 
 
-class calidadView(View):
+class CalidadView(View):
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
         
-    def get(self, request, id=0):
-        if (id>0):
-            estadosolicitudes=list(Calidad.objects.filter(id_calidad=id).values())
-            if len(estadosolicitudes)>0:
-                calidad = estadosolicitudes[0]
-                datos = {'message' : "Succes" , 'estadosolicitudes':estadosolicitudes}
+    def get(self, request, id_calidad=0):
+        if (id_calidad>0):
+            calidades=list(Calidad.objects.filter(id_calidad=id_calidad).values())
+            if len(calidades)>0:
+                calidad = calidades[0]
+                datos = {'message' : "Exitoso" , 'calidad':calidad}
             else:
                 datos={'message' : "Calidad no encontrada ..."}
             return JsonResponse(datos)
         else:
-            productos=list(EstadoSolicitud.objects.values())
-            if len(estadosolicitudes)>0:
-                datos={'message' : "Succes" , 'productos':productos}
+            calidades=list(Calidad.objects.values())
+            if len(calidades)>0:
+                datos={'message' : "Exitoso" , 'calidades':calidades}
             else:
-                datos={'message' : "EstadoSolicitud no encontrado ..."}
+                datos={'message' : "Calidades no encontradas ..."}
 
             return JsonResponse(datos)
 
     def post(self,request):
         jd = json.loads(request.body)
-        agregar_producto(id_estado=jd['id_estado'],d_estado=jd['d_estado'],
-        ruta_imagen=jd['ruta_imagen'],calidad_id_calidad=jd['calidad_id_calidad'])
-        datos={'message' : "Succes"}
+        agregar_calidad(id_calidad=jd['id_calidad'],descripcion_c=jd['descripcion_c'])
+        datos={'message' : "Exitoso"}
         return JsonResponse(datos)
 
-    def put(self,request, id):
+    def put(self,request, id_calidad):
         jd = json.loads(request.body)
-        productos = list(EstadoSolicitud.objects.filter(id_estado=id).values())
-        if len(productos) > 0:
-            modificar_producto(id_estado=jd['id_estado'],d_estado=jd['d_estado'],
-        ruta_imagen=jd['ruta_imagen'],calidad_id_calidad=jd['calidad_id_calidad'])
-            datos={'message' : "Succes"}
+        calidades = list(Calidad.objects.filter(id_calidad=id_calidad).values())
+        if len(calidades) > 0:
+            modificar_calidad(id_calidad=jd['id_calidad'],descripcion_c=jd['descripcion_c'])
+            datos={'message' : "Exitoso"}
             
         else:
-            datos={'message' : "EstadoSolicitud no encontrado ..."}
+            datos={'message' : "Calidad no encontrada ..."}
         return JsonResponse(datos)
 
-    def delete(self,request, id_estado):
+    def delete(self,request, id_calidad):
         jd = json.loads(request.body)
-        producto = list(EstadoSolicitud.objects.filter(id_estado=id_estado).values())
-        if len(producto) > 0:
-            eliminar_producto(id_estado=id_estado)
-            datos={'message' : "Succes"}
+        calidad = list(Calidad.objects.filter(id_calidad=id_calidad).values())
+        if len(calidad) > 0:
+            eliminar_calidad(id_calidad=id_calidad)
+            datos={'message' : "Exitoso"}
         else:
-            datos={'message' : "EstadoSolicitud no encontrado ..."}
+            datos={'message' : "Calidad no encontrado ..."}
         return JsonResponse(datos)
 
+class CalidadViewset(viewsets.ModelViewSet):
+    queryset = Calidad.objects.filter()
+    serializer_class = Calidad_srlzr
+
+
+class CalidadAllViewset(viewsets.ModelViewSet):
+    queryset = Calidad.objects.all()
+    serializer_class = Calidad_allsrlzr
 
 ###############################################
 ############## View Estado solicitud ##########
@@ -327,19 +346,19 @@ class estadoSolicitudView(View):
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
         
-    def get(self, request, id=0):
+    def get(self, request, id_estado=0):
         if (id>0):
-            estadosolicitudes=list(EstadoSolicitud.objects.filter(id_estado=id).values())
+            estadosolicitudes=list(EstadoSolicitud.objects.filter(id_estado=id_estado).values())
             if len(estadosolicitudes)>0:
                 estadosolicitud = estadosolicitudes[0]
-                datos = {'message' : "Succes" , 'estadosolicitudes':estadosolicitudes}
+                datos = {'message' : "Exitoso" , 'estadosolicitud':estadosolicitud}
             else:
                 datos={'message' : "Estado solicit no encontrada ..."}
             return JsonResponse(datos)
         else:
             estadosolicitudes=list(EstadoSolicitud.objects.values())
             if len(estadosolicitudes)>0:
-                datos={'message' : "Succes" , 'estadosolicitudes':estadosolicitudes}
+                datos={'message' : "Exitoso" , 'estadosolicitudes':estadosolicitudes}
             else:
                 datos={'message' : "Estado solicut no encontrada ..."}
 
@@ -348,15 +367,15 @@ class estadoSolicitudView(View):
     def post(self,request):
         jd = json.loads(request.body)
         agregar_estado_solicitud(id_estado=jd['id_estado'],d_estado=jd['d_estado'])
-        datos={'message' : "Succes"}
+        datos={'message' : "Exitoso"}
         return JsonResponse(datos)
 
-    def put(self,request, id):
+    def put(self,request, id_estado):
         jd = json.loads(request.body)
-        estadosolicitudes = list(EstadoSolicitud.objects.filter(id_estado=id).values())
+        estadosolicitudes = list(EstadoSolicitud.objects.filter(id_estado=id_estado).values())
         if len(estadosolicitudes) > 0:
             modificar_estado_solicitud(id_estado=jd['id_estado'],d_estado=jd['d_estado'])
-            datos={'message' : "Succes"}
+            datos={'message' : "Exitoso"}
             
         else:
             datos={'message' : "EstadoSolicitud no encontrado ..."}
@@ -367,7 +386,16 @@ class estadoSolicitudView(View):
         estadosolicitud = list(EstadoSolicitud.objects.filter(id_estado=id_estado).values())
         if len(estadosolicitud) > 0:
             eliminar_estado_solicitud(id_estado=id_estado)
-            datos={'message' : "Succes"}
+            datos={'message' : "Exitoso"}
         else:
             datos={'message' : "EstadoSolicitud no encontrado ..."}
         return JsonResponse(datos)
+
+class EstadoSolicitudViewset(viewsets.ModelViewSet):
+    queryset = EstadoSolicitud.objects.filter()
+    serializer_class = estadoSolicitud_srlzr
+
+
+class EstadoSolicitudAllViewset(viewsets.ModelViewSet):
+    queryset = EstadoSolicitud.objects.all()
+    serializer_class = estadoSolicitud_allsrlzr
