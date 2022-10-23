@@ -11,14 +11,15 @@ import cx_Oracle
 import datetime
 # Create your views here.
 
-def agregar_solicitud(fecha_comienzo,fecha_termino,ctdad_reunida,precio_total,estado_pdv_id_estadopdv,solicitud_compra_id_solicitud,tipo_local):
+
+def agregar_pdv(fecha_comienzo,fecha_termino,ctdad_reunida,precio_total,estado_pdv_id_estadopdv,solicitud_compra_id_solicitud,tipo_local):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
-    cursor.callproc('AGREGAR_PDV',[fecha_comienzo,fecha_termino,ctdad_reunida,precio_total,estado_pdv_id_estadopdv,solicitud_compra_id_solicitud,tipo_local,salida])
+    cursor.callproc('AGREGAR_PDV',[fecha_comienzo,fecha_termino,ctdad_reunida,precio_total,estado_pdv_id_estadopdv,solicitud_compra_id_solicitud,tipo_local])
     return salida
 
-def lista_solicitud():
+def lista_pdv():
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     cursor_salida = django_cursor.connection.cursor()
@@ -28,17 +29,17 @@ def lista_solicitud():
         list.append(fila)
     return list
 
-def modificar_solicitud(fecha_comienzo,fecha_termino,ctdad_reunida,precio_total,estado_pdv_id_estadopdv,solicitud_compra_id_solicitud,tipo_local):
+def modificar_pdv(fecha_comienzo,fecha_termino,ctdad_reunida,precio_total,estado_pdv_id_estadopdv,solicitud_compra_id_solicitud,tipo_local):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
-    cursor.callproc('ACTUALIZAR_PDV',[fecha_comienzo,fecha_termino,ctdad_reunida,precio_total,estado_pdv_id_estadopdv,solicitud_compra_id_solicitud,tipo_local,salida])
+    cursor.callproc('ACTUALIZAR_PDV',[fecha_comienzo,fecha_termino,ctdad_reunida,precio_total,estado_pdv_id_estadopdv,solicitud_compra_id_solicitud,tipo_local])
 
-def eliminar_solicitud(email):
+def eliminar_pdv(id_pdv):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
-    cursor.callproc('ELIMINAR_PDV',[email,salida])
+    cursor.callproc('ELIMINAR_PDV',[id_pdv,salida])
 
 
 ###########################################################
@@ -58,7 +59,7 @@ class pdvView(View):
                 datos={'message' : "Proceso de venta no encontrada ..."}
             return JsonResponse(datos)
         else:
-            pdvs=list(Subasta.objects.values())
+            pdvs=list(Pdv.objects.values())
             if len(pdvs)>0:
                 datos={'message' : "Succes" , 'pdvs':pdvs}
             else:
@@ -68,34 +69,29 @@ class pdvView(View):
 
     def post(self,request):
         jd = json.loads(request.body)
-        Pdv.objects.create(id_pdv=jd['id_pdv'], fecha_comienzo=jd[' fecha_comienzo'],fecha_termino=jd['fecha_termino'],ctdad_reunida=jd['ctdad_reunida'],precio_total=jd['precio_total'],estado_pdv_id_estadopdv=jd['estado_pdv_id_estadopdv'],solicitud_compra_id_solicitud=jd['solicitud_compra_id_solicitud'],tipo_local=jd['tipo_local'])
+        agregar_pdv(id_pdv=jd['id_pdv'], fecha_comienzo=jd[' fecha_comienzo'],fecha_termino=jd['fecha_termino'],
+        ctdad_reunida=jd['ctdad_reunida'],precio_total=jd['precio_total'],estado_pdv_id_estadopdv=jd['estado_pdv_id_estadopdv'],
+        solicitud_compra_id_solicitud=jd['solicitud_compra_id_solicitud'],tipo_local=jd['tipo_local'])
         datos={'message' : "Succes"}
         return JsonResponse(datos)
 
     def put(self,request, id):
         jd = json.loads(request.body)
-        pdvs = list(Subasta.objects.filter(id_pdv=id).values())
+        pdvs = list(Pdv.objects.filter(id_pdv=id).values())
         if len(pdvs) > 0:
-            pdv=Pdv.objects.get(id_pdv=id)
-            pdv.id_pdv=jd['id_pdv']
-            pdv.fecha_comienzo=jd['fecha_comienzo']
-            pdv.fecha_termino=jd['fecha_termino']
-            pdv.ctdad_reunida=jd['ctdad_reunida']
-            pdv.precio_total=jd['precio_total']
-            pdv.estado_pdv_id_estadopdv=jd['estado_pdv_id_estadopdv']
-            pdv.solicitud_compra_id_solicitud=jd['solicitud_compra_id_solicitud']
-            pdv.tipo_local=jd['tipo_local']
-            pdv.save()
+            modificar_pdv(id_pdv=jd['id_pdv'], fecha_comienzo=jd[' fecha_comienzo'],fecha_termino=jd['fecha_termino'],
+            ctdad_reunida=jd['ctdad_reunida'],precio_total=jd['precio_total'],estado_pdv_id_estadopdv=jd['estado_pdv_id_estadopdv'],
+            solicitud_compra_id_solicitud=jd['solicitud_compra_id_solicitud'],tipo_local=jd['tipo_local'])
             datos={'message' : "Succes"}
             
         else:
             datos={'message' : "Pdv no encontrada ..."}
         return JsonResponse(datos)
 
-    def delete(self,request, id):
-        pdvs = list(Pdv.objects.filter(id_pdv=id).values())
+    def delete(self,request, id_pdv):
+        pdvs = list(Pdv.objects.filter(id_pdv=id_pdv).values())
         if len(pdvs) > 0:
-            Pdv.objects.filter(id_pdv=id).delete()
+            eliminar_pdv(id_pdv=id_pdv)
             datos={'message' : "Succes"}
         else:
             datos={'message' : "Pdv no encontrada ..."}
