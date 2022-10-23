@@ -12,32 +12,59 @@ import datetime
 
 # Create your views here.
 
-def agregar_contrato(fecha_inicio,fecha_termino,contrato_activo,usuario_id_usuario):
-    django_cursor = connection.cursor()
-    cursor = django_cursor.connection.cursor()
-    salida = cursor.var(cx_Oracle.NUMBER)
-    contrato_activo = '1'
-    cursor.callproc('AGREGAR_CONTRATO',[fecha_inicio,fecha_termino,contrato_activo,usuario_id_usuario,salida])
-    return salida
 
-def lista_contrato():
-    django_cursor = connection.cursor()
-    cursor = django_cursor.connection.cursor()
-    cursor_salida = django_cursor.connection.cursor()
-    cursor.callproc('LISTAR_CONTRATO', [cursor_salida])
-    list = []
-    for fila in cursor_salida:
-        list.append(fila)
-    return list
 
-def modificar_contrato(fecha_inicio,fecha_termino,contrato_activo,usuario_id_usuario):
-    django_cursor = connection.cursor()
-    cursor = django_cursor.connection.cursor()
-    salida = cursor.var(cx_Oracle.NUMBER)
-    cursor.callproc('ACTUALIZAR_CONTRATO',[fecha_inicio,fecha_termino,contrato_activo,usuario_id_usuario,salida])
+class contratoView(View):
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+        
+    def get(self, request, id=0):
+        if (id>0):
+            contratos=list(Contrato.objects.filter(id_contrato=id).values())
+            if len(contratos)>0:
+                contrato = contratos[0]
+                datos = {'message' : "Succes" , 'contrato':contrato}
+            else:
+                datos={'message' : "Contrato no encontrado ..."}
+            return JsonResponse(datos)
+        else:
+            contratos=list(Contrato.objects.values())
+            if len(contratos)>0:
+                datos={'message' : "Succes" , 'contratos':contratos}
+            else:
+                datos={'message' : "Contrato no encontrado ..."}
 
-def eliminar_contrato(email):
-    django_cursor = connection.cursor()
-    cursor = django_cursor.connection.cursor()
-    salida = cursor.var(cx_Oracle.NUMBER)
-    cursor.callproc('ELIMINAR_CONTRATO',[email,salida])
+            return JsonResponse(datos)
+
+    def post(self,request):
+        jd = json.loads(request.body)
+        Contrato.objects.create(id_contrato=jd['id_contrato'], fecha_inicio=jd['fecha_inicio'], fecha_termino=jd ['fecha_termino'], contrato_activo=jd ['contrato_activo'], usuario_id_usuario=jd ['usuario_id_usuario'] )
+        datos={'message' : "Succes"}
+        return JsonResponse(datos)
+
+    def put(self,request, id):
+        jd = json.loads(request.body)
+        contratos = list(Contrato.objects.filter(id_contrato=id).values())
+        if len(contratos) > 0:
+            contrato=Contrato.objects.get(id_contrato=id)
+            contrato.id_contrato=jd['id_contrato']
+            contrato.fecha_inicio=jd['fecha_inicio']
+            contrato.fecha_termino=jd['fecha_termino']
+            contrato.contrato_activo=jd['contrato_activo']
+            contrato.usuario_id_usuario=jd['usuario_id_usuario']
+            contrato.save()
+            datos={'message' : "Succes"}
+            
+        else:
+            datos={'message' : "Contrato no encontrado ..."}
+        return JsonResponse(datos)
+
+    def delete(self,request, id):
+        contratos = list(Contrato.objects.filter(id_contrato=id).values())
+        if len(contratos) > 0:
+            Contrato.objects.filter(id_contrato=id).delete()
+            datos={'message' : "Succes"}
+        else:
+            datos={'message' : "Contrato no encontrado ..."}
+        return JsonResponse(datos)
