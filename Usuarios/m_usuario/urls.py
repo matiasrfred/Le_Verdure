@@ -18,6 +18,5 @@ urlpatterns=[
     path('ciudades/', CiudadView.as_view(), name='ciudad_lista'),
     path('ciudades/<int:id_ciudad>', CiudadView.as_view(), name='ciudad_proces'),
     path('transporte/', TransporteView.as_view(), name='transporte_lista'),
-    path('transporte/<int:id_transporte>', TransporteView.as_view(), name='transporte_proces'),
-    
+    path('transporte/<int:id_transporte>', TransporteView.as_view(), name='transporte_proces'),   
 ]
