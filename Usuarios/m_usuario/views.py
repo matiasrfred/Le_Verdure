@@ -219,7 +219,7 @@ def eliminar_cap_transporte(id_transporte):
 
 
 
-class usuarioView(View):
+class UsuarioView(View):
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
