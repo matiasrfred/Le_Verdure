@@ -5,12 +5,8 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from .models import Usuario,Pais
 from django.http.response import JsonResponse
-import requests
 from django.db import connection
-from .serializers import Usuario_srlzr,Usuario_allsrlzr
-from rest_framework import viewsets
 import cx_Oracle
-import datetime
 
 # Create your views here.
 ##############################################
@@ -265,7 +261,6 @@ class usuarioView(View):
         return JsonResponse(datos)
 
 ###########################################################
-
 class usuarioView(View):
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
@@ -325,3 +320,4 @@ class usuarioView(View):
         else:
             datos={'message' : "Usuario no encontrado ..."}
         return JsonResponse(datos)
+        

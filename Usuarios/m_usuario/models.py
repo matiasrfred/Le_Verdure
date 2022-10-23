@@ -16,7 +16,7 @@ class Pais(models.Model):
 class Estados(models.Model):
     id_estado = models.BigIntegerField(primary_key=True)
     n_estado = models.CharField(max_length=100)
-    pais_id_pais = models.ForeignKey('Pais', on_delete=models.DO_NOTHING, db_column='pais_id_pais', blank=True, null=True)
+    pais_id_pais = models.ForeignKey('Pais', models.DO_NOTHING, db_column='pais_id_pais', blank=True, null=True)
 
     class Meta:
         managed = False
@@ -28,7 +28,7 @@ class Estados(models.Model):
 class Ciudad(models.Model):
     id_ciudad = models.BigIntegerField(primary_key=True)
     n_ciudad = models.CharField(max_length=50)
-    estados_id_estado = models.ForeignKey('Estados', on_delete=models.DO_NOTHING, db_column='estados_id_estado', blank=True, null=True)
+    estados_id_estado = models.ForeignKey('Estados', models.DO_NOTHING, db_column='estados_id_estado', blank=True, null=True)
 
     class Meta:
         managed = False
@@ -76,7 +76,7 @@ class CapTransporte(models.Model):
     refrigeracion = models.IntegerField(default = False, null=False)
     cap_carga = models.BigIntegerField()
     cap_tamano = models.BigIntegerField()
-    usuario_id_usuario = models.OneToOneField('Usuario', on_delete=models.DO_NOTHING, db_column='usuario_id_usuario')
+    usuario_id_usuario = models.OneToOneField('Usuario', models.DO_NOTHING, db_column='usuario_id_usuario')
 
     class Meta:
         managed = False

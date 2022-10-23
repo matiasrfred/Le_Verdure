@@ -2,13 +2,9 @@ from .models import *
 from django.db import connection
 from django.http.response import JsonResponse
 from django.views import View
-from .serializers import Subasta_srlzr,Subasta_allsrlzr
-from rest_framework import viewsets
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 import json
-import cx_Oracle
-import datetime
 
 # Create your views here.
 
@@ -37,7 +33,11 @@ class subastaView(View):
 
     def post(self,request):
         jd = json.loads(request.body)
-        Subasta.objects.create(id_subasta=jd['id_subasta'],fecha_publicacion=jd['fecha_publicacion'],fecha_termino_sub=jd['fecha_termino_sub'],cond_carga=jd['cond_carga'],cond_tamano=jd['cond_tamano'],cond_refrigeracion=jd['cond_refrigeracion'], valor_inicial=jd[' valor_inicial'],ultima_puja=jd['ultima_puja'],ctdad_pujas=jd['ctdad_pujas'], pdv_id_pdv=jd['pdv_id_pdv'],estado_sub=jd['estado_sub'],cap_transporte_id_transporte=jd['cap_transporte_id_transporte'] )
+        Subasta.objects.create(id_subasta=jd['id_subasta'],fecha_publicacion=jd['fecha_publicacion'],
+        fecha_termino_sub=jd['fecha_termino_sub'],cond_carga=jd['cond_carga'],
+        cond_tamano=jd['cond_tamano'],cond_refrigeracion=jd['cond_refrigeracion'], valor_inicial=jd['valor_inicial'],
+        ultima_puja=jd['ultima_puja'],ctdad_pujas=jd['ctdad_pujas'], pdv_id_pdv=jd['pdv_id_pdv'],
+        estado_sub=jd['estado_sub'],cap_transporte_id_transporte=jd['cap_transporte_id_transporte'] )
         datos={'message' : "Succes"}
         return JsonResponse(datos)
 
