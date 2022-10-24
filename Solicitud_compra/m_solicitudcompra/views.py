@@ -209,7 +209,7 @@ class SolicitudAllViewset(viewsets.ModelViewSet):
     serializer_class = Solicitud_allsrlzr
 
 ###############################################
-############## View EstadoSolicitud ##################
+############## View EstadoSolicitud ###########
 ###############################################
 
 
