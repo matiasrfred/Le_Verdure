@@ -7,4 +7,5 @@ urlpatterns = [
     path('login/', login, name="login"),
     path('pdvopen/', pdvopen, name="pdvopen"),
     path('pdvint/', pdvint, name="pdvint"),
+    path('solicitudcompra/', pdvint, name="solicitudcompra")
 ]

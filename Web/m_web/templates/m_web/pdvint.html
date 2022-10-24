@@ -1,36 +1,6 @@
 {% extends 'm_web/base.html' %}
 {% block contenido %}
 
-<script>
-function _ocultarIframe(){
-    document.getElementById('a').style.display = 'none'
-}  
-</script>
-
-
-
-<script>
-    function _enviarAlPadre(){
-    window.parent._ocultarIframe();
-    }
-    function recargar(){
-    window.parent.location.reload();
-    }
-    
-</script>
-
-    <h2 class="titulo">Procesos de Venta int</h2>
-    <button onclick="recargar()" class="btn btn-info me-2" href="#">   🗘   </button>
-    <button onclick="_enviarAlPadre()" class="btn btn-danger me-2" href="#">   X   </button>
-    <div style="width: 50%; ">
-    <div class="ratio ratio-21x9">
-        <iframe id="a"
-            src="{% url 'home' %}"
-            title="YouTube video"
-            allowfullscreen
-        ></iframe>
-        </div>
-    </div>
 
 
 {% endblock %}

@@ -1,4 +1,6 @@
+import email
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt 
 
 # Create your views here.
 
@@ -16,3 +18,10 @@ def pdvopen(request):
 
 def pdvint(request):
     return render(request, 'm_web/pdvint.html')
+
+def solicitudcompra(request):
+    return render(request, 'm_web/solicitudcompra.html')
+
+
+
+

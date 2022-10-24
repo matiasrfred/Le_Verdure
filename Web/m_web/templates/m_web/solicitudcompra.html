@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="es-cl">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Le verduré</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'm_web/css/main.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+  </head>
+  <body class="fondo">
+    <header class="p-3 text-bg-dark" id="navbar">
+        <div class="container">
+          <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <a href="{% url 'home' %}" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+              <img src="https://cdn.discordapp.com/attachments/636390598437502979/1024023430972063784/loguito.png" class="bi me-2" width="95" height="57" role="img" aria-label="Bootstrap"></img>
+            </a>
+    
+            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+              <li><a href="{% url 'home' %}" class="nav-link px-2 text-white">Inicio</a></li>
+              <li><a href="{% url 'pdvext' %}" class="nav-link px-2 text-white">Venta Extranjera</a></li>
+              <li><a href="{% url 'pdvint' %}" class="nav-link px-2 text-white">Venta Local</a></li>
+              <li><a href="{% url 'pdvopen' %}" class="nav-link px-2 text-white">Procesos de Transporte</a></li>
+            </ul>
+            <div class="text-end">
+              <button type="button" onclick="window.location.href='login'" class="btn btn-outline-light me-2">Iniciar Sesión</button>
+            </div>
+          </div>
+        </div>
+      </header>
+      <div class="cuerpo">
+        {% block contenido %}
+
+|       {% endblock %}
+    </div>
+
+
+    <!-- <footer class="futer">
+      <h2>hola</h2>
+    </footer> -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+  </body>
+</html>
