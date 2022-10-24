@@ -3,11 +3,10 @@ import json
 from django.http import HttpResponse
 
 #PRODUCTOS CONTROLLERS
-def crear_producto(id_prod,n_prod,ruta_imagen,calidad_id_calidad_id):
-    url = 'http://127.0.0.1:8002/api/productos/'
-    files = {"ruta_imagen":open(ruta_imagen, "rb")}
-    body ={"id_prod":id_prod,"n_prod":n_prod,"ruta_imagen":ruta_imagen,"calidad_id_calidad":calidad_id_calidad_id}
-    response=requests.post(url,data=body,files=files)
+def crear_oferta(id_oferta,precio_oferta,ctdad_ofertada,seleccion,pdv_id_pdv,usuario_id_usuario):
+    url = 'http://127.0.0.1:8003/api/ofertantes/'
+    body ={'id_oferta':id_oferta,'precio_oferta':precio_oferta,'ctdad_ofertada':ctdad_ofertada,'seleccion':seleccion,'pdv_id_pdv':pdv_id_pdv,'usuario_id_usuario':usuario_id_usuario}
+    response=requests.post(url,data=body)
     return response
 
 
@@ -43,6 +42,17 @@ def solicitud_get():
     if r.status_code == 200:
         content = json.loads(r.content)
         return content['solicitudes']
+
+def estadosolicitud_get():
+    url = 'http://127.0.0.1:8002/api/estadoSolicitud/'
+    try: 
+        r = requests.get(url)
+    except:
+        data = {'message':'error de conexion'}
+        return data
+    if r.status_code == 200:
+        content = json.loads(r.content)
+        return content['estadosolicitudes']
 
 def calidad_get():
     url='http://127.0.0.1:8002/api/calidades/'

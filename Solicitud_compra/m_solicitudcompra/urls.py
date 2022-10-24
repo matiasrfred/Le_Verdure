@@ -19,6 +19,6 @@ urlpatterns=[
     path('productos/<int:id_prod>', ProductoView.as_view(), name='productos_proces'),
     path('solicitudes/', SolicitudView.as_view(), name='solicitud_list'),
     path('solicitudes/<int:id_solicitud>', SolicitudView.as_view(), name='solicitud_proces'),
-    path('estadoSolicitud/', estadoSolicitudView.as_view(), name='estadoSolicitud_list'),
-    path('estadoSolicitud/<int:id_estado>', estadoSolicitudView.as_view(), name='estadoSolicitud_proces'),
+    path('estadosolicitudes/', estadoSolicitudView.as_view(), name='estadoSolicitud_list'),
+    path('estadosolicitudes/<int:id_estado>', estadoSolicitudView.as_view(), name='estadoSolicitud_proces'),
 ]

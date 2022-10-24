@@ -184,7 +184,7 @@ class SolicitudView(View):
     def put(self,request, id_solicitud):
         jd = json.loads(request.body)
         solicitudes = list(SolicitudCompra.objects.filter(id_solicitud=id_solicitud).values())
-        if len(solicitudes) > 0:
+        if len(solicitudes)>0:
             modificar_solicitud(id_solicitud=jd['id_solicitud'],fecha_solicitud=jd['fecha_solicitud'],ctdad_necesaria=jd['ctdad_necesaria'],estado_solicitud_id_estado_id=jd['estado_solicitud_id_estado_id'],producto_id_prod_id=jd['producto_id_prod_id'],usuario_id_usuario_id=jd['usuario_id_usuario_id'])
             datos={'message' : "Exitoso"}
             
@@ -195,7 +195,7 @@ class SolicitudView(View):
     def delete(self,request, id_solicitud):
         jd = json.loads(request.body)
         solicitud = list(SolicitudCompra.objects.filter(id_solicitud=id_solicitud).values())
-        if len(solicitud) > 0:
+        if len(solicitud)>0:
             eliminar_solicitud(id_solicitud=jd['id_solicitud'])
             datos={'message' : "Exitoso"}
         else:
@@ -203,7 +203,7 @@ class SolicitudView(View):
         return JsonResponse(datos)
 
 class SolicitudViewset(viewsets.ModelViewSet):
-    queryset = SolicitudCompra.objects.filter(estado_solicitud_id_estado='1')
+    queryset = SolicitudCompra.objects.all()
     serializer_class = Solicitud_srlzr
 
 
@@ -350,7 +350,7 @@ class estadoSolicitudView(View):
         return super().dispatch(request, *args, **kwargs)
         
     def get(self, request, id_estado=0):
-        if (id>0):
+        if (id_estado>0):
             estadosolicitudes=list(EstadoSolicitud.objects.filter(id_estado=id_estado).values())
             if len(estadosolicitudes)>0:
                 estadosolicitud = estadosolicitudes[0]
@@ -395,7 +395,7 @@ class estadoSolicitudView(View):
         return JsonResponse(datos)
 
 class EstadoSolicitudViewset(viewsets.ModelViewSet):
-    queryset = EstadoSolicitud.objects.filter()
+    queryset = EstadoSolicitud.objects.all()
     serializer_class = estadoSolicitud_srlzr
 
 

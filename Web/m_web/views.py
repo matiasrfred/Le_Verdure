@@ -8,9 +8,6 @@ from .controllers import *
 def home(request):
     return render(request, 'm_web/home.html')
     
-def solicitud_compra(request):
-    return render(request, 'm_web/solicitudcompra.html')
-
 def pdvext(request):
     data = {
         'pdvs':pdv_get(),
@@ -52,8 +49,16 @@ def login(request):
 def pdvint(request):
     return render(request, 'm_web/pdvint.html')
 
-def solicitudcompra(request):
-    return render(request, 'm_web/solicitudcompra.html')
+def solicitud_compra(request):
+
+    data = {
+        'solicitudes':solicitud_get(),
+        'estadosolicitudes':estadosolicitud_get(),
+        'productos':producto_get(),
+        'calidades' :calidad_get(),
+        'usuarios' :usuarios_get(),
+    }
+    return render(request, 'm_web/solicitudcompra.html',data)
 
 
 

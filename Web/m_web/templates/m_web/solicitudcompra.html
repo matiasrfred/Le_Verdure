@@ -3,5 +3,49 @@
 {% load crispy_forms_tags %}
 {% load humanize %}
 
+<div class="container-fluid mx-5 py-5">
+    <div class="row">
+        <div class="col-7">
+            <h2>Mis Solicitudes</h2>
+        </div>
+        <div class="col-4">
+            <button style="float: right;">Nueva solicitud</button>
+        </div>
+    </div>
+    <div>
+        <div class="row">
+        
+            <div class="col-7">
+                {% for s in solicitudes %}
+                    <div class="card my-3" style="width: 100h;">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <div>
+                                    <h3>Solicitud de compra #{{ s.id_solicitud }}</h3>
+                                    <p>Fecha Creacion: {{ s.fecha_solicitud }}</p>
+                                    {% for v in estadosolicitudes %}
+                                        {% if v.id_estado == s.estado_solicitud_id_estado_id %}
+                                        <p>Estado: {{ v.d_estado }}</p>
+                                        {% endif %}
+                                    {% endfor %}
+    
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                {% endfor %}
+            </div>
+            
+                            
+            <div class="col-1">
+                <div class="vr float" style="height: 100vh;"></div>
+              </div>
+            <div class="col-4">
+    
+            </div>
+        </div>
+    </div>
+    
+</div>
 
 {% endblock %}
