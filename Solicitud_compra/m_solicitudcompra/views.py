@@ -255,7 +255,7 @@ class ProductoView(View):
 
     def delete(self,request, id_prod):
         jd = json.loads(request.body)
-        solicitud = list(SolicitudCompra.objects.filter(id_prod=id_prod).values())
+        solicitud = list(Producto.objects.filter(id_prod=id_prod).values())
         if len(solicitud) > 0:
             eliminar_producto(id_prod=id_prod)
             datos={'message' : "Exitoso"}
