@@ -13,8 +13,28 @@ def pdvext(request):
 def login(request):
     return render(request, 'm_web/login.html')
 
-def pdvopen(request):
-    return render(request, 'm_web/pdvopen.html')
+def productores(request):
+    return render(request, 'm_web/productores.html')
+
+def subasta(request):
+    return render(request, 'm_web/subasta.html')
+
+@csrf_exempt
+def productos(request):
+    if request.method == 'POST':
+        id_prod = request.POST.get('id-producto')
+        n_prod = request.POST.get('nombre-producto')
+        ruta_imagen = request.POST.get('imagen-producto')
+        calidad_id_calidad_id = request.POST.get('id-calidad')
+    else:
+        return render(request, 'm_web/productos.html')
+
+    
+
+def login(request):
+    return render(request, 'm_web/login.html')
+
+
 
 def pdvint(request):
     return render(request, 'm_web/pdvint.html')
