@@ -1,6 +1,8 @@
+from dataclasses import dataclass
 from django.shortcuts import redirect, render
 from django.views.decorators.csrf import csrf_exempt
-from .controllers import pdv_get
+from .views import *
+from .controllers import *
 # Create your views here.
 
 def home(request):
@@ -8,9 +10,12 @@ def home(request):
 
 def pdvext(request):
     data = {
-        'pdv':pdv_get()
+        'pdvs':pdv_get(),
+        'solicitudes':solicitud_get(),
+        'productos':producto_get(),
+        'calidades' :calidad_get(),
+        'usuarios' :usuarios_get()
     }
-    
     return render(request, 'm_web/pdvext.html',data)
 
 def login(request):

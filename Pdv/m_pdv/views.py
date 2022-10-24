@@ -123,18 +123,18 @@ class pdvView(View):
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
         
-    def get(self, request, id=0):
-        if (id>0):
-            pdvs=list(pdv.objects.filter(id_pdv=id).values())
+    def get(self, request, id_pdv=0):
+        if (id_pdv > 0):
+            pdvs=list(Pdv.objects.filter(id_pdv=id_pdv).values())
             if len(pdvs)>0:
                 pdv = pdvs[0]
                 datos = {'message' : "Succes" , 'pdv':pdv}
             else:
-                datos={'message' : "Proceso de venta no encontrada ..."}
+                datos={'message' : "Proceso de venta no encontrado ..."}
             return JsonResponse(datos)
         else:
-            pdvs=list(Pdv.objects.values())
-            if len(pdvs)>0:
+            pdvs = list(Pdv.objects.values())
+            if len(pdvs) > 0:
                 datos={'message' : "Succes" , 'pdvs':pdvs}
             else:
                 datos={'message' : "Proceso de venta no encontrada ..."}
@@ -149,9 +149,9 @@ class pdvView(View):
         datos={'message' : "Succes"}
         return JsonResponse(datos)
 
-    def put(self,request, id):
+    def put(self,request, id_pdv):
         jd = json.loads(request.body)
-        pdvs = list(Pdv.objects.filter(id_pdv=id).values())
+        pdvs = list(Pdv.objects.filter(id_pdv=id_pdv).values())
         if len(pdvs) > 0:
             modificar_pdv(id_pdv=jd['id_pdv'], fecha_comienzo=jd[' fecha_comienzo'],fecha_termino=jd['fecha_termino'],
             ctdad_reunida=jd['ctdad_reunida'],precio_total=jd['precio_total'],estado_pdv_id_estadopdv=jd['estado_pdv_id_estadopdv'],
@@ -173,7 +173,7 @@ class pdvView(View):
         return JsonResponse(datos)
 
 class PdvViewset(viewsets.ModelViewSet):
-    queryset = Pdv.objects.filter()
+    queryset = Pdv.objects.all()
     serializer_class = Pdv_srlzr
 
 

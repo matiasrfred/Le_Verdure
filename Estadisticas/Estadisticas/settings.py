@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'cx_Oracle',
     'rest_framework',
     'm_estadisticas',
+    'crispy_forms',
+    'django.contrib.humanize',
 
 ]
 

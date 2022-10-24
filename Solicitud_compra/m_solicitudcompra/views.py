@@ -158,7 +158,7 @@ class SolicitudView(View):
         return super().dispatch(request, *args, **kwargs)
         
     def get(self, request, id_solicitud=0):
-        if (id>0):
+        if (id_solicitud>0):
             solicitudes=list(SolicitudCompra.objects.filter(id_solicitud=id_solicitud).values())
             if len(solicitudes)>0:
                 solicitud = solicitudes[0]

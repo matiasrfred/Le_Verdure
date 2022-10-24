@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'cx_Oracle',
     'rest_framework',
     'm_solicitudcompra',
+    'crispy_forms',
+    'django.contrib.humanize',
 ]
 
 X_FRAME_OPTIONS = "SAMEORIGIN"
