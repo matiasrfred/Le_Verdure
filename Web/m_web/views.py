@@ -39,3 +39,12 @@ def login(request):
 
 
 
+def pdvint(request):
+    return render(request, 'm_web/pdvint.html')
+
+def solicitudcompra(request):
+    return render(request, 'm_web/solicitudcompra.html')
+
+
+
+

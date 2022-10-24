@@ -42,6 +42,9 @@ def eliminar_solicitud(id_solicitud):
     salida = cursor.var(cx_Oracle.NUMBER)
     cursor.callproc('ELIMINAR_SOLICITUD_COMPRA',[id_solicitud,salida])
 
+
+
+
 ####################################################################
 #################        PRODUCTO          #########################
 ####################################################################
@@ -209,7 +212,7 @@ class SolicitudAllViewset(viewsets.ModelViewSet):
     serializer_class = Solicitud_allsrlzr
 
 ###############################################
-############## View ProdcutoView ###########
+############## View Producto ##################
 ###############################################
 
 
@@ -225,20 +228,20 @@ class ProductoView(View):
                 producto = productos[0]
                 datos = {'message' : "Exitoso" , 'producto':producto}
             else:
-                datos={'message' : "producto no encontrado ..."}
+                datos={'message' : "Producto no encontrado ..."}
             return JsonResponse(datos)
         else:
             productos=list(Producto.objects.values())
             if len(productos)>0:
                 datos={'message' : "Exitoso" , 'productos':productos}
             else:
-                datos={'message' : "producto no encontrado ..."}
+                datos={'message' : "Producto no encontrado ..."}
 
             return JsonResponse(datos)
 
     def post(self,request):
         jd = json.loads(request.body)
-        agregar_producto(id_estado=jd['id_estado'],d_estado=jd['d_estado'],ruta_imagen=jd['ruta_imagen'],calidad_id_calidad=jd['calidad_id_calidad'])
+        agregar_producto(id_prod=jd['id_prod'],n_prod=jd['n_prod'],ruta_imagen=jd['ruta_imagen'],calidad_id_calidad=jd['calidad_id_calidad'])
         datos={'message' : "Exitoso"}
         return JsonResponse(datos)
 
@@ -246,7 +249,7 @@ class ProductoView(View):
         jd = json.loads(request.body)
         productos = list(Producto.objects.filter(id_prod=id_prod).values())
         if len(productos) > 0:
-            modificar_solicitud(id_estado=jd['id_estado'],d_estado=jd['d_estado'],ruta_imagen=jd['ruta_imagen'],calidad_id_calidad=jd['calidad_id_calidad'])
+            modificar_producto(id_prod=jd['id_prod'],n_prod=jd['n_prod'],ruta_imagen=jd['ruta_imagen'],calidad_id_calidad=jd['calidad_id_calidad'])
             datos={'message' : "Exitoso"}
             
         else:
@@ -255,9 +258,9 @@ class ProductoView(View):
 
     def delete(self,request, id_prod):
         jd = json.loads(request.body)
-        solicitud = list(SolicitudCompra.objects.filter(id_prod=id_prod).values())
-        if len(solicitud) > 0:
-            eliminar_producto(id_prod=jd['id_prod'])
+        producto = list(Producto.objects.filter(id_prod=id_prod).values())
+        if len(producto) > 0:
+            eliminar_producto(id_prod=id_prod)
             datos={'message' : "Exitoso"}
         else:
             datos={'message' : "Producto no encontrado ..."}
