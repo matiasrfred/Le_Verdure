@@ -263,7 +263,7 @@ class UsuarioView(View):
         jd = json.loads(request.body)
         usuarios = list(Usuario.objects.filter(id_usuario=id_usuario).values())
         if len(usuarios) > 0:
-            eliminar_usuario(id_usuario=id_usuario)
+            eliminar_usuario(id_usuario=jd['id_usuario'])
             datos={'message' : "Exitoso"}
         else:
             datos={'message' : "Usuario no encontrado ..."}
@@ -323,7 +323,7 @@ class PaisView(View):
         jd = json.loads(request.body)
         paises = list(Pais.objects.filter(id_pais=id_pais).values())
         if len(paises) > 0:
-            eliminar_pais(id_pais=id_pais)
+            eliminar_pais(id_pais=jd['id_pais'])
             datos={'message' : "Exitoso"}
         else:
             datos={'message' : "Pais no encontrado ..."}
@@ -383,7 +383,7 @@ class EstadosView(View):
         jd = json.loads(request.body)
         estados = list(Estados.objects.filter(id_estado=id_estado).values())
         if len(estados) > 0:
-            eliminar_estado(id_estado=id_estado)
+            eliminar_estado(id_estado=jd['id_estado'])
             datos={'message' : "Exitoso"}
         else:
             datos={'message' : "Estado no encontrado ..."}
@@ -444,7 +444,7 @@ class CiudadView(View):
         jd = json.loads(request.body)
         ciudades = list(Ciudad.objects.filter(id_ciudad=id_ciudad).values())
         if len(ciudades) > 0:
-            eliminar_ciudad(id_ciudad=id_ciudad)
+            eliminar_ciudad(id_ciudad=jd['id_ciudad'])
             datos={'message' : "Exitoso"}
         else:
             datos={'message' : "Ciudad no encontrado ..."}
@@ -504,7 +504,7 @@ class RolView(View):
         jd = json.loads(request.body)
         roles = list(Rol.objects.filter(id_rol=id_rol).values())
         if len(roles) > 0:
-            eliminar_rol(id_rol=id_rol)
+            eliminar_rol(id_rol=jd['id_rol'])
             datos={'message' : "Exitoso"}
         else:
             datos={'message' : "Rol no encontrado ..."}
@@ -564,7 +564,7 @@ class TransporteView(View):
         jd = json.loads(request.body)
         Transportes = list(CapTransporte.objects.filter(id_transporte=id_transporte).values())
         if len(Transportes) > 0:
-            eliminar_cap_transporte(id_transporte=id_transporte)
+            eliminar_cap_transporte(id_transporte=jd['id_transporte'])
             datos={'message' : "Exitoso"}
         else:
             datos={'message' : "Transporte no encontrado ..."}
