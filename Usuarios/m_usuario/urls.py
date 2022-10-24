@@ -3,8 +3,18 @@ from .views import *
 from rest_framework import routers
 
 router = routers.DefaultRouter()
-router.register('usuario',UsuarioViewset,UsuarioAllViewset)
-router.register('usuario_all',UsuarioAllViewset)
+router.register('usuarios',UsuarioViewset,UsuarioAllViewset)
+router.register('usuarios_todos',UsuarioAllViewset)
+router.register('roles',RolViewset,RolAllViewset)
+router.register('roles_todos',RolAllViewset)
+router.register('paises',PaisViewset,PaisAllViewset)
+router.register('paises_todos',PaisAllViewset)
+router.register('estados',EstadosViewset,EstadosAllViewset)
+router.register('estados_todos',EstadosAllViewset)
+router.register('ciudades',CiudadViewset,CiudadAllViewset)
+router.register('ciudades_todos',CiudadAllViewset)
+router.register('transporte',TransporteViewset,TransporteAllViewset)
+router.register('transporte_todos',TransporteAllViewset)
 
 urlpatterns=[
     path('usuarios/', UsuarioView.as_view(), name='usuarios_lista'),
