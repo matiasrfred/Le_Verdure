@@ -1,5 +1,5 @@
-from operator import methodcaller
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 
@@ -18,12 +18,17 @@ def productores(request):
 def subasta(request):
     return render(request, 'm_web/subasta.html')
 
+@csrf_exempt
 def productos(request):
     if request.method == 'POST':
         id_prod = request.POST.get('id-producto')
-        
+        n_prod = request.POST.get('nombre-producto')
+        ruta_imagen = request.POST.get('imagen-producto')
+        calidad_id_calidad_id = request.POST.get('id-calidad')
+    else:
+        return render(request, 'm_web/productos.html')
 
-    return render(request, 'm_web/productos.html')
+    
 
 def login(request):
     return render(request, 'm_web/login.html')

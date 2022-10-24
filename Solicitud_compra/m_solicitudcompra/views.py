@@ -209,7 +209,7 @@ class SolicitudAllViewset(viewsets.ModelViewSet):
     serializer_class = Solicitud_allsrlzr
 
 ###############################################
-############## View EstadoSolicitud ###########
+############## View ProdcutoView ###########
 ###############################################
 
 
@@ -225,14 +225,14 @@ class ProductoView(View):
                 producto = productos[0]
                 datos = {'message' : "Exitoso" , 'producto':producto}
             else:
-                datos={'message' : "EstadoSolicitud no encontrado ..."}
+                datos={'message' : "producto no encontrado ..."}
             return JsonResponse(datos)
         else:
-            productos=list(EstadoSolicitud.objects.values())
+            productos=list(Producto.objects.values())
             if len(productos)>0:
                 datos={'message' : "Exitoso" , 'productos':productos}
             else:
-                datos={'message' : "EstadoSolicitud no encontrado ..."}
+                datos={'message' : "producto no encontrado ..."}
 
             return JsonResponse(datos)
 
