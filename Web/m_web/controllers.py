@@ -44,7 +44,7 @@ def solicitud_get():
         return content['solicitudes']
 
 def estadosolicitud_get():
-    url = 'http://127.0.0.1:8002/api/estadoSolicitud/'
+    url = 'http://127.0.0.1:8002/api/estadosolicitudes/'
     try: 
         r = requests.get(url)
     except:

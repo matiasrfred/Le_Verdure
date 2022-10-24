@@ -5,12 +5,12 @@
 
     <div class="container-fluid mx-5 py-5">
       <div>
-        <h2>Proceso de Venta Extranjero</h2>
+        <h2>Proceso de Venta</h2>
       </div>
       <div class="row">
         
         {% for p in pdvs %}
-        <div class="card col-3 mx-2 my-3">
+        <div class="card col-2 mx-3 my-3">
           <div class="card-body">
             <h5 class="card-title">Proceso de Venta #{{ p.id_pdv }}</h5>
             <p class="card-text">Hasta {{ p.fecha_termino }}</p>
