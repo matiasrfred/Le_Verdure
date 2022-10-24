@@ -1,9 +1,18 @@
 import requests
 import json
+from django.http import HttpResponse
 
-"""#PEDIDO CONTROLLERS
-def pedido_get():
-    url = 'http://127.0.0.1:8002/api/solicitud/'
+#PRODUCTOS CONTROLLERS
+def crear_producto(id_prod,n_prod,ruta_imagen,calidad_id_calidad_id):
+    url = 'http://127.0.0.1:8002/api/productos/'
+    files = {"ruta_imagen":open(ruta_imagen, "rb")}
+    body ={"id_prod":id_prod,"n_prod":n_prod,"ruta_imagen":ruta_imagen,"calidad_id_calidad":calidad_id_calidad_id}
+    response=requests.post(url,data=body,files=files)
+    return response
+
+
+def producto_get():
+    url = 'http://127.0.0.1:8002/api/productos/'
     try: 
         r = requests.get(url)
     except:
@@ -11,6 +20,5 @@ def pedido_get():
         return data
     if r.status_code == 200:
         content = json.loads(r.content)
-        return content"""
+        return content
 
-def crear_producto(id_prod,n_prod,ruta_imagen,calidad_id_calidad)
