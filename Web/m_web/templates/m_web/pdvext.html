@@ -14,7 +14,12 @@
           <div class="card-body">
             <h5 class="card-title">Proceso de Venta #{{ p.id_pdv }}</h5>
             <p class="card-text">Hasta {{ p.fecha_termino }}</p>
-            {% for s in solicitudes %}
+              {% for e in estadopdvs %}
+                {% if e.id_estadopdv == p.estado_pdv_id_estadopdv_id %}
+                  <p class="card-text">Estado: {{ e.d_estadopdv }}</p>
+                {% endif %}
+              {% endfor %}
+              {% for s in solicitudes %}
               {% if s.id_solicitud == p.solicitud_compra_id_solicitud_id %}
                 <p class="card-text">Solicitud N°: {{ s.id_solicitud }}</p>
                 <p class="card-text">Cantidad Necesaria: {{ s.ctdad_necesaria }} KG</p>
@@ -35,10 +40,11 @@
                 {% endfor %}
               {% endif %}
             {% endfor %}
+              
+            </div>
           </div>
-        </div>
         {% endfor %}
-        
+          
           
       </div>
           

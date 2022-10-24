@@ -193,10 +193,10 @@ class estadopdvView(View):
         
     def get(self, request, id_estadopdv=0):
         if (id_estadopdv>0):
-            estadopdvs=list(estadopdv.objects.filter(id_estadopdv=id).values())
+            estadopdvs=list(EstadoPdv.objects.filter(id_estadopdv=id_estadopdv).values())
             if len(estadopdvs)>0:
                 estadopdv = estadopdvs[0]
-                datos = {'message' : "Succes" , 'estadopdv':estadopdv}
+                datos = {'message' : "Success" , 'estadopdv':estadopdv}
             else:
                 datos={'message' : "Estado del proceso de venta no encontrada ..."}
             return JsonResponse(datos)
@@ -215,9 +215,9 @@ class estadopdvView(View):
         datos={'message' : "Succes"}
         return JsonResponse(datos)
 
-    def put(self,request, id):
+    def put(self,request, id_estadopdv):
         jd = json.loads(request.body)
-        estadopdvs = list(EstadoPdv.objects.filter(id_estadopdv=id).values())
+        estadopdvs = list(EstadoPdv.objects.filter(id_estadopdv=id_estadopdv).values())
         if len(estadopdvs) > 0:
             modificar_estadopdv(id_estadopdv=jd['id_estadopdv'],d_estadopdv=jd['d_estadopdv'])
             datos={'message' : "Succes"}
@@ -237,7 +237,7 @@ class estadopdvView(View):
         return JsonResponse(datos)
 
 class EstadopdvViewset(viewsets.ModelViewSet):
-    queryset = EstadoPdv.objects.filter()
+    queryset = EstadoPdv.objects.all()
     serializer_class = EstadoPdv_srlzr
 
 

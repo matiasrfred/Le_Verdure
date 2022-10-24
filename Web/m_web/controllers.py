@@ -65,3 +65,14 @@ def usuarios_get():
     if r.status_code == 200:
         content=json.loads(r.content)
         return content['usuarios']
+
+def estadopdv_get():
+    url = 'http://127.0.0.1:8003/api/estadopdvs/'
+    try: 
+        r = requests.get(url)
+    except:
+        data = {'message':'error de conexion'}
+        return data
+    if r.status_code == 200:
+        content = json.loads(r.content)
+        return content['estadopdvs']

@@ -7,14 +7,19 @@ from .controllers import *
 
 def home(request):
     return render(request, 'm_web/home.html')
+    
+def solicitud_compra(request):
+    return render(request, 'm_web/solicitudcompra.html')
 
 def pdvext(request):
     data = {
         'pdvs':pdv_get(),
+        'estadopdvs' :estadopdv_get(),
         'solicitudes':solicitud_get(),
         'productos':producto_get(),
         'calidades' :calidad_get(),
-        'usuarios' :usuarios_get()
+        'usuarios' :usuarios_get(),
+        
     }
     return render(request, 'm_web/pdvext.html',data)
 
