@@ -1,4 +1,3 @@
-from Usuarios.m_usuario.views import agregar_estado
 from .models import *
 from django.db import connection
 from django.http.response import JsonResponse

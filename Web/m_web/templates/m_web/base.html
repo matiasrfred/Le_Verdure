@@ -19,11 +19,12 @@
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
               <li><a href="{% url 'home' %}" class="nav-link px-2 text-white">Inicio</a></li>
               <li><a href="{% url 'pdvext' %}" class="nav-link px-2 text-white">Venta Extranjera</a></li>
-              <li><a href="{% url 'pdvint' %}" class="nav-link px-2 text-white">Venta Local</a></li>
-              <li><a href="{% url 'pdvopen' %}" class="nav-link px-2 text-white">Procesos de Transporte</a></li>
+              <li><a href="{% url 'productos' %}" class="nav-link px-2 text-white">Productos</a></li>
+              <li><a href="{% url 'productores' %}" class="nav-link px-2 text-white">Procesos de Transporte</a></li>
+              <li><a href="{% url 'subasta' %}" class="nav-link px-2 text-white">Subasta</a></li>
             </ul>
             <div class="text-end">
-              <button type="button" onclick="window.location.href='login'" class="btn btn-outline-light me-2">Iniciar Sesión</button>
+              <button type="button" onclick="window.location.href='../login/'" class="btn btn-outline-light me-2">Iniciar Sesión</button>
             </div>
           </div>
         </div>
@@ -31,7 +32,7 @@
       <div class="cuerpo">
         {% block contenido %}
 
-|       {% endblock %}
+        {% endblock %}
     </div>
 
 

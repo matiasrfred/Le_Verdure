@@ -1,3 +1,4 @@
+from operator import methodcaller
 from django.shortcuts import render
 
 # Create your views here.
@@ -11,8 +12,21 @@ def pdvext(request):
 def login(request):
     return render(request, 'm_web/login.html')
 
-def pdvopen(request):
-    return render(request, 'm_web/pdvopen.html')
+def productores(request):
+    return render(request, 'm_web/productores.html')
 
-def pdvint(request):
-    return render(request, 'm_web/pdvint.html')
+def subasta(request):
+    return render(request, 'm_web/subasta.html')
+
+def productos(request):
+    if request.method == 'POST':
+        id_prod = request.POST.get('id-producto')
+        
+
+    return render(request, 'm_web/productos.html')
+
+def login(request):
+    return render(request, 'm_web/login.html')
+
+
+
