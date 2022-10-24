@@ -3,8 +3,14 @@ from .views import *
 from rest_framework import routers
 
 router = routers.DefaultRouter()
+router.register('calidades',CalidadViewset,CalidadAllViewset)
+router.register('calidades_all',CalidadAllViewset)
+router.register('productos',ProductoViewset,ProductoAllViewset)
+router.register('productos_all',ProductoAllViewset)
 router.register('solicitud',SolicitudViewset,SolicitudAllViewset)
 router.register('solicitud_all',SolicitudAllViewset)
+router.register('estadoSolicitud',EstadoSolicitudViewset,EstadoSolicitudAllViewset)
+router.register('estadoSolicitud_all',EstadoSolicitudAllViewset)
 
 urlpatterns=[
     path('calidades/', CalidadView.as_view(), name='calidad_list'),

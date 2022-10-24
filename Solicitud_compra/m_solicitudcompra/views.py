@@ -193,7 +193,7 @@ class SolicitudView(View):
         jd = json.loads(request.body)
         solicitud = list(SolicitudCompra.objects.filter(id_solicitud=id_solicitud).values())
         if len(solicitud) > 0:
-            eliminar_solicitud(id_solicitud=id_solicitud)
+            eliminar_solicitud(id_solicitud=jd['id_solicitud'])
             datos={'message' : "Exitoso"}
         else:
             datos={'message' : "Solicitud de compra no encontrada ..."}
@@ -257,7 +257,7 @@ class ProductoView(View):
         jd = json.loads(request.body)
         solicitud = list(SolicitudCompra.objects.filter(id_prod=id_prod).values())
         if len(solicitud) > 0:
-            eliminar_producto(id_prod=id_prod)
+            eliminar_producto(id_prod=jd['id_prod'])
             datos={'message' : "Exitoso"}
         else:
             datos={'message' : "Producto no encontrado ..."}
@@ -321,7 +321,7 @@ class CalidadView(View):
         jd = json.loads(request.body)
         calidad = list(Calidad.objects.filter(id_calidad=id_calidad).values())
         if len(calidad) > 0:
-            eliminar_calidad(id_calidad=id_calidad)
+            eliminar_calidad(id_calidad=jd['id_calidad'])
             datos={'message' : "Exitoso"}
         else:
             datos={'message' : "Calidad no encontrado ..."}
@@ -385,7 +385,7 @@ class estadoSolicitudView(View):
         jd = json.loads(request.body)
         estadosolicitud = list(EstadoSolicitud.objects.filter(id_estado=id_estado).values())
         if len(estadosolicitud) > 0:
-            eliminar_estado_solicitud(id_estado=id_estado)
+            eliminar_estado_solicitud(id_estado=jd['id_estado'])
             datos={'message' : "Exitoso"}
         else:
             datos={'message' : "EstadoSolicitud no encontrado ..."}

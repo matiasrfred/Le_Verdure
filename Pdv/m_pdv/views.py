@@ -163,9 +163,10 @@ class pdvView(View):
         return JsonResponse(datos)
 
     def delete(self,request, id_pdv):
+        jd = json.loads(request.body)
         pdvs = list(Pdv.objects.filter(id_pdv=id_pdv).values())
         if len(pdvs) > 0:
-            eliminar_pdv(id_pdv=id_pdv)
+            eliminar_pdv(id_pdv=jd['id_pdv'])
             datos={'message' : "Succes"}
         else:
             datos={'message' : "Pdv no encontrada ..."}
@@ -226,9 +227,10 @@ class estadopdvView(View):
         return JsonResponse(datos)
 
     def delete(self,request, id_estadopdv):
+        jd = json.loads(request.body)
         estadopdvs = list(EstadoPdv.objects.filter(id_estadopdv=id_estadopdv).values())
         if len(estadopdvs) > 0:
-            eliminar_estadopdv(id_estadopdv=id_estadopdv)
+            eliminar_estadopdv(id_estadopdv=jd['id_estadopdv'])
             datos={'message' : "Succes"}
         else:
             datos={'message' : "Estado del proceso de venta no encontrada ..."}
@@ -239,7 +241,7 @@ class EstadopdvViewset(viewsets.ModelViewSet):
     serializer_class = EstadoPdv_srlzr
 
 
-class OfertanteAllViewset(viewsets.ModelViewSet):
+class EstadopdvAllViewset(viewsets.ModelViewSet):
     queryset = EstadoPdv.objects.all()
     serializer_class = EstadoPdv_allsrlzr
 
@@ -292,9 +294,10 @@ class ofertanteView(View):
         return JsonResponse(datos)
 
     def delete(self,request, id_oferta):
+        jd = json.loads(request.body)
         ofertantes = list(Ofertantes.objects.filter(id_oferta=id_oferta).values())
         if len(ofertantes) > 0:
-            eliminar_ofertantes(id_oferta=id_oferta)
+            eliminar_ofertantes(id_oferta=jd['id_oferta'])
             datos={'message' : "Succes"}
         else:
             datos={'message' : "Ofertante no encontrado ..."}

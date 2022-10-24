@@ -86,7 +86,7 @@ class ContratoView(View):
         jd = json.loads(request.body)
         contratos = list(Contrato.objects.filter(id_contrato=id_contrato).values())
         if len(contratos) > 0:
-            eliminar_contrato(id_contrato=id_contrato)
+            eliminar_contrato(id_contrato=jd['id_contrato'])
             datos={'message' : "Exitoso"}
         else:
             datos={'message' : "Contrato no encontrado ..."}

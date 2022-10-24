@@ -3,11 +3,13 @@ from django.urls import path
 from rest_framework import routers
 from .views import *
 
-
-
 router = routers.DefaultRouter()
-router.register('pdv',PdvViewset,PdvAllViewset)
-router.register('pdv_all',PdvAllViewset)
+router.register('pdvs',PdvViewset,PdvAllViewset)
+router.register('pdvs_all',PdvAllViewset)
+router.register('estadopdvs',EstadopdvViewset,EstadopdvAllViewset)
+router.register('estadopdvs_all',EstadopdvAllViewset)
+router.register('ofertantes',OfertanteViewset,OfertanteAllViewset)
+router.register('ofertantes_all',OfertanteAllViewset)
 
 
 urlpatterns=[

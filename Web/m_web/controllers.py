@@ -22,3 +22,13 @@ def producto_get():
         content = json.loads(r.content)
         return content
 
+def pdv_get():
+    url='http://127.0.0.1:8006/api/pdvs/'
+    try:
+        r=requests.request.get(url)
+    except:
+        data= {'message':'error de conexion'}
+        return data
+    if r.status_code == 200:
+        content=json.loads(r.content)
+        return content

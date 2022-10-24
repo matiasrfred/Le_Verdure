@@ -1,13 +1,17 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.views.decorators.csrf import csrf_exempt
-
+from .controllers import pdv_get
 # Create your views here.
 
 def home(request):
     return render(request, 'm_web/home.html')
 
 def pdvext(request):
-    return render(request, 'm_web/pdvext.html')
+    data = {
+        'pdv':pdv_get()
+    }
+    
+    return render(request, 'm_web/pdvext.html',data)
 
 def login(request):
     return render(request, 'm_web/login.html')
