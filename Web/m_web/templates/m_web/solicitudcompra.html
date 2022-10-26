@@ -3,6 +3,65 @@
 {% load crispy_forms_tags %}
 {% load humanize %}
 
+
+
+<div class="container-fluid mx-5 py-5">
+<div>
+    <h2>Solicitud de compra</h2>
+</div>
+<div class="row">
+    
+    {% for s in solicitudes %}
+    <div class="card col-3 mx-3 my-3">
+    <div class="card-body">
+        <h5 class="card-title">Solicitud de compra #{{ s.id_solicitud }}</h5>
+        {% for v in estadosolicitudes %}
+            {% if v.id_estado == s.estado_solicitud_id_estado_id %}
+                <p>Estado: {{ v.d_estado }}</p>
+            {% endif %}
+        {% endfor %}
+        <p class="card-text">Fecha Creacion: {{ s.fecha_solicitud }} </p>
+        <a href="#" class="btn btn-primary">Ver detalles</a>
+    </div>
+    </div>
+</div>
+</div>
+        <!--
+        {% for s in solicitudes %}
+        {% if s.id_solicitud == p.solicitud_compra_id_solicitud_id %}
+            <p class="card-text">Solicitud N°: {{ s.id_solicitud }}</p>
+            <p class="card-text">Cantidad Necesaria: {{ s.ctdad_necesaria }} KG</p>
+            {% for u in usuarios %}
+                {% if u.id_usuario == s.id_solicitud %}
+                <p class="card-text">Solicitado por: {{ u.nombre }}</p>
+                {% endif %}
+            {% endfor %}
+            {% for r in productos %}
+            {% if r.id_prod == s.producto_id_prod_id %}
+            <p class="card-text">Producto: {{ r.n_prod }}</p>
+                {% for c in calidades %}
+                {% if c.id_calidad == r.id_prod %}
+                <p class="card-text">Calidad: {{ c.descripcion_c }}</p>
+                {% endif %}
+                {% endfor %}
+            {% endif %}
+            {% endfor %}
+        {% endif %}
+        {% endfor %}
+        
+        </div>
+    </div>
+    {% endfor %}
+    
+    
+</div>
+    
+</div>
+
+
+
+
+
 <div class="container-fluid  py-5">
     <div class="row mx-auto">
         <div class="col container-fluid">
@@ -32,3 +91,4 @@
 </div>
 
 {% endblock %}
+-->
