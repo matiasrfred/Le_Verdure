@@ -1,5 +1,4 @@
-from dataclasses import dataclass
-from django.shortcuts import redirect, render
+from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from .views import *
 from .controllers import *
@@ -27,7 +26,13 @@ def productores(request):
     return render(request, 'm_web/productores.html')
 
 def subasta(request):
-    return render(request, 'm_web/subasta.html')
+
+    data = {
+        'subastas':subasta_get(),
+        'pdvs':pdv_get(),
+        'Transportes':transporte_get(),
+    }
+    return render(request, 'm_web/subasta.html', data)
 
 @csrf_exempt
 def productos(request):

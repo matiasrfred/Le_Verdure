@@ -9,6 +9,27 @@ def crear_oferta(id_oferta,precio_oferta,ctdad_ofertada,seleccion,pdv_id_pdv,usu
     response=requests.post(url,data=body)
     return response
 
+def subasta_get():
+    url = 'http://127.0.0.1:8004/api/subastas/'
+    try: 
+        r = requests.get(url)
+    except:
+        data = {'message':'error de conexion'}
+        return data
+    if r.status_code == 200:
+        content = json.loads(r.content)
+        return content['subastas']
+
+def transporte_get():
+    url = 'http://127.0.0.1:8000/api/transporte/'
+    try: 
+        r = requests.get(url)
+    except:
+        data = {'message':'error de conexion'}
+        return data
+    if r.status_code == 200:
+        content = json.loads(r.content)
+        return content['Transportes']
 
 def producto_get():
     url = 'http://127.0.0.1:8002/api/productos/'
