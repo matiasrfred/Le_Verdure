@@ -18,16 +18,16 @@
                 {% if e.id_estadopdv == p.estado_pdv_id_estadopdv_id %}
                   <p class="card-text">Estado: {{ e.d_estadopdv }}</p>
                 {% endif %}
-              {% endfor %}
+              {% endfor %}  
               {% for s in solicitudes %}
-              {% if s.id_solicitud == p.solicitud_compra_id_solicitud_id %}
+                {% if s.id_solicitud == p.solicitud_compra_id_solicitud_id %}
                 <p class="card-text">Solicitud N°: {{ s.id_solicitud }}</p>
                 <p class="card-text">Cantidad Necesaria: {{ s.ctdad_necesaria }} KG</p>
-                  {% for u in usuarios %}
-                    {% if u.id_usuario == s.id_solicitud %}
-                      <p class="card-text">Solicitado por: {{ u.nombre }}</p>
-                    {% endif %}
-                  {% endfor %}
+                {% for u in usuarios %}
+                      {% if u.id_usuario == s.id_solicitud %}
+                        <p class="card-text">Solicitado por: {{ u.nombre }}</p>
+                      {% endif %}
+                {% endfor %}
                 {% for r in productos %}
                   {% if r.id_prod == s.producto_id_prod_id %}
                   <p class="card-text">Producto: {{ r.n_prod }}</p>
@@ -38,9 +38,9 @@
                     {% endfor %}
                   {% endif %}
                 {% endfor %}
-              {% endif %}
-            {% endfor %}
-              
+                {% endif %}
+              {% endfor %}
+            <a href="#" class="btn btn-success">Participar</a>
             </div>
           </div>
         {% endfor %}

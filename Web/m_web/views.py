@@ -31,17 +31,12 @@ def subasta(request):
         'subastas':subasta_get(),
         'pdvs':pdv_get(),
         'Transportes':transporte_get(),
+        'solicitudes':solicitud_get(),
     }
     return render(request, 'm_web/subasta.html', data)
 
-@csrf_exempt
+
 def productos(request):
-    if request.method == 'POST':
-        id_prod = request.POST.get('id-producto')
-        n_prod = request.POST.get('nombre-producto')
-        ruta_imagen = request.POST.get('imagen-producto')
-        calidad_id_calidad_id = request.POST.get('id-calidad')
-    else:
         return render(request, 'm_web/productos.html')
 
     
@@ -54,8 +49,8 @@ def login(request):
 def pdvint(request):
     return render(request, 'm_web/pdvint.html')
 
+@csrf_exempt
 def solicitud_compra(request):
-
     data = {
         'solicitudes':solicitud_get(),
         'estadosolicitudes':estadosolicitud_get(),
@@ -63,7 +58,18 @@ def solicitud_compra(request):
         'calidades' :calidad_get(),
         'usuarios' :usuarios_get(),
     }
+    if request.method == 'POST':
+        
+        fecha = request.POST.get('fecha')
+        cantidad = request.POST.get('cantidad')
+        estado = request.POST.get('estado')
+        producto = request.POST.get('producto')
+        usuario= request.POST.get('usuario')
+        respuesta = solicitud_post(fecha,cantidad,estado,producto,usuario)
+        print(respuesta)
+
     return render(request, 'm_web/solicitudcompra.html',data)
+
 
 
 

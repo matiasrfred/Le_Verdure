@@ -8,86 +8,84 @@
 <div class="container-fluid mx-5 py-5">
 <div>
     <h2>Solicitud de compra</h2>
+    <p>
+        <a class="btn btn-success" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+        Agregar Solicitud
+        </a>
+    </p>
+    <form method=POST>
+        <div class="collapse col-10 mx-10 my-10" id="collapseExample">
+            <div class="card card-body">
+                <div class="mb-3">
+                    <label for="formGroupExampleInput" class="form-label">Fecha de Creación</label>
+                    <input type="date" name="fecha" class="form-control">
+                </div>
+
+                <div class="mb-3">
+                    <label for="formGroupExampleInput2" class="form-label">Cantidad Necesaria</label>
+                    <input type="number" name="cantidad" class="form-control" id="formGroupExampleInput2" placeholder="ej: 10000 sin '.' ni ','">
+                </div>
+
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="inputGroupSelect02">Estado</label>
+                    <select name="estado" class="form-select" >
+                    <option selected>Seleccione...</option>
+                    {% for est in estadosolicitudes %}
+                        <option value="{{ est.id_estado }}">{{ est.d_estado }}</option>
+                    {% endfor %}
+                    </select>
+                </div>
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="inputGroupSelect03">Producto</label>
+                    <select name="producto" class="form-select">
+                    <option selected>Seleccione...</option>
+                    {% for prod in productos %}
+                        <option value="{{ prod.id_prod }}">{{ prod.n_prod }}</option>
+                    {% endfor %}
+                    </select>
+                </div>
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="inputGroupSelect04">usuario</label>
+                    <select name="usuario" class="form-select" id="inputGroupSelect01">
+                    <option selected>Seleccione...</option>
+                    {% for r in usuarios %}
+                        <option value="{{ r.id_usuario }}">{{ r.nombre }}</option>
+                    {% endfor %}
+                    </select>
+                </div>
+                <input type="submit" value="Agregar" class="btn btn-success">
+            </div>
+        </div>
+    </form>
 </div>
 <div class="row">
     
-    {% for s in solicitudes %}
+    {% for g in solicitudes %}
     <div class="card col-3 mx-3 my-3">
-    <div class="card-body">
-        <h5 class="card-title">Solicitud de compra #{{ s.id_solicitud }}</h5>
-        {% for v in estadosolicitudes %}
-            {% if v.id_estado == s.estado_solicitud_id_estado_id %}
-                <p>Estado: {{ v.d_estado }}</p>
-            {% endif %}
-        {% endfor %}
-        <p class="card-text">Fecha Creacion: {{ s.fecha_solicitud }} </p>
-        <a href="#" class="btn btn-primary">Ver detalles</a>
-    </div>
-    </div>
-</div>
-</div>
-        <!--
-        {% for s in solicitudes %}
-        {% if s.id_solicitud == p.solicitud_compra_id_solicitud_id %}
-            <p class="card-text">Solicitud N°: {{ s.id_solicitud }}</p>
-            <p class="card-text">Cantidad Necesaria: {{ s.ctdad_necesaria }} KG</p>
-            {% for u in usuarios %}
-                {% if u.id_usuario == s.id_solicitud %}
-                <p class="card-text">Solicitado por: {{ u.nombre }}</p>
+        <div class="card-body">
+            <h5 class="card-title">Solicitud de compra #{{ g.id_solicitud }}</h5>
+            {% for v in estadosolicitudes %}
+                {% if v.id_estado == g.estado_solicitud_id_estado_id %}
+                    <p>Estado: {{ v.d_estado }}</p>
                 {% endif %}
             {% endfor %}
+            <p class="card-text">Fecha Creacion: {{ g.fecha_solicitud }} </p>
+            <p class="card-text">Cantidad Necesaria: {{ g.ctdad_necesaria }} KG</p>
             {% for r in productos %}
-            {% if r.id_prod == s.producto_id_prod_id %}
-            <p class="card-text">Producto: {{ r.n_prod }}</p>
-                {% for c in calidades %}
-                {% if c.id_calidad == r.id_prod %}
-                <p class="card-text">Calidad: {{ c.descripcion_c }}</p>
+                {% if r.id_prod == g.producto_id_prod_id %}
+                <p class="card-text">Producto: {{ r.n_prod }}</p>
                 {% endif %}
-                {% endfor %}
-            {% endif %}
             {% endfor %}
-        {% endif %}
-        {% endfor %}
-        
-        </div>
+            {% for u in usuarios %}
+                {% if u.id_usuario == g.usuario_id_usuario_id %}
+                    <p class="card-text">Solicitado por: {{ u.nombre }}</p>
+                {% endif %}
+            {% endfor %}
+            <a href="#" class="btn btn-primary">Ver detalles</a>
+    
+    </div>
     </div>
     {% endfor %}
-    
-    
 </div>
-    
 </div>
-
-
-
-
-
-<div class="container-fluid  py-5">
-    <div class="row mx-auto">
-        <div class="col container-fluid">
-            <h2>Mis Solicitudes</h2>
-        </div>
-    </div>
-        {% for s in solicitudes %}
-            <div class="col container-fluid">
-                <div class="card my-1">
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
-                            <div>
-                                <h3>Solicitud de compra #{{ s.id_solicitud }}</h3>
-                                <p>Fecha Creacion: {{ s.fecha_solicitud }}</p>
-                                    {% for v in estadosolicitudes %}
-                                        {% if v.id_estado == s.estado_solicitud_id_estado_id %}
-                                            <p>Estado: {{ v.d_estado }}</p>
-                                        {% endif %}
-                                    {% endfor %}
-                                    <a href="#" class="btn btn-primary" style="float:right;position: absolute;top: 60%;right: 1%;">Ver detalles</a>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>    
-        {% endfor %}    
-</div>
--->
 {% endblock %}

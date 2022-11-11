@@ -7,6 +7,7 @@
     <div>
     <h2>Subastas</h2>
     </div>
+    
     <div class="row">
     
     {% for c in subastas %}
@@ -38,53 +39,17 @@
             Sin Estado
             {% endif %}
         </p>
-        {% for e in pdvs %}
-            {% if e.id_pdv == c.pdv_id_pdv_id %}
-                <p class="card-text">ID Proceso de Venta: {{ c.pdv_id_pdv_id }}</p>
+        {% for s in solicitudes %}
+            {% if s.id_solicitud == c.id_solicitud %}
+            <p class="card-text">Cantidad Necesaria: {{ c.ctdad_necesaria }} KG</p>
             {% endif %}
         {% endfor %}
         {% for u in Transportes %}
             {% if u.id_transporte == c.cap_transporte_id_transporte_id %}
-                <p class="card-text">ID transportes : {{ c.cap_transporte_id_transporte_id }}</p>
+                <p class="card-text">Tamaño : {{ c.cap_transporte_id_transporte_id }}</p>
             {% endif %}
         {% endfor %}
-
-
-
-<!--
-    
-            {% for e in estadopdvs %}
-            {% if e.id_estadopdv == p.estado_pdv_id_estadopdv_id %}
-                <p class="card-text">Estado: {{ e.d_estadopdv }}</p>
-            {% endif %}
-            {% endfor %}
-            {% for s in solicitudes %}
-            {% if s.id_solicitud == p.solicitud_compra_id_solicitud_id %}
-            <p class="card-text">Solicitud N°: {{ s.id_solicitud }}</p>
-            <p class="card-text">Cantidad Necesaria: {{ s.ctdad_necesaria }} KG</p>
-                {% for u in usuarios %}
-                {% if u.id_usuario == s.id_solicitud %}
-                    <p class="card-text">Solicitado por: {{ u.nombre }}</p>
-                {% endif %}
-                {% endfor %}
-            {% for r in productos %}
-                {% if r.id_prod == s.producto_id_prod_id %}
-                <p class="card-text">Producto: {{ r.n_prod }}</p>
-                {% for c in calidades %}
-                    {% if c.id_calidad == r.id_prod %}
-                    <p class="card-text">Calidad: {{ c.descripcion_c }}</p>
-                    {% endif %}
-                {% endfor %}
-                {% endif %}
-            {% endfor %}
-            {% endif %}
-        {% endfor %}
-            
-        </div>
-        </div>
-    
-    -->
-    
+        <a href="#" class="btn btn-success">Realizar Puja</a>
         </div>
     
     </div>

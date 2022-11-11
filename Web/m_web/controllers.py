@@ -1,11 +1,16 @@
 import requests
 import json
-from django.http import HttpResponse
 
 #PRODUCTOS CONTROLLERS
 def crear_oferta(id_oferta,precio_oferta,ctdad_ofertada,seleccion,pdv_id_pdv,usuario_id_usuario):
     url = 'http://127.0.0.1:8003/api/ofertantes/'
     body ={'id_oferta':id_oferta,'precio_oferta':precio_oferta,'ctdad_ofertada':ctdad_ofertada,'seleccion':seleccion,'pdv_id_pdv':pdv_id_pdv,'usuario_id_usuario':usuario_id_usuario}
+    response=requests.post(url,data=body)
+    return response
+
+def solicitud_post(fecha_solicitud,ctdad_necesaria,estado_solicitud_id_estado,producto_id_prod,usuario_id_usuario):
+    url = 'http://127.0.0.1:8002/api/solicitudes/'
+    body ={'fecha_solicitud':fecha_solicitud,'ctdad_necesaria':ctdad_necesaria,'estado_solicitud_id_estado_id':estado_solicitud_id_estado,'producto_id_prod_id':producto_id_prod,'usuario_id_usuario_id':usuario_id_usuario}
     response=requests.post(url,data=body)
     return response
 

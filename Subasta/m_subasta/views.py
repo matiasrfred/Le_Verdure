@@ -69,7 +69,7 @@ class subastaView(View):
 
     def post(self,request):
         jd = json.loads(request.body)
-        agregar_subasta(id_subasta=jd['id_subasta'],fecha_publicacion=jd['fecha_publicacion'],
+        agregar_subasta(id_subasta=jd['id_subastas'],fecha_publicacion=jd['fecha_publicacion'],
         fecha_termino_sub=jd['fecha_termino_sub'],cond_carga=jd['cond_carga'],
         cond_tamano=jd['cond_tamano'],cond_refrigeracion=jd['cond_refrigeracion'], valor_inicial=jd['valor_inicial'],
         ultima_puja=jd['ultima_puja'],ctdad_pujas=jd['ctdad_pujas'], pdv_id_pdv=jd['pdv_id_pdv'],

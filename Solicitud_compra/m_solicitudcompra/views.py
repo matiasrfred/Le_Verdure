@@ -17,7 +17,7 @@ def agregar_solicitud(fecha_solicitud,ctdad_necesaria,estado_solicitud_id_estado
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
-    cursor.callproc('AGREGAR_SOLICITUD_COMPRA',[fecha_solicitud,ctdad_necesaria,estado_solicitud_id_estado,producto_id_prod,usuario_id_usuario,salida])
+    cursor.callproc('AGREGAR_SOLICITUD_COMPRA',[fecha_solicitud,ctdad_necesaria,estado_solicitud_id_estado,producto_id_prod,usuario_id_usuario])
     return salida
 
 def lista_solicitud():
@@ -177,7 +177,7 @@ class SolicitudView(View):
 
     def post(self,request):
         jd = json.loads(request.body)
-        agregar_solicitud(id_solicitud=jd['id_solicitud'],fecha_solicitud=jd['fecha_solicitud'],ctdad_necesaria=jd['ctdad_necesaria'],estado_solicitud_id_estado_id=jd['estado_solicitud_id_estado_id'],producto_id_prod_id=jd['producto_id_prod_id'],usuario_id_usuario_id=jd['usuario_id_usuario_id'])
+        agregar_solicitud(fecha_solicitud=jd['fecha_solicitud'],ctdad_necesaria=jd['ctdad_necesaria'],estado_solicitud_id_estado=jd['estado_solicitud_id_estado_id'],producto_id_prod=jd['producto_id_prod_id'],usuario_id_usuario=jd['usuario_id_usuario_id'])
         datos={'message' : "Exitoso"}
         return JsonResponse(datos)
 
