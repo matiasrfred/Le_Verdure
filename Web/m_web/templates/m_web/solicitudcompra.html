@@ -13,7 +13,7 @@
         Agregar Solicitud
         </a>
     </p>
-    <form method=POST>
+    <form method="POST">
         <div class="collapse col-10 mx-10 my-10" id="collapseExample">
             <div class="card card-body">
                 <div class="mb-3">
@@ -28,7 +28,7 @@
 
                 <div class="input-group mb-3">
                     <label class="input-group-text" for="inputGroupSelect02">Estado</label>
-                    <select name="estado" class="form-select" >
+                    <select name="estado" class="form-select" type="number">
                     <option selected>Seleccione...</option>
                     {% for est in estadosolicitudes %}
                         <option value="{{ est.id_estado }}">{{ est.d_estado }}</option>
@@ -37,7 +37,7 @@
                 </div>
                 <div class="input-group mb-3">
                     <label class="input-group-text" for="inputGroupSelect03">Producto</label>
-                    <select name="producto" class="form-select">
+                    <select name="producto" class="form-select" type="number">
                     <option selected>Seleccione...</option>
                     {% for prod in productos %}
                         <option value="{{ prod.id_prod }}">{{ prod.n_prod }}</option>
@@ -45,13 +45,14 @@
                     </select>
                 </div>
                 <div class="input-group mb-3">
-                    <label class="input-group-text" for="inputGroupSelect04">usuario</label>
-                    <select name="usuario" class="form-select" id="inputGroupSelect01">
+                    <label class="input-group-text" type="number" for="inputGroupSelect04">usuario</label>
+                    <select name="usuario" class="form-select" type="number">
                     <option selected>Seleccione...</option>
                     {% for r in usuarios %}
                         <option value="{{ r.id_usuario }}">{{ r.nombre }}</option>
                     {% endfor %}
                     </select>
+                    {% csrf_token %}
                 </div>
                 <input type="submit" value="Agregar" class="btn btn-success">
             </div>

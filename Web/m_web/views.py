@@ -59,14 +59,14 @@ def solicitud_compra(request):
         'usuarios' :usuarios_get(),
     }
     if request.method == 'POST':
-        
         fecha = request.POST.get('fecha')
         cantidad = request.POST.get('cantidad')
         estado = request.POST.get('estado')
         producto = request.POST.get('producto')
-        usuario= request.POST.get('usuario')
-        respuesta = solicitud_post(fecha,cantidad,estado,producto,usuario)
-        print(respuesta)
+        usuario = request.POST.get('usuario')
+        print(fecha,cantidad,estado,producto,usuario)
+        Response = solicitud_post(fecha,cantidad,estado,producto,usuario)
+        print(Response)
 
     return render(request, 'm_web/solicitudcompra.html',data)
 

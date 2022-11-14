@@ -1,5 +1,4 @@
 import json
-from unicodedata import name
 from django.views import View
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
@@ -157,7 +156,7 @@ class SolicitudView(View):
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
         
-    def get(self, request, id_solicitud=0):
+    def get(self, requests, id_solicitud=0):
         if (id_solicitud>0):
             solicitudes=list(SolicitudCompra.objects.filter(id_solicitud=id_solicitud).values())
             if len(solicitudes)>0:
