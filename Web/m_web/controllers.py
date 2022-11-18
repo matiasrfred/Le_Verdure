@@ -8,11 +8,17 @@ def crear_oferta(id_oferta,precio_oferta,ctdad_ofertada,seleccion,pdv_id_pdv,usu
     response=requests.post(url,data=body)
     return response
 
-def solicitud_post(fecha_solicitud,ctdad_necesaria,estado_solicitud_id_estado_id,producto_id_prod_id,usuario_id_usuario_id):
+def solicitud_post(fecha_solicitud,ctdad_necesaria,estado_solicitud_id_estado,producto_id_prod,usuario_id_usuario):
     url = 'http://127.0.0.1:8002/api/solicitudes/'
-    body ={'fecha_solicitud':fecha_solicitud,'ctdad_necesaria':ctdad_necesaria,'estado_solicitud_id_estado_id':estado_solicitud_id_estado_id,'producto_id_prod_id':producto_id_prod_id,'usuario_id_usuario_id':usuario_id_usuario_id}
-    Response=requests.post(url,data=body)
-    return Response
+    body ={
+        "fecha_solicitud": str(fecha_solicitud),
+        "ctdad_necesaria": str(ctdad_necesaria),
+        "estado_solicitud_id_estado_id": str(estado_solicitud_id_estado),
+        "producto_id_prod_id": str(producto_id_prod),
+        "usuario_id_usuario_id": str(usuario_id_usuario) 
+    }
+    response=requests.post(url,json=body)
+    return response
 
 def subasta_get():
     url = 'http://127.0.0.1:8004/api/subastas/'

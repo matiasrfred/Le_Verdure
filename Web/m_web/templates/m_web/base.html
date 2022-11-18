@@ -7,41 +7,138 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'm_web/css/main.css' %}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-  </head>
-  <body class="fondo">
-    <header class="p-3 text-bg-dark" id="navbar">
-        <div class="container">
-          <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-            <a href="{% url 'home' %}" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
-              <img src="https://cdn.discordapp.com/attachments/636390598437502979/1024023430972063784/loguito.png" class="bi me-2" width="95" height="57" role="img" aria-label="Bootstrap"></img>
-            </a>
-    
-            <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-              <li><a href="{% url 'home' %}" class="nav-link px-2 text-white">Inicio</a></li>
-              <li><a href="{% url 'pdvext' %}" class="nav-link px-2 text-white">Proceso de Venta</a></li>
-              <li><a href="{% url 'solicitud_compra' %}" class="nav-link px-2 text-white">Solicitud de Compra</a></li>
-              <li><a href="{% url 'subasta' %}" class="nav-link px-2 text-white">Subasta</a></li>
-            </ul>
-            <div class="text-end">
-              <button type="button" onclick="window.location.href='../login/'" class="btn btn-outline-light me-2">Iniciar Sesión</button>
-            </div>
-          </div>
-        </div>
-      </header>
-      <div class="cuerpo">
-        {% block contenido %}
 
-        {% endblock %}
-    </div>
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
     
+</head>
+<body>
+    <nav class="sidebar close">
+        <header>
+            <div class="image-text">
+                <span class="image">
+                    <img src="https://cdn.discordapp.com/attachments/636390598437502979/1034194670944780288/Logo.png" class="bi me-2" width="95" height="57" role="img" aria-label="Bootstrap"></img>
+                </span>
+
+                <div class="text logo-text">
+                    <span class="name">Le Verduré</span>
+                    <span class="profession">Sitio Web</span>
+                </div>
+            </div>
+
+            <i class='bx bx-chevron-right toggle'></i>
+        </header>
+
+        <div class="menu-bar">
+            <div class="menu">
+
+                <li class="search-box">
+                    <i class='bx bx-search icon'></i>
+                    <input type="text" placeholder="Buscar...">
+                </li>
+
+                <ul class="menu-links" style="padding-left: 0;">
+                    <li class="nav-link">
+                        <a href="{% url 'home' %}">
+                            <i class='bx bx-home-alt icon' ></i>
+                            <span class="text nav-text">Inicio</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="{% url 'subasta' %}">
+                            <i class='bx bx-bar-chart-alt-2 icon' ></i>
+                            <span class="text nav-text">Subastas</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="{% url 'pdvext' %}">
+                            <i class='bx bx-pie-chart-alt icon' ></i>
+                            <span class="text nav-text">Proceso de Ventas</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="{% url 'solicitud_compra' %}">
+                            <i class='bx bx-wallet icon' ></i>
+                            <span class="text nav-text">Solicitud Compras</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="{% url 'productos' %}">
+                            <i class='bx bxs-truck icon'></i>
+                            <span class="text nav-text">Transportistas</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+
+            <div class="bottom-content">
+                <li class="">
+                    <a onclick="window.location.href='../login/'">
+                        <i class='bx bx-log-out icon' ></i>
+                        <span class="text nav-text">login</span>
+                    </a>
+                </li>
+
+                <li class="mode">
+                    <div class="sun-moon">
+                        <i class='bx bx-moon icon moon'></i>
+                        <i class='bx bx-sun icon sun'></i>
+                    </div>
+                    <span class="mode-text text">Modo Oscuro</span>
+
+                    <div class="toggle-switch">
+                        <span class="switch"></span>
+                    </div>
+                </li>
+                
+            </div>
+        </div>
+
+    </nav>
+
+    <section class="home">
+        <div class="text"><i class='bx bx-user'></i> {{ nombre }}! | Rol {{ rol }}<i class='bx bx-buildings'></i>  </div>
+        <div>
+            {% block contenido %}
+
+            {% endblock %}
+            
+        </div>
+    </section>
+
+    <script>
+        const body = document.querySelector('body'),
+        sidebar = body.querySelector('nav'),
+        toggle = body.querySelector(".toggle"),
+        searchBtn = body.querySelector(".search-box"),
+        modeSwitch = body.querySelector(".toggle-switch"),
+        modeText = body.querySelector(".mode-text");
+
+
+toggle.addEventListener("click" , () =>{
+    sidebar.classList.toggle("close");
+})
+
+searchBtn.addEventListener("click" , () =>{
+    sidebar.classList.remove("close");
+})
+
+modeSwitch.addEventListener("click" , () =>{
+    body.classList.toggle("dark");
+    
+    if(body.classList.contains("dark")){
+        modeText.innerText = "Modo Claro";
+    }else{
+        modeText.innerText = "Modo Oscuro";
+        
+    }
+});
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
 </body>
-<footer class="futer">
-  <div class="text-center p-3" style="background-color: rgba(11, 9, 9, 0.2);">
-    © 2022 Copyright:
-    <a class="text-dark">LeVerdure.com</a>
-  </div>
-</footer>
-
 </html>

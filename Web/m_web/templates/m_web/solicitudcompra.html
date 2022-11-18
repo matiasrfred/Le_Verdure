@@ -5,30 +5,31 @@
 
 
 
-<div class="container-fluid mx-5 py-5">
+<div class="container-fluid mx-4 py-5">
 <div>
     <h2>Solicitud de compra</h2>
     <p>
-        <a class="btn btn-success" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+        <button class="btn btn-success" style="background-color: #7d4dcd;" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
         Agregar Solicitud
-        </a>
+        </button>
+        <a class="btn btn-success" style="background-color: #7d4dcd;" href="{% url 'solicitud_compra' %}"><i class='bx bx-refresh'></i> Refrescar</a>
     </p>
     <form method="POST">
         <div class="collapse col-10 mx-10 my-10" id="collapseExample">
             <div class="card card-body">
                 <div class="mb-3">
                     <label for="formGroupExampleInput" class="form-label">Fecha de Creación</label>
-                    <input type="date" name="fecha" class="form-control">
+                    <input type="date" name="fecha_solicitud" class="form-control">
                 </div>
 
                 <div class="mb-3">
                     <label for="formGroupExampleInput2" class="form-label">Cantidad Necesaria</label>
-                    <input type="number" name="cantidad" class="form-control" id="formGroupExampleInput2" placeholder="ej: 10000 sin '.' ni ','">
+                    <input type="number" name="ctdad_necesaria" class="form-control" id="formGroupExampleInput2" placeholder="ej: 10000 sin '.' ni ','">
                 </div>
 
                 <div class="input-group mb-3">
                     <label class="input-group-text" for="inputGroupSelect02">Estado</label>
-                    <select name="estado" class="form-select" type="number">
+                    <select name="estado_solicitud_id_estado_id" class="form-select" type="number">
                     <option selected>Seleccione...</option>
                     {% for est in estadosolicitudes %}
                         <option value="{{ est.id_estado }}">{{ est.d_estado }}</option>
@@ -37,7 +38,7 @@
                 </div>
                 <div class="input-group mb-3">
                     <label class="input-group-text" for="inputGroupSelect03">Producto</label>
-                    <select name="producto" class="form-select" type="number">
+                    <select name="producto_id_prod_id" class="form-select" type="number">
                     <option selected>Seleccione...</option>
                     {% for prod in productos %}
                         <option value="{{ prod.id_prod }}">{{ prod.n_prod }}</option>
@@ -46,7 +47,7 @@
                 </div>
                 <div class="input-group mb-3">
                     <label class="input-group-text" type="number" for="inputGroupSelect04">usuario</label>
-                    <select name="usuario" class="form-select" type="number">
+                    <select name="usuario_id_usuario_id" class="form-select" type="number">
                     <option selected>Seleccione...</option>
                     {% for r in usuarios %}
                         <option value="{{ r.id_usuario }}">{{ r.nombre }}</option>
@@ -54,7 +55,8 @@
                     </select>
                     {% csrf_token %}
                 </div>
-                <input type="submit" value="Agregar" class="btn btn-success">
+                <input type="submit" href="{% url 'solicitud_compra' %}" style="background-color: #7d4dcd;" value="Agregar" class="btn btn-success">
+                
             </div>
         </div>
     </form>
@@ -82,7 +84,7 @@
                     <p class="card-text">Solicitado por: {{ u.nombre }}</p>
                 {% endif %}
             {% endfor %}
-            <a href="#" class="btn btn-primary">Ver detalles</a>
+            <a href="#" style="background-color: #7d4dcd;" class="btn btn-primary">Ver detalles</a>
     
     </div>
     </div>

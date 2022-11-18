@@ -1,6 +1,28 @@
 {% extends 'm_web/base.html' %}
 {% block contenido %}
-<div class="container py-5">
-    <H2>Listado de Productos</H2>
-</div>
+
+<div class="container-fluid mx-4 py-5">
+    <div>
+        <h2>Productos</h2>
+        <p>
+            <a class="btn btn-success" style="background-color: #7d4dcd;" href="{% url 'productos' %}"><i class='bx bx-refresh'></i> Refrescar</a>
+        </p>
+    </div>
+    <div class="row">
+        
+        {% for p in productos %}
+        <div class="card col-3 mx-3 my-3">
+            <div class="card-body">
+                <h5 class="card-title">Nombre Producto: {{ p.n_prod }}</h5>
+                {% for c in calidades %}
+                    {% if c.id_calidad == p.id_prod %}
+                    <p class="card-text">Calidad: {{ c.descripcion_c }}</p>
+                    {% endif %}
+                {% endfor %}
+        
+        </div>
+        </div>
+        {% endfor %}
+    </div>
+    </div>
 {% endblock %}
