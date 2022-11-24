@@ -4,7 +4,6 @@
 {% load humanize %}
 
 
-
 <div class="container-fluid mx-4 py-5">
 <div>
     <h2>Solicitud de compra</h2>
@@ -12,7 +11,6 @@
         <button class="btn btn-success" style="background-color: #7d4dcd;" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
         Agregar Solicitud
         </button>
-        <a class="btn btn-success" style="background-color: #7d4dcd;" href="{% url 'solicitud_compra' %}"><i class='bx bx-refresh'></i> Refrescar</a>
     </p>
     <form method="POST">
         <div class="collapse col-10 mx-10 my-10" id="collapseExample">
@@ -55,7 +53,8 @@
                     </select>
                     {% csrf_token %}
                 </div>
-                <input type="submit" href="{% url 'solicitud_compra' %}" style="background-color: #7d4dcd;" value="Agregar" class="btn btn-success">
+                <input type="submit" style="background-color: #7d4dcd;" value="Agregar" class="btn btn-success">
+                
                 
             </div>
         </div>

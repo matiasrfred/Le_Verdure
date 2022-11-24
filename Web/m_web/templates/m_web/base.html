@@ -1,13 +1,13 @@
 <!doctype html>
 <html lang="es-cl">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Le verduré</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'm_web/css/main.css' %}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-
+    <link rel="icon" href="https://cdn.discordapp.com/attachments/636390598437502979/1034194670944780288/Logo.png">
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
     
 </head>
@@ -46,7 +46,7 @@
 
                     <li class="nav-link">
                         <a href="{% url 'subasta' %}">
-                            <i class='bx bx-bar-chart-alt-2 icon' ></i>
+                            <i class='bx bx-money-withdraw icon'></i>
                             <span class="text nav-text">Subastas</span>
                         </a>
                     </li>
@@ -67,8 +67,15 @@
 
                     <li class="nav-link">
                         <a href="{% url 'productos' %}">
+                            <i class='bx bx-lemon icon' ></i>
+                            <span class="text nav-text">Productos</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="{% url 'productores' %}">
                             <i class='bx bxs-truck icon'></i>
-                            <span class="text nav-text">Transportistas</span>
+                            <span class="text nav-text">Transportista</span>
                         </a>
                     </li>
 
@@ -103,9 +110,23 @@
     <section class="home">
         <div class="text"><i class='bx bx-user'></i> {{ nombre }}! | Rol {{ rol }}<i class='bx bx-buildings'></i>  </div>
         <div>
+            <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+                {% if messages %}
+                    {% for m in messages %} 
+                        <script>
+                            Swal.fire({
+                                icon:"info",
+                                text:"{{m}}"
+                            })
+                        </script>
+                    {% endfor %}
+                {% endif %}
+
             {% block contenido %}
 
             {% endblock %}
+            
             
         </div>
     </section>
@@ -138,6 +159,7 @@ modeSwitch.addEventListener("click" , () =>{
     }
 });
     </script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>
 </body>

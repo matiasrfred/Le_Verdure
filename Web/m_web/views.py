@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.views.decorators.csrf import csrf_exempt
 from .views import *
 from .controllers import *
+from django.contrib import messages
 # Create your views here.
 
 def home(request):
@@ -78,9 +79,17 @@ def solicitud_compra(request):
             estado_solicitud_id_estado_id = request.POST.get('estado_solicitud_id_estado_id')
             producto_id_prod_id = request.POST.get('producto_id_prod_id')
             usuario_id_usuario_id = request.POST.get('usuario_id_usuario_id')
-            print(fecha_solicitud,ctdad_necesaria,estado_solicitud_id_estado_id,producto_id_prod_id,usuario_id_usuario_id)
             Response = solicitud_post(fecha_solicitud,ctdad_necesaria,estado_solicitud_id_estado_id,producto_id_prod_id,usuario_id_usuario_id)
+            
+            if Response.status_code == 200:
+                messages.success(request,"Agregado Correctamente")
+                print(Response)
+            else:
+                messages.error(request,"No se pudo Agregar correctamente")
+                print(Response)
             print(Response)
+            return redirect(to="solicitud_compra")
+            
     except:
         return render(request, 'm_web/solicitudcompra.html')
     return render(request, 'm_web/solicitudcompra.html',data)
