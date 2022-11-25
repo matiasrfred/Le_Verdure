@@ -4,32 +4,22 @@
 <body id="bodylogin" class="text-center">
     
     <main class="form-signin w-100 m-auto" id="loginsito">
-      <form>
+      <form method="POST">
+        {% csrf_token %}
         <img class="mb-4" src="{% static 'm_web/img/logo.png' %}" alt="" width="200" height="140">
         <h1 style="color: white;" class="h3 mb-3 fw-normal">Le Verduré</h1>
     
         <div class="form-floating">
-          <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+          <input name="mail" type="name" class="form-control" id="floatingInput" placeholder="name@example.com">
           <label for="floatingInput">Usuario</label>
         </div>
         <div class="form-floating">
-          <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+          <input name="pass" type="password" class="form-control" id="floatingPassword" placeholder="Password">
           <label for="floatingPassword">Contraseña</label>
         </div>
-    
-        <div class="checkbox mb-3">
-          <label class="rimember">
-            <input type="checkbox" value="remember-me" > Recordarme
-          </label>
-        </div>
-        <button class="w-100 btn btn-lg btn-primary" style="background-color: #7d4dcd;" type="submit">Iniciar sesión</button>
-        <a class="text-decoration-none" id="olvidelaclave" href="#">Olvidé mi Contraseña</a>
-        <a class="text-decoration-none"  href="{% url 'home' %}">Volver al inicio</a>
+        <input class="w-100 btn btn-lg btn-primary" style="background-color: #7d4dcd;" type="submit" value="Iniciar sesion" />
         <p class="mt-5 mb-3 text-muted">&copy; 2022</p>
       </form>
     </main>
-    
-    
-        
       </body>
 {% endblock %}

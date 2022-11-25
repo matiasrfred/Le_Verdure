@@ -20,6 +20,17 @@ def solicitud_post(fecha_solicitud,ctdad_necesaria,estado_solicitud_id_estado,pr
     response=requests.post(url,json=body)
     return response
 
+def LoginAuthController(email,passw):
+    url = 'http://127.0.0.1:8000/api/LoginAuth/'
+    body ={
+        "email": str(email),
+        "passw": str(passw)
+    }
+    response=requests.post(url,json=body)
+    if response.status_code == 200:
+        content = json.loads(response.content)
+        return content
+
 def subasta_get():
     url = 'http://127.0.0.1:8004/api/subastas/'
     try: 
