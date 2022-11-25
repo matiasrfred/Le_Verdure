@@ -34,11 +34,12 @@ def lista_pdv():
         list.append(fila)
     return list
 
-def modificar_pdv(fecha_comienzo,fecha_termino,ctdad_reunida,precio_total,estado_pdv_id_estadopdv,solicitud_compra_id_solicitud,tipo_local):
+def modificar_pdv(id_pdv,fecha_termino,estado_pdv_id_estadopdv,solicitud_compra_id_solicitud,tipo_local):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
-    cursor.callproc('ACTUALIZAR_PDV',[fecha_comienzo,fecha_termino,ctdad_reunida,precio_total,estado_pdv_id_estadopdv,solicitud_compra_id_solicitud,tipo_local])
+    cursor.callproc('ACTUALIZAR_PDV',[id_pdv,fecha_termino,estado_pdv_id_estadopdv,solicitud_compra_id_solicitud,tipo_local])
+    return salida
 
 def eliminar_pdv(id_pdv):
     django_cursor = connection.cursor()
@@ -142,20 +143,32 @@ class pdvView(View):
             return JsonResponse(datos)
 
     def post(self,request):
-        jd = json.loads(request.body)
-        agregar_pdv(id_pdv=jd['id_pdv'], fecha_comienzo=jd[' fecha_comienzo'],fecha_termino=jd['fecha_termino'],
-        ctdad_reunida=jd['ctdad_reunida'],precio_total=jd['precio_total'],estado_pdv_id_estadopdv=jd['estado_pdv_id_estadopdv'],
-        solicitud_compra_id_solicitud=jd['solicitud_compra_id_solicitud'],tipo_local=jd['tipo_local'])
-        datos={'message' : "Succes"}
-        return JsonResponse(datos)
+        try:
+            jd = json.loads(request.body)
+            try:
+                agregar_pdv(fecha_comienzo=jd['fecha_comienzo'],
+                fecha_termino=jd['fecha_termino'],
+                ctdad_reunida=jd['ctdad_reunida'],
+                precio_total=jd['precio_total'],
+                estado_pdv_id_estadopdv=jd['estado_pdv_id_estadopdv_id'],
+                solicitud_compra_id_solicitud=jd['solicitud_compra_id_solicitud_id'],
+                tipo_local=jd['tipo_local'])
+                datos={'message' : "Succes"}
+                return JsonResponse(datos)
+            except:
+                return JsonResponse({'message': "No fue posible Agregar"},status=404)
+        except:
+            return JsonResponse({'message': "Validar Formato Json"},status=500)
 
     def put(self,request, id_pdv):
         jd = json.loads(request.body)
         pdvs = list(Pdv.objects.filter(id_pdv=id_pdv).values())
         if len(pdvs) > 0:
-            modificar_pdv(id_pdv=jd['id_pdv'], fecha_comienzo=jd[' fecha_comienzo'],fecha_termino=jd['fecha_termino'],
-            ctdad_reunida=jd['ctdad_reunida'],precio_total=jd['precio_total'],estado_pdv_id_estadopdv=jd['estado_pdv_id_estadopdv'],
-            solicitud_compra_id_solicitud=jd['solicitud_compra_id_solicitud'],tipo_local=jd['tipo_local'])
+            modificar_pdv(id_pdv,
+            fecha_termino=jd['fecha_termino'],
+            estado_pdv_id_estadopdv=jd['estado_pdv_id_estadopdv_id'],
+            solicitud_compra_id_solicitud=jd['solicitud_compra_id_solicitud_id'],
+            tipo_local=jd['tipo_local'])
             datos={'message' : "Succes"}
             
         else:

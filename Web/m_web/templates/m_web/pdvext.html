@@ -3,11 +3,12 @@
 {% load crispy_forms_tags %}
 {% load humanize %}
 
-    <div class="container-fluid mx-5 py-5">
+    <div class="container mx-4 py-5" style="margin-right: 0;">
       <div>
         <h2>Proceso de Venta</h2>
       </div>
-      <div class="row">
+      <div class="container">
+        <div class="row">
         
         {% for p in pdvs %}
         <div class="card col-3 mx-3 my-4">
@@ -28,6 +29,7 @@
                         <p class="card-text">Solicitado por: {{ u.nombre }}</p>
                       {% endif %}
                 {% endfor %}
+                <p class="card-text">Cantidad Reunida: {{ p.ctdad_reunida }} KG</p>
                 {% for r in productos %}
                   {% if r.id_prod == s.producto_id_prod_id %}
                   <p class="card-text">Producto: {{ r.n_prod }}</p>
@@ -40,58 +42,15 @@
                 {% endfor %}
                 {% endif %}
               {% endfor %}
-            <button type="button" class="btn btn-success" style="background-color: #7d4dcd;" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Participar</button>
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">New message</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                    <form>
-                      <div class="mb-3">
-                        <label for="recipient-name" class="col-form-label">Recipient:</label>
-                        <input type="text" class="form-control" id="recipient-name">
-                      </div>
-                      <div class="mb-3">
-                        <label for="message-text" class="col-form-label">Message:</label>
-                        <textarea class="form-control" id="message-text"></textarea>
-                      </div>
-                    </form>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Send message</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <script>
-              const exampleModal = document.getElementById('exampleModal')
-              exampleModal.addEventListener('show.bs.modal', event => {
-                // Button that triggered the modal
-                const button = event.relatedTarget
-                // Extract info from data-bs-* attributes
-                const recipient = button.getAttribute('data-bs-whatever')
-                // If necessary, you could initiate an AJAX request here
-                // and then do the updating in a callback.
-                //
-                // Update the modal's content.
-                const modalTitle = exampleModal.querySelector('.modal-title')
-                const modalBodyInput = exampleModal.querySelector('.modal-body input')
+              <a type="button" class="btn btn-success" href="{% url 'pdvext_id' p.id_pdv %}" style="background-color: #7d4dcd;">Participar</a>
 
-                modalTitle.textContent = `New message to ${recipient}`
-                modalBodyInput.value = recipient
-              })
-            </script>
             </div>
           </div>
         {% endfor %}
           
           
-      </div>
-          
+        </div>
+      </div>    
     </div>
     
 {% endblock %}
