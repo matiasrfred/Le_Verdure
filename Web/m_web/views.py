@@ -1,9 +1,13 @@
 from django.shortcuts import render,redirect
 from django.views.decorators.csrf import csrf_exempt
-from .views import *
+from .views import * 
 from .controllers import *
 from django.contrib import messages
+from django.db import connection
+
 # Create your views here.
+
+
 
 def home(request):
     return render(request, 'm_web/home.html')
@@ -72,9 +76,25 @@ def productos(request):
         return render(request, 'm_web/productos.html')
     return render(request, 'm_web/productos.html',data)
 
-    
-
 def login(request):
+    if request.method == 'POST':
+        mail = request.POST.get('mail')
+        passw = request.POST.get('pass')
+        resultados_user = LoginAuthController(mail,passw)
+        print(resultados_user)
+        if resultados_user['message'] == 'Success':
+            respt = resultados_user['usuario']
+            request.session['id'] = respt[0]
+            request.session['nombre'] = respt[1]
+            request.session['apellido'] = respt[2]
+            request.session['email'] = respt[3]
+            request.session['run'] = respt[5]
+            request.session['ciudad_id'] = respt[8]
+            request.session['rol'] = respt[9]
+
+        else:
+            print("Tu mama es maraka")
+
     return render(request, 'm_web/login.html')
 
 

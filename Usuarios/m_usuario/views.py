@@ -10,8 +10,6 @@ from django.http.response import JsonResponse
 from django.db import connection
 import cx_Oracle
 
-
-
 ##############################################################################
 ##############################################################################
 #                                                                            #
@@ -30,6 +28,37 @@ def agregar_usuario(nombre,apellido,email,password,run,usuario_activo,superuser,
     cursor.callproc('AGREGAR_USER',[nombre,apellido,email,password,run,usuario_activo,superuser,ciudad_id_ciudad,rol_id_rol,salida])
     return salida
 
+def LOGIN_USER(email, passw):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+    cursor.callproc('LOGIN_USERS', [out_cur, email, passw])
+    
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
+class LoginAuthView(View):
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+    def post(self, request):
+        try:
+            jd = json.loads(request.body)
+            usuarios = LOGIN_USER(email=jd['email'],passw=jd['passw'])
+            if len(usuarios) > 0:
+                usuario = usuarios[0]
+                datos={'message':'Success','usuario':usuario}
+                return JsonResponse(datos, status=200)
+            else:
+                datos={'message':'ERROR: usuario No Encontrado'}
+                return JsonResponse(datos, status=404)
+
+        except:
+            datos = {'message':'ERROR: Json Invalido'}
+            return JsonResponse(datos, status=500)
+
 def lista_usuario():
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
@@ -39,6 +68,7 @@ def lista_usuario():
     for fila in cursor_salida:
         list.append(fila)
     return list
+
 
 def modificar_usuario(nombre,apellido,email,password,run,usuario_activo,superuser,ciudad_id_ciudad,rol_id_rol):
     django_cursor = connection.cursor()
