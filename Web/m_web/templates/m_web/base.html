@@ -64,21 +64,21 @@
                             <span class="text nav-text">Solicitud Compras</span>
                         </a>
                     </li>
-
+                    {% if rol == 'Productor' %}
                     <li class="nav-link">
                         <a href="{% url 'productos' %}">
                             <i class='bx bx-lemon icon' ></i>
                             <span class="text nav-text">Productos</span>
                         </a>
                     </li>
-
+                    {% elif rol == 'Transportista' %}
                     <li class="nav-link">
                         <a href="{% url 'productores' %}">
                             <i class='bx bxs-truck icon'></i>
                             <span class="text nav-text">Transportista</span>
                         </a>
                     </li>
-
+                    {% endif %}
                 </ul>
             </div>
 

@@ -10,19 +10,26 @@ from django.db import connection
 
 
 def home(request):
-    return render(request, 'm_web/home.html')
+    data = obtener_session(request)
+    return render(request, 'm_web/home.html',data)
     
 def pdvext(request):
     try:
-        data = {
-            'pdvs':pdv_get(),
-            'estadopdvs' :estadopdv_get(),
-            'solicitudes':solicitud_get(),
-            'productos':producto_get(),
-            'calidades' :calidad_get(),
-            'usuarios' :usuarios_get(),
-            
-        }
+        data = obtener_session(request)
+        if data['rol']!='Transportista':
+            return redirect(to="home")
+
+    except:
+        return redirect(to="login")
+
+    try:
+        data['pdvs']=pdv_get()
+        data['estadopdvs']=estadopdv_get()
+        data['solicitudes']=solicitud_get()
+        data['calidades']=calidad_get()
+        data['usuarios']=usuarios_get()
+        data['productos']=producto_get()
+
     except:
         return render(request, 'm_web/pdvext.html')
 
@@ -69,6 +76,7 @@ def login(request):
             request.session['run'] = respt[5]
             request.session['ciudad_id'] = respt[8]
             request.session['rol'] = respt[9]
+            return redirect(to="home")
 
         else:
             print("Tu mama es maraka")

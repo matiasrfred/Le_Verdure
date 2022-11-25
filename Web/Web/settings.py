@@ -55,11 +55,9 @@ SILENCED_SYSTEM_CHECKS = ["security.W019"]
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.oracle',
-        'NAME': '127.0.0.1:1521/xe',
-        'USER': 'c##vega',
-        'PASSWORD': '123',
-    },
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
 
 MIDDLEWARE = [

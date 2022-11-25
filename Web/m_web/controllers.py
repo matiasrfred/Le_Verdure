@@ -1,5 +1,6 @@
 import requests
 import json
+from django.http import HttpResponse
 
 #PRODUCTOS CONTROLLERS
 def crear_oferta(id_oferta,precio_oferta,ctdad_ofertada,seleccion,pdv_id_pdv,usuario_id_usuario):
@@ -29,7 +30,36 @@ def LoginAuthController(email,passw):
     response=requests.post(url,json=body)
     if response.status_code == 200:
         content = json.loads(response.content)
-        return content
+    return content
+
+def cerrar_session(request):
+    try:
+        del request.session['nombre']
+        del request.session['apellido']
+        del request.session['email']
+        del request.session['run']
+        del request.session['ciudad_id']
+        del request.session['rol']
+
+    except:
+        pass
+    return HttpResponse("Has cerrado Session")
+
+def obtener_session(request):
+    try:
+    
+        data={
+            'id':request.session['id'],
+            'nombre':request.session['nombre'],
+            'apellido': request.session['apellido'],
+            'email': request.session['email'],
+            'run':request.session['run'],
+            'ciudad_id':request.session['ciudad_id'],
+            'rol': request.session['rol'],}
+    except:
+        data={'rol':'Visita'}
+        
+    return data
 
 def subasta_get():
     url = 'http://127.0.0.1:8004/api/subastas/'
