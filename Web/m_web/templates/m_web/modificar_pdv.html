@@ -1,0 +1,45 @@
+{% extends 'm_web/base.html' %}
+{% block contenido %}
+{% load crispy_forms_tags %}
+{% load humanize %}
+<div class="card col-5 mx-6 my-5" style="justify-content: center;margin-left: 30%;">
+    <div class="card-body" >
+        <h2 class="form-label">Proceso de Venta #{{ pdvs.id_pdv }}</h2>        
+        <h3 class="form-label">Hasta: {{ pdvs.fecha_termino }}</h3>
+        {% for e in estadopdvs %}
+            {% if e.id_estadopdv == pdvs.estado_pdv_id_estadopdv_id %}
+                <h3 class="card-text">Estado: {{ e.d_estadopdv }}</h3>
+            {% endif %}
+        {% endfor %}
+        {% for s in solicitudes %}
+            {% if s.id_solicitud == pdvs.solicitud_compra_id_solicitud_id %}
+                <h3 class="card-text">Solicitud N°: {{ s.id_solicitud }}</h3>
+                <h3 class="card-text">Cantidad Necesaria: {{ s.ctdad_necesaria }} KG</h3>
+                {% for u in usuarios %}
+                    {% if u.id_usuario == s.id_solicitud %}
+                    <h3 class="card-text">Solicitado por: {{ u.nombre }}</h3>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+            {% endfor %}
+        <h2 class="form-label">Hasta: {{ pdvs.d_estadopdv }}</h2>
+    </div>
+                    <!-- FORMULARIO PARA EL POST A LA BASE DE DATOS -->
+<form method="PUT">
+    <div class="card card-body">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="formGroupExampleInput2" class="form-label">Cantidad:</label>
+        <input type="number" name="ctdad_necesaria" class="form-control" id="formGroupExampleInput2" placeholder="ej: 10000 sin '.' ni ','">
+    </div>  
+        <div class="modal-footer">
+        <input type="submit" style="background-color: #7d4dcd;" value="Modificar" class="btn btn-success">
+        <a type="button" class="btn btn-danger" href="{% url 'pdvext' %}">Cancelar</a>
+        </div>
+    </div>
+    
+</form>
+    
+</div>
+{% endblock %}
+

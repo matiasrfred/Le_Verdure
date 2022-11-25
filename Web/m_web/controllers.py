@@ -64,6 +64,29 @@ def pdv_get():
         content=json.loads(r.content)
         return content['pdvs']
 
+def pdv_get_id(id_pdv):
+    url='http://127.0.0.1:8003/api/pdvs/'+ str(id_pdv)
+    try:
+        r=requests.get(url)
+    except:
+        data = {'message':'Error de conexion'}
+        return data
+    if r.status_code == 200:
+        content=json.loads(r.content)
+    return content['pdv']
+
+def pdv_put(id_pdv,fecha_termino,estado_pdv_id_estadopdv_id,solicitud_compra_id_solicitud_id,tipo_local):
+    url='http://127.0.0.1:8003/api/pdvs/'
+    body = {
+        "id_pdv": str(id_pdv),
+        "fecha_termino": str(fecha_termino),
+        "estado_pdv_id_estadopdv_id":str(estado_pdv_id_estadopdv_id),
+        "solicitud_compra_id_solicitud_id":str(solicitud_compra_id_solicitud_id),
+        "tipo_local": str(tipo_local)
+    }
+    response=requests.put(url,json=body)
+    return response
+
 def solicitud_get():
     url = 'http://127.0.0.1:8002/api/solicitudes/'
     try: 

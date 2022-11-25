@@ -19,10 +19,29 @@ def pdvext(request):
             'usuarios' :usuarios_get(),
             
         }
+        if request.method == 'PUT':
+            id_pdv = request.PUT.get('id_pdv')
+            ctdad_necesaria = request.PUT.get('ctdad_necesaria')
+
+            Response = pdv_put(id_pdv,ctdad_necesaria)
+            print(Response)
+            return redirect(to="pdvext")
+        
     except:
-        return render(request, 'm_web/pdvext.html')
+        return render(request, 'm_web/pdvext.html',data)
 
     return render(request, 'm_web/pdvext.html',data)
+
+def pdv_id(request,id_pdv):
+    data={'pdvs':pdv_get_id(id_pdv),
+    'estadopdvs' :estadopdv_get(),
+            'solicitudes':solicitud_get(),
+            'productos':producto_get(),
+            'calidades' :calidad_get(),
+            'usuarios' :usuarios_get(),
+    }
+    print(pdv_get_id(id_pdv))
+    return render(request, 'm_web/modificar_pdv.html',data)
 
 def login(request):
     return render(request, 'm_web/login.html')

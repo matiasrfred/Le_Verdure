@@ -176,7 +176,11 @@ class SolicitudView(View):
 
     def post(self,request):
         jd = json.loads(request.body)
-        agregar_solicitud(fecha_solicitud=jd['fecha_solicitud'],ctdad_necesaria=jd['ctdad_necesaria'],estado_solicitud_id_estado=jd['estado_solicitud_id_estado_id'],producto_id_prod=jd['producto_id_prod_id'],usuario_id_usuario=jd['usuario_id_usuario_id'])
+        agregar_solicitud(fecha_solicitud=jd['fecha_solicitud'],
+        ctdad_necesaria=jd['ctdad_necesaria'],
+        estado_solicitud_id_estado=jd['estado_solicitud_id_estado_id'],
+        producto_id_prod=jd['producto_id_prod_id'],
+        usuario_id_usuario=jd['usuario_id_usuario_id'])
         datos={'message' : "Exitoso"}
         return JsonResponse(datos)
 
