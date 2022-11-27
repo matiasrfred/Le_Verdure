@@ -44,13 +44,7 @@
                     </select>
                 </div>
                 <div class="input-group mb-3">
-                    <label class="input-group-text" type="number" for="inputGroupSelect04">usuario</label>
-                    <select name="usuario_id_usuario_id" class="form-select" type="number">
-                    <option selected>Seleccione...</option>
-                    {% for r in usuarios %}
-                        <option value="{{ r.id_usuario }}">{{ r.nombre }}</option>
-                    {% endfor %}
-                    </select>
+                    <input type="text" hidden name="usuario_id_usuario_id" class="form-control" value="{{ id }}">
                     {% csrf_token %}
                 </div>
                 <input type="submit" style="background-color: #7d4dcd;" value="Agregar" class="btn btn-success">
@@ -78,11 +72,7 @@
                 <p class="card-text">Producto: {{ r.n_prod }}</p>
                 {% endif %}
             {% endfor %}
-            {% for u in usuarios %}
-                {% if u.id_usuario == g.usuario_id_usuario_id %}
-                    <p class="card-text">Solicitado por: {{ u.nombre }}</p>
-                {% endif %}
-            {% endfor %}
+            <p class="card-text">Solicitado por: {{ nombre }}</p>
             <a href="#" style="background-color: #7d4dcd;" class="btn btn-primary">Ver detalles</a>
     
     </div>

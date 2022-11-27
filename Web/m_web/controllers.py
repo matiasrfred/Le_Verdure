@@ -30,6 +30,7 @@ def LoginAuthController(email,passw):
     response=requests.post(url,json=body)
     if response.status_code == 200:
         content = json.loads(response.content)
+
     return content
 
 def cerrar_session(request):
@@ -43,11 +44,10 @@ def cerrar_session(request):
 
     except:
         pass
-    return HttpResponse("Has cerrado Session")
+        return HttpResponse("Has cerrado Session")
 
 def obtener_session(request):
     try:
-    
         data={
             'id':request.session['id'],
             'nombre':request.session['nombre'],

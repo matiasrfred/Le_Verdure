@@ -43,28 +43,30 @@
                             <span class="text nav-text">Inicio</span>
                         </a>
                     </li>
-
+                    {% if rol == 'Productor' %}
                     <li class="nav-link">
                         <a href="{% url 'subasta' %}">
                             <i class='bx bx-money-withdraw icon'></i>
                             <span class="text nav-text">Subastas</span>
                         </a>
                     </li>
-
+                    {% elif rol == 'Vendedor' %}
                     <li class="nav-link">
                         <a href="{% url 'pdvext' %}">
                             <i class='bx bx-pie-chart-alt icon' ></i>
                             <span class="text nav-text">Proceso de Ventas</span>
                         </a>
                     </li>
-
+                    {% endif %}
+                    {% if rol == 'Vendedor' %}
                     <li class="nav-link">
                         <a href="{% url 'solicitud_compra' %}">
                             <i class='bx bx-wallet icon' ></i>
                             <span class="text nav-text">Solicitud Compras</span>
                         </a>
                     </li>
-                    {% if rol == 'Productor' %}
+                    {% endif %}
+                    {% if rol == 'Vendedor' %}
                     <li class="nav-link">
                         <a href="{% url 'productos' %}">
                             <i class='bx bx-lemon icon' ></i>
@@ -81,15 +83,26 @@
                     {% endif %}
                 </ul>
             </div>
-
+            
             <div class="bottom-content">
-                <li class="">
+                {% if rol == 'Visita' %}
+                <li class="nav-link">
                     <a onclick="window.location.href='../login/'">
                         <i class='bx bx-log-out icon' ></i>
                         <span class="text nav-text">login</span>
                     </a>
                 </li>
-
+                {% else %}
+                <form method="POST">
+                    {% csrf_token %}
+                    <li class="nav-link">
+                        <a>
+                            <i class='bx bx-log-out icon' ></i>
+                            <input class="text nav-text btn" type="submit" value="Cerrar Sesion">
+                        </a>
+                    </li>
+                </form>
+                {% endif %}
                 <li class="mode">
                     <div class="sun-moon">
                         <i class='bx bx-moon icon moon'></i>
@@ -108,7 +121,7 @@
     </nav>
 
     <section class="home">
-        <div class="text"><i class='bx bx-user'></i> {{ nombre }}! | Rol {{ rol }}<i class='bx bx-buildings'></i>  </div>
+        <div class="text"><i class='bx bx-user'></i> {{ nombre }}! | Rol {{ rol }} <i class='bx bx-buildings'></i>  </div>
         <div>
             <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 

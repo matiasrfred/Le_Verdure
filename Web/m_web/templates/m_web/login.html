@@ -10,14 +10,26 @@
         <h1 style="color: white;" class="h3 mb-3 fw-normal">Le Verduré</h1>
     
         <div class="form-floating">
-          <input name="mail" type="name" class="form-control" id="floatingInput" placeholder="name@example.com">
+          <input name="mail" type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
           <label for="floatingInput">Usuario</label>
         </div>
         <div class="form-floating">
           <input name="pass" type="password" class="form-control" id="floatingPassword" placeholder="Password">
           <label for="floatingPassword">Contraseña</label>
         </div>
-        <input class="w-100 btn btn-lg btn-primary" style="background-color: #7d4dcd;" type="submit" value="Iniciar sesion" />
+        {% if messages %}
+          {% for m in messages %} 
+              <script>
+                  Swal.fire({
+                      icon:"info",
+                      text:"{{m}}"
+                  })
+              </script>
+          {% endfor %}
+        {% endif %}
+        <input class="w-100 btn btn-lg btn-primary" style="background-color: #7d4dcd;" type="submit" value="Iniciar sesion">
+        
+        <a href="{% url 'home' %}">Volver al inicio</a>
         <p class="mt-5 mb-3 text-muted">&copy; 2022</p>
       </form>
     </main>
