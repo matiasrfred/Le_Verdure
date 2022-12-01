@@ -26,13 +26,7 @@
                 </div>
 
                 <div class="input-group mb-3">
-                    <label class="input-group-text" for="inputGroupSelect02">Estado</label>
-                    <select name="estado_solicitud_id_estado_id" class="form-select" type="number">
-                    <option selected>Seleccione...</option>
-                    {% for est in estadosolicitudes %}
-                        <option value="{{ est.id_estado }}">{{ est.d_estado }}</option>
-                    {% endfor %}
-                    </select>
+                    <input type="text" hidden name="estado_solicitud_id_estado_id" class="form-control" value="2">
                 </div>
                 <div class="input-group mb-3">
                     <label class="input-group-text" for="inputGroupSelect03">Producto</label>

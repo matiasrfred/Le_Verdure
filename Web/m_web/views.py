@@ -3,8 +3,6 @@ from django.views.decorators.csrf import csrf_exempt
 from .views import * 
 from .controllers import *
 from django.contrib import messages
-from django.db import connection
-
 # Create your views here.
 
 
@@ -18,50 +16,57 @@ def home(request):
 def pdvext(request):
     try:
         data = obtener_session(request)
-        if data['rol']!='Vendedor':
-            return redirect(to="home")
+        if data['rol'] == 'Cliente Externo' or 'Productor':
+            try:
+                data['pdvs']=pdv_get()
+                data['estadopdvs']=estadopdv_get()
+                data['solicitudes']=solicitud_get()
+                data['calidades']=calidad_get()
+                data['usuarios']=usuarios_get()
+                data['productos']=producto_get()
 
+            except:
+                print("casi3")
+                return render(request, 'm_web/pdvext.html',data)
     except:
+        print("casi2")
         return redirect(to="login")
-
-    try:
-        data['pdvs']=pdv_get()
-        data['estadopdvs']=estadopdv_get()
-        data['solicitudes']=solicitud_get()
-        data['calidades']=calidad_get()
-        data['usuarios']=usuarios_get()
-        data['productos']=producto_get()
-
-    except:
-        return render(request, 'm_web/pdvext.html',data)
 
     return render(request, 'm_web/pdvext.html',data)
 
 def pdv_id(request,id_pdv):
     try:
         data = obtener_session(request)
-        if data['rol']!='Vendedor':
-            return redirect(to="home")
-
+        if data['rol']=='Cliente Externo'or'Productor':
+            try:
+                data['pdvs']=pdv_get_id(id_pdv)
+                data['estadopdvs']=estadopdv_get()
+                data['solicitudes']=solicitud_get()
+                data['calidades']=calidad_get()
+                data['usuarios']=usuarios_get()
+                data['productos']=producto_get()
+            except:
+                return render(request, 'm_web/modificar_pdv.html',data)
+            if request.method == 'POST':
+                id_pdv = request.POST.get('id_pdv')
+                ctdad_reunida = request.POST.get('ctdad_reunida')
+                precio_total = request.POST.get('precio_total')
+                Response = pdv_put(id_pdv,ctdad_reunida,precio_total)
+                print(id_pdv,ctdad_reunida,precio_total)
+                if Response.status_code == 200:
+                        messages.success(request,"Modificado Correctamente")
+                        print(Response)
+                else:
+                    messages.error(request,"No se pudo Agregar correctamente")
+                    print(Response)
+                print(Response)
+                return redirect(to="pdvext")
     except:
         return redirect(to="login")
-    try:
-        data['pdvs']=pdv_get_id(id_pdv)
-        data['estadopdvs']=estadopdv_get()
-        data['solicitudes']=solicitud_get()
-        data['calidades']=calidad_get()
-        data['usuarios']=usuarios_get()
-        data['productos']=producto_get()
-
-    except:
-        return render(request, 'm_web/modificar_pdv.html',data)
-    
     return render(request, 'm_web/modificar_pdv.html',data)
 
-def login(request):
-    return render(request, 'm_web/home.html')
 
-def productores(request):
+def transportista(request):
     try:
         data = obtener_session(request)
         if data['rol']!='Transportista':
@@ -69,43 +74,65 @@ def productores(request):
 
     except:
         return redirect(to="login")
-    return render(request, 'm_web/productores.html')
+
+    try:
+        data['Transportes']=transporte_get()
+        data['productos']=producto_get()
+    except:
+        return render(request, 'm_web/productores.html',data)
+    return render(request, 'm_web/productores.html',data)
 
 def subasta(request):
     try:
         data = obtener_session(request)
-        if data['rol']!='Vendedor':
+        if data['rol']!='Transportista':
+            print("hola")    
             return redirect(to="home")
     except:
         return redirect(to="login")
     try:
-        data['subastas']=subasta_get()
-        data['pdvs']=pdv_get()
-        data['Transportes']=transporte_get()
-        data['solicitudes']=solicitud_get()
-
+                data['subastas']=subasta_get()
+                data['pdvs']=pdv_get()
+                data['Transportes']=transporte_get()
+                data['solicitudes']=solicitud_get()
+                
     except:
-        return render(request, 'm_web/subasta.html')
+        return render(request, 'm_web/subasta.html',data)
+    
     return render(request, 'm_web/subasta.html', data)
 
-
+@csrf_exempt
 def productos(request):
     try:
         data = obtener_session(request)
-        if data['rol']!='Vendedor':
-            return redirect(to="home")
+        if data['rol']=='Productor':
+            try:
+                data['productos']=producto_get()
+                data['calidades']=calidad_get()
+                print("aca3")
 
+                if request.method == 'POST':
+                    n_prod = request.POST.get('n_prod')
+                    ruta_imagen = request.POST.get('ruta_imagen')
+                    calidad_id_calidad_id = request.POST.get('calidad_id_calidad_id')
+                    producto_activo = request.POST.get('producto_activo')
+                    Response = producto_post(n_prod,ruta_imagen,calidad_id_calidad_id,producto_activo)
+                    print(n_prod,ruta_imagen,calidad_id_calidad_id,producto_activo)
+                    if Response.status_code == 200:
+                        messages.success(request,"Agregado Correctamente")
+                        print(Response)
+                    else:
+                        messages.error(request,"No se pudo Agregar correctamente")
+                        print(Response)
+                    print(Response)
+                    return redirect(to="productos")
+
+            except:
+                print("aca4")
+                return render(request, 'm_web/productos.html',data)
     except:
-        return redirect(to="login")
-
-    try:
-        data['productos']=producto_get()
-        data['calidades']=calidad_get()
-        data['Transportes']=transporte_get()
-        data['solicitudes']=solicitud_get()
-
-    except:
-        return render(request, 'm_web/productos.html',data)
+        print("aca2")
+        return redirect(to="home")
     return render(request, 'm_web/productos.html',data)
 
 def login(request):
@@ -114,7 +141,6 @@ def login(request):
             mail = request.POST.get('mail')
             passw = request.POST.get('pass')
             resultados_user = LoginAuthController(mail,passw)
-            print(resultados_user)
             if resultados_user['message'] == 'Success':
                 respt = resultados_user['usuario']
                 request.session['id'] = respt[0]
@@ -124,25 +150,44 @@ def login(request):
                 request.session['run'] = respt[5]
                 request.session['ciudad_id'] = respt[8]
                 request.session['rol'] = respt[9]
+                messages.success(request,"Logueado Correctamente")
                 return redirect(to="home")
-
+                
             else:
-                return render(request, 'm_web/home.html')
+                messages.error(request,"No fue posible Loguearte")
+                return redirect(to="home")
     except:
-        return render(request, 'm_web/home.html')
+        messages.error(request,"No fue posible Loguearte")
+        return redirect(to="home")
 
     return render(request, 'm_web/login.html')
 
 
 
 def pdvint(request):
-    return render(request, 'm_web/pdvint.html')
+    try:
+        data = obtener_session(request)
+        if data['rol']!='Cliente Interno':
+            return redirect(to="home")
+
+    except:
+        return redirect(to="login")
+
+    try:
+        data['productos']=producto_get()
+        data['calidades']=calidad_get()
+        data['Transportes']=transporte_get()
+        data['solicitudes']=solicitud_get()
+
+    except:
+        return render(request, 'm_web/pdvint.html',data)
+    return render(request, 'm_web/pdvint.html',data)
 
 @csrf_exempt
 def solicitud_compra(request):
     try:
         data = obtener_session(request)
-        if data['rol']!='Vendedor':
+        if data['rol']!='Cliente Externo':
             return redirect(to="home")
 
     except:
@@ -176,6 +221,28 @@ def solicitud_compra(request):
         return render(request, 'm_web/solicitudcompra.html',data)
     return render(request, 'm_web/solicitudcompra.html',data)
 
+
+def lista_pdv(request,id_pdv):
+
+    try:
+        data = obtener_session(request)
+        if data['rol']=='Productor':
+            try:
+                data['pdvs']=pdv_get_id(id_pdv)
+                data['estadopdvs']=estadopdv_get()
+                data['solicitudes']=solicitud_get()
+                data['calidades']=calidad_get()
+                data['usuarios']=usuarios_get()
+                data['productos']=producto_get()
+
+            except:
+                print("casi3")
+                return render(request, 'm_web/pdvext.html',data)
+
+    except:
+        print("casi3")
+        return redirect(to="login")
+    return render(request, 'm_web/lista_pdv.html',data)
 
 
 

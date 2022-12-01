@@ -1,11 +1,28 @@
 {% extends 'm_web/base.html' %}
-
+{% load crispy_forms_tags %}
+{% load humanize %}
 {% block contenido %}
 <div class="container-fluid mx-4 py-5">
     <div>
         <h2>Transportista</h2>
     </div>
-    <div class="row">
+    <div class="row" style="margin-left: 15%; margin-top: 5%;">
+
+        <div class="card col-3 mx-3 my-3" style="width: 450px;">
+            <div class="card-body">
+                <h3 class="card-title" style="text-align: center;">Agregar Condicion de Transporte</h3>
+                <img  style="align-items: center;" src="https://cdn.discordapp.com/attachments/636390598437502979/1046863161241894932/camion.png" width="70%" >
+            </div>
+            <a type="button" class="btn btn-success" href="{% url 'home' %}" style="background-color: #7d4dcd;">Participar</a>
+        </div>
+        <div class="card col-3 mx-3 my-3" style="width: 450px;">
+            <div class="card-body">
+                <h3 class="card-title" style="text-align: center;">Postular a Transporte</h3>
+                <img style="text-align: center;" src="https://cdn.discordapp.com/attachments/636390598437502979/1046863930041061376/curriculum.png" width="70%" >
+            </div>
+            <a type="button" class="btn btn-success" href="{% url 'home' %}" style="background-color: #7d4dcd;">Participar</a>
+        </div>
+
 
     </div>
 </div>            

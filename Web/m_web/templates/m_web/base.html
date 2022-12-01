@@ -43,14 +43,15 @@
                             <span class="text nav-text">Inicio</span>
                         </a>
                     </li>
-                    {% if rol == 'Productor' %}
+                    {% if rol == 'Transportista' %}
                     <li class="nav-link">
                         <a href="{% url 'subasta' %}">
                             <i class='bx bx-money-withdraw icon'></i>
                             <span class="text nav-text">Subastas</span>
                         </a>
                     </li>
-                    {% elif rol == 'Vendedor' %}
+                    {% endif %}
+                    {% if rol == 'Cliente Externo' %}
                     <li class="nav-link">
                         <a href="{% url 'pdvext' %}">
                             <i class='bx bx-pie-chart-alt icon' ></i>
@@ -58,7 +59,15 @@
                         </a>
                     </li>
                     {% endif %}
-                    {% if rol == 'Vendedor' %}
+                    {% if rol == 'Productor' %}
+                    <li class="nav-link">
+                        <a href="{% url 'pdvext' %}">
+                            <i class='bx bx-pie-chart-alt icon' ></i>
+                            <span class="text nav-text">Proceso de Ventas</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% if rol == 'Cliente Externo' %}
                     <li class="nav-link">
                         <a href="{% url 'solicitud_compra' %}">
                             <i class='bx bx-wallet icon' ></i>
@@ -66,16 +75,17 @@
                         </a>
                     </li>
                     {% endif %}
-                    {% if rol == 'Vendedor' %}
+                    {% if rol == 'Productor' %}
                     <li class="nav-link">
                         <a href="{% url 'productos' %}">
                             <i class='bx bx-lemon icon' ></i>
                             <span class="text nav-text">Productos</span>
                         </a>
                     </li>
-                    {% elif rol == 'Transportista' %}
+                    {% endif %}
+                    {% if rol == 'Transportista' %}
                     <li class="nav-link">
-                        <a href="{% url 'productores' %}">
+                        <a href="{% url 'transportista' %}">
                             <i class='bx bxs-truck icon'></i>
                             <span class="text nav-text">Transportista</span>
                         </a>
@@ -121,7 +131,7 @@
     </nav>
 
     <section class="home">
-        <div class="text"><i class='bx bx-user'></i> {{ nombre }}! | Rol {{ rol }} <i class='bx bx-buildings'></i>  </div>
+        <div class="text"><i class='bx bx-user'></i> {{ nombre }} | Rol {{ rol }} <i class='bx bx-buildings'></i>  </div>
         <div>
             <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 

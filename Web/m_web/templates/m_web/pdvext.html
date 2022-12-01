@@ -30,6 +30,7 @@
                       {% endif %}
                 {% endfor %}
                 <p class="card-text">Cantidad Reunida: {{ p.ctdad_reunida }} KG</p>
+                <p class="card-text">Precio Total: ${{ p.precio_total }}</p>
                 {% for r in productos %}
                   {% if r.id_prod == s.producto_id_prod_id %}
                   <p class="card-text">Producto: {{ r.n_prod }}</p>
@@ -42,8 +43,12 @@
                 {% endfor %}
                 {% endif %}
               {% endfor %}
-              <a type="button" class="btn btn-success" href="{% url 'pdvext_id' p.id_pdv %}" style="background-color: #7d4dcd;">Participar</a>
-
+              {% if rol == 'Productor' %}
+              <div class="row">
+                <a type="button" class="btn btn-success" href="{% url 'pdvext_id' p.id_pdv %}" style="background-color: #7d4dcd; margin-bottom: 5px;">Participar</a>
+                <a type="button" class="btn btn-success" href="{% url 'lista_pdv' %}">Lista Participantes</a>
+              </div>
+                {% endif %}
             </div>
           </div>
         {% endfor %}

@@ -39,7 +39,8 @@ class Producto(models.Model):
     id_prod = models.BigIntegerField(primary_key=True)
     n_prod = models.CharField(max_length=60)
     ruta_imagen = models.CharField(max_length=200)
-    calidad_id_calidad = models.ForeignKey('Calidad', on_delete=models.DO_NOTHING, db_column='calidad_id_calidad', blank=True, null=True)
+    calidad_id_calidad = models.ForeignKey('Calidad', models.DO_NOTHING, db_column='calidad_id_calidad')
+    producto_activo = models.IntegerField()
 
     class Meta:
         managed = False
@@ -119,9 +120,10 @@ class Pdv(models.Model):
     fecha_termino = models.DateField()
     ctdad_reunida = models.BigIntegerField(blank=True, null=True)
     precio_total = models.BigIntegerField(blank=True, null=True)
-    estado_pdv_id_estadopdv = models.ForeignKey('EstadoPdv', on_delete=models.DO_NOTHING, db_column='estado_pdv_id_estadopdv')
-    solicitud_compra_id_solicitud = models.OneToOneField('SolicitudCompra', on_delete=models.DO_NOTHING, db_column='solicitud_compra_id_solicitud')
-    tipo_local = models.IntegerField(default='0')
+    estado_pdv_id_estadopdv = models.ForeignKey(EstadoPdv, models.DO_NOTHING, db_column='estado_pdv_id_estadopdv')
+    solicitud_compra_id_solicitud = models.ForeignKey('SolicitudCompra', models.DO_NOTHING, db_column='solicitud_compra_id_solicitud')
+    tipo_local = models.IntegerField()
+    ofertante_id_ofertante = models.ForeignKey('Ofertantes', models.DO_NOTHING, db_column='ofertante_id_ofertante', blank=True, null=True)
 
     class Meta:
         managed = False
@@ -129,11 +131,8 @@ class Pdv(models.Model):
 
 class Ofertantes(models.Model):
     id_oferta = models.BigIntegerField(primary_key=True)
-    precio_oferta = models.BigIntegerField()
-    ctdad_ofertada = models.BigIntegerField()
-    seleccion = models.IntegerField(default = False)
-    pdv_id_pdv = models.ForeignKey('Pdv', on_delete=models.DO_NOTHING, db_column='pdv_id_pdv', blank=True, null=True)
-    usuario_id_usuario = models.ForeignKey('Usuario', on_delete=models.DO_NOTHING, db_column='usuario_id_usuario')
+    oferta_activa = models.BooleanField()
+    usuario_id_usuario = models.ForeignKey('Usuario', models.DO_NOTHING, db_column='usuario_id_usuario')
 
     class Meta:
         managed = False

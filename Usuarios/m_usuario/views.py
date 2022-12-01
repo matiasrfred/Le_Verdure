@@ -208,11 +208,11 @@ def eliminar_rol(id_rol):
 
 #######################################
 
-def agregar_cap_transporte(id_transporte,refrigeracion,cap_carga,cap_tamano,usuario_id_usuario):
+def agregar_cap_transporte(refrigeracion,cap_carga,cap_tamano,usuario_id_usuario):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
-    cursor.callproc('AGREGAR_CAP_TRANSPORTE',[id_transporte,refrigeracion,cap_carga,cap_tamano,usuario_id_usuario,salida])
+    cursor.callproc('AGREGAR_CAP_TRANSPORTE',[refrigeracion,cap_carga,cap_tamano,usuario_id_usuario])
     return salida
 
 def lista_cap_transporte():
@@ -489,7 +489,7 @@ class CiudadAllViewset(viewsets.ModelViewSet):
     queryset = Ciudad.objects.all()
     serializer_class = Ciudad_allsrlzr
 
- ###########################################################
+###########################################################
 class RolView(View):
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
@@ -575,7 +575,11 @@ class TransporteView(View):
 
     def post(self,request):
         jd = json.loads(request.body)
-        agregar_cap_transporte(id_transporte=jd['id_transporte'],refrigeracion=jd['refrigeracion'],cap_carga=jd['cap_carga'],cap_tamano=jd['cap_tamano'],usuario_id_usuario=jd['usuario_id_usuario'])
+        agregar_cap_transporte(
+        refrigeracion=jd['refrigeracion'],
+        cap_carga=jd['cap_carga'],
+        cap_tamano=jd['cap_tamano'],
+        usuario_id_usuario=jd['usuario_id_usuario_id'])
         datos={'message' : "Exitoso"}
         return JsonResponse(datos)
 

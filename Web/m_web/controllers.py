@@ -30,8 +30,7 @@ def LoginAuthController(email,passw):
     response=requests.post(url,json=body)
     if response.status_code == 200:
         content = json.loads(response.content)
-
-    return content
+        return content
 
 def cerrar_session(request):
     try:
@@ -94,6 +93,18 @@ def producto_get():
         content = json.loads(r.content)
         return content['productos']
 
+def producto_post(n_prod,ruta_imagen,calidad_id_calidad_id,producto_activo):
+    url = 'http://127.0.0.1:8002/api/productos/'
+    body ={
+        "n_prod": str(n_prod),
+        "ruta_imagen": str(ruta_imagen),
+        "calidad_id_calidad_id": str(calidad_id_calidad_id),
+        "producto_activo": str(producto_activo)
+    }
+    response=requests.post(url,json=body)
+    return response
+
+
 def pdv_get():
     url='http://127.0.0.1:8003/api/pdvs/'
     try:
@@ -116,14 +127,12 @@ def pdv_get_id(id_pdv):
         content=json.loads(r.content)
     return content['pdv']
 
-def pdv_put(id_pdv,fecha_termino,estado_pdv_id_estadopdv_id,solicitud_compra_id_solicitud_id,tipo_local):
-    url='http://127.0.0.1:8003/api/pdvs/'
+def pdv_put(id_pdv,ctdad_reunida,precio_total):
+    url='http://127.0.0.1:8003/api/pdvs/'+ str(id_pdv)
     body = {
         "id_pdv": str(id_pdv),
-        "fecha_termino": str(fecha_termino),
-        "estado_pdv_id_estadopdv_id":str(estado_pdv_id_estadopdv_id),
-        "solicitud_compra_id_solicitud_id":str(solicitud_compra_id_solicitud_id),
-        "tipo_local": str(tipo_local)
+        "ctdad_reunida":str(ctdad_reunida),
+        "precio_total":str(precio_total)
     }
     response=requests.put(url,json=body)
     return response

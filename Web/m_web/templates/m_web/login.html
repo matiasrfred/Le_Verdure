@@ -17,21 +17,13 @@
           <input name="pass" type="password" class="form-control" id="floatingPassword" placeholder="Password">
           <label for="floatingPassword">Contraseña</label>
         </div>
-        {% if messages %}
-          {% for m in messages %} 
-              <script>
-                  Swal.fire({
-                      icon:"info",
-                      text:"{{m}}"
-                  })
-              </script>
-          {% endfor %}
-        {% endif %}
+        
         <input class="w-100 btn btn-lg btn-primary" style="background-color: #7d4dcd;" type="submit" value="Iniciar sesion">
         
         <a href="{% url 'home' %}">Volver al inicio</a>
         <p class="mt-5 mb-3 text-muted">&copy; 2022</p>
       </form>
+      
     </main>
       </body>
 {% endblock %}

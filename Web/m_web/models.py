@@ -43,7 +43,7 @@ class Producto(models.Model):
     n_prod = models.CharField(max_length=60)
     ruta_imagen = models.CharField(max_length=200)
     calidad_id_calidad = models.ForeignKey('Calidad', on_delete=models.DO_NOTHING, db_column='calidad_id_calidad', blank=True, null=True)
-
+    
     class Meta:
         managed = False
         db_table = 'producto'

@@ -48,11 +48,11 @@ def eliminar_solicitud(id_solicitud):
 #################        PRODUCTO          #########################
 ####################################################################
 
-def agregar_producto(d_estado,ruta_imagen,calidad_id_calidad):
+def agregar_producto(n_prod,ruta_imagen,calidad_id_calidad,producto_activo):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
-    cursor.callproc('AGREGAR_PRODUCTO',[d_estado,ruta_imagen,calidad_id_calidad])
+    cursor.callproc('AGREGAR_PRODUCTO',[n_prod,ruta_imagen,calidad_id_calidad,producto_activo])
     return salida
 
 def lista_producto():
@@ -69,7 +69,8 @@ def modificar_producto(d_estado,ruta_imagen,calidad_id_calidad):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
-    cursor.callproc('ACTUALIZAR_PRODUCTO',[d_estado,ruta_imagen,calidad_id_calidad,salida])
+    cursor.callproc('ACTUALIZAR_PRODUCTO',[d_estado,ruta_imagen,calidad_id_calidad])
+    return salida
 
 def eliminar_producto(id_estado):
     django_cursor = connection.cursor()
@@ -244,7 +245,11 @@ class ProductoView(View):
 
     def post(self,request):
         jd = json.loads(request.body)
-        agregar_producto(id_prod=jd['id_prod'],n_prod=jd['n_prod'],ruta_imagen=jd['ruta_imagen'],calidad_id_calidad=jd['calidad_id_calidad'])
+        agregar_producto(
+        n_prod=jd['n_prod'],
+        ruta_imagen=jd['ruta_imagen'],
+        calidad_id_calidad=jd['calidad_id_calidad_id'],
+        producto_activo=jd['producto_activo'])
         datos={'message' : "Exitoso"}
         return JsonResponse(datos)
 
@@ -252,7 +257,10 @@ class ProductoView(View):
         jd = json.loads(request.body)
         productos = list(Producto.objects.filter(id_prod=id_prod).values())
         if len(productos) > 0:
-            modificar_producto(id_prod=jd['id_prod'],n_prod=jd['n_prod'],ruta_imagen=jd['ruta_imagen'],calidad_id_calidad=jd['calidad_id_calidad'])
+            modificar_producto(id_prod=jd['id_prod'],
+            n_prod=jd['n_prod'],
+            ruta_imagen=jd['ruta_imagen'],
+            calidad_id_calidad=jd['calidad_id_calidad'])
             datos={'message' : "Exitoso"}
             
         else:

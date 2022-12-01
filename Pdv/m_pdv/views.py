@@ -34,11 +34,11 @@ def lista_pdv():
         list.append(fila)
     return list
 
-def modificar_pdv(id_pdv,fecha_termino,estado_pdv_id_estadopdv,solicitud_compra_id_solicitud,tipo_local):
+def modificar_pdv(id_pdv,ctdad_reunida,precio_total):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
-    cursor.callproc('ACTUALIZAR_PDV',[id_pdv,fecha_termino,estado_pdv_id_estadopdv,solicitud_compra_id_solicitud,tipo_local])
+    cursor.callproc('ACTUALIZAR_PDV2',[id_pdv,ctdad_reunida,precio_total])
     return salida
 
 def eliminar_pdv(id_pdv):
@@ -165,10 +165,8 @@ class pdvView(View):
         pdvs = list(Pdv.objects.filter(id_pdv=id_pdv).values())
         if len(pdvs) > 0:
             modificar_pdv(id_pdv,
-            fecha_termino=jd['fecha_termino'],
-            estado_pdv_id_estadopdv=jd['estado_pdv_id_estadopdv_id'],
-            solicitud_compra_id_solicitud=jd['solicitud_compra_id_solicitud_id'],
-            tipo_local=jd['tipo_local'])
+            ctdad_reunida=jd['ctdad_reunida'],
+            precio_total=jd['precio_total'])
             datos={'message' : "Succes"}
             
         else:

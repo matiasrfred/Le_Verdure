@@ -1,28 +1,77 @@
 {% extends 'm_web/base.html' %}
 {% block contenido %}
+{% load crispy_forms_tags %}
+{% load humanize %}
 
 <div class="container-fluid mx-4 py-5">
     <div>
         <h2>Productos</h2>
         <p>
-            <a class="btn btn-success" style="background-color: #7d4dcd;" href="{% url 'productos' %}"><i class='bx bx-refresh'></i> Refrescar</a>
+            <button class="btn btn-success" style="background-color: #7d4dcd;" data-bs-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample2">
+            Agregar Producto
+            </button>
         </p>
+
+        <form method='POST'>
+            <div class="collapse col-10 mx-10 my-10" id="collapseExample2">
+                <div class="card card-body">
+                    <div class="mb-3">
+                        <label for="formGroupExampleInput" class="form-label">Nombre Producto:</label>
+                        <input type="text" name="n_prod" class="form-control" placeholder="Ej: Manzana">
+                    </div>
+    
+                    <div class="mb-3">
+                        <label for="formGroupExampleInput2" class="form-label">Imagen:</label>
+                        <input type="text" name="ruta_imagen" class="form-control"  placeholder="Seleccione imagen">
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="inputGroupSelect03">Calidad:</label>
+                        <select name="calidad_id_calidad_id" class="form-select" type="number">
+                        <option selected>Seleccione...</option>
+                        {% for c in calidades %}
+                            <option type="number" value="{{ c.id_calidad }}">{{ c.descripcion_c }}</option>
+                        {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <input type="number" hidden name="producto_activo" class="form-control" value="1">
+                    </div>
+
+                        {% csrf_token %}
+                    <input type="submit" style="background-color: #7d4dcd;" value="Agregar" class="btn btn-success">
+                    
+                    
+                </div>
+            </div>
+        </form>
+
+
+
+
+
     </div>
     <div class="row">
         
         {% for p in productos %}
-        <div class="card col-3 mx-3 my-3">
-            <div class="card-body">
-                <h5 class="card-title">Nombre Producto: {{ p.n_prod }}</h5>
-                {% for c in calidades %}
-                    {% if c.id_calidad == p.id_prod %}
-                    <p class="card-text">Calidad: {{ c.descripcion_c }}</p>
-                    {% endif %}
-                {% endfor %}
-        
-        </div>
-        </div>
-        {% endfor %}
+            <div class="card col-3 mx-3 my-3">
+                <div class="card-body">
+                    <h5 class="card-title">Nombre Producto: {{ p.n_prod }}</h5>
+                    {% for c in calidades %}
+                        {% if c.id_calidad == p.calidad_id_calidad_id %}
+                            <h5 class="card-title">Calidad: {{ c.descripcion_c }}</h5>
+                        {% endif %}
+                    {% endfor %} 
+                    <h5 class="card-title">Producto 
+                    {% if p.producto_activo == 1 %}
+                    Activo
+                    {% else %}
+                    Inactivo
+                    {% endif %}</h5>
+                    
+                </div>
+            </div>
+        {% endfor %}  
     </div>
     </div>
 {% endblock %}
