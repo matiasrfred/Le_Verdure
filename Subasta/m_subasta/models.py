@@ -139,6 +139,13 @@ class CapTransporte(models.Model):
         managed = False
         db_table = 'cap_transporte'
 
+class EstadoSubasta(models.Model):
+    id_estado = models.BigIntegerField(primary_key=True)
+    d_estado = models.CharField(max_length=50)
+
+    class Meta:
+        managed = False
+        db_table = 'estado_subasta'
 
 
 class Subasta(models.Model):
@@ -147,13 +154,13 @@ class Subasta(models.Model):
     fecha_termino_sub = models.DateField()
     cond_carga = models.BigIntegerField()
     cond_tamano = models.BigIntegerField()
-    cond_refrigeracion = models.IntegerField(default='0',blank=True, null=True)
+    cond_refrigeracion = models.BooleanField()
     valor_inicial = models.BigIntegerField()
-    ultima_puja = models.BigIntegerField()
-    ctdad_pujas = models.BigIntegerField()
-    pdv_id_pdv = models.ForeignKey('Pdv', on_delete=models.DO_NOTHING, db_column='pdv_id_pdv')
-    estado_sub = models.IntegerField(default='0',blank=True, null=True)
-    cap_transporte_id_transporte = models.ForeignKey('CapTransporte', on_delete=models.DO_NOTHING, db_column='cap_transporte_id_transporte')
+    pdv_id_pdv = models.ForeignKey(Pdv, models.DO_NOTHING, db_column='pdv_id_pdv')
+    estado_subasta_id_estado = models.ForeignKey('EstadoSubasta', models.DO_NOTHING, db_column='estado_subasta_id_estado')
+    cap_transporte_id_transporte = models.ForeignKey(CapTransporte, models.DO_NOTHING, db_column='cap_transporte_id_transporte', blank=True, null=True)
+    precio_pdv = models.FloatField()
+    tipo_pdv = models.BooleanField()
 
     class Meta:
         managed = False

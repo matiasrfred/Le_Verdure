@@ -23,14 +23,14 @@
               {% for s in solicitudes %}
                 {% if s.id_solicitud == p.solicitud_compra_id_solicitud_id %}
                 <p class="card-text">Solicitud N°: {{ s.id_solicitud }}</p>
-                <p class="card-text">Cantidad Necesaria: {{ s.ctdad_necesaria }} KG</p>
+                <p class="card-text">Cantidad Necesaria: {{ s.ctdad_necesaria | intcomma }} KG</p>
                 {% for u in usuarios %}
                       {% if u.id_usuario == s.id_solicitud %}
                         <p class="card-text">Solicitado por: {{ u.nombre }}</p>
                       {% endif %}
                 {% endfor %}
-                <p class="card-text">Cantidad Reunida: {{ p.ctdad_reunida }} KG</p>
-                <p class="card-text">Precio Total: ${{ p.precio_total }}</p>
+                <p class="card-text">Cantidad Reunida: {{ p.ctdad_reunida | intcomma }} KG</p>
+                <p class="card-text">Precio Total: ${{ p.precio_total | intcomma }}</p>
                 {% for r in productos %}
                   {% if r.id_prod == s.producto_id_prod_id %}
                   <p class="card-text">Producto: {{ r.n_prod }}</p>
@@ -46,7 +46,7 @@
               {% if rol == 'Productor' %}
               <div class="row">
                 <a type="button" class="btn btn-success" href="{% url 'pdvext_id' p.id_pdv %}" style="background-color: #7d4dcd; margin-bottom: 5px;">Participar</a>
-                <a type="button" class="btn btn-success" href="{% url 'lista_pdv' %}">Lista Participantes</a>
+                <a type="button" class="btn btn-success" href="{% url 'lista_pdv' p.id_pdv %}">Lista Participantes</a>
               </div>
                 {% endif %}
             </div>

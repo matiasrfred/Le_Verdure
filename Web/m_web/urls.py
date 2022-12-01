@@ -10,6 +10,6 @@ urlpatterns = [
     path('productos/', productos, name="productos"),
     path('subasta/', subasta, name="subasta"),
     path('solicitud_compra/', solicitud_compra, name="solicitud_compra"),
-    path('lista_pdv/', lista_pdv, name="lista_pdv"),
+    path('lista_pdv/<str:id_pdv>', lista_pdv, name="lista_pdv"),
     
 ]

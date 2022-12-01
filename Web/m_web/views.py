@@ -85,19 +85,21 @@ def transportista(request):
 def subasta(request):
     try:
         data = obtener_session(request)
-        if data['rol']!='Transportista':
-            print("hola")    
-            return redirect(to="home")
-    except:
-        return redirect(to="login")
-    try:
+        if data['rol']=='Transportista':
+            try:
                 data['subastas']=subasta_get()
                 data['pdvs']=pdv_get()
                 data['Transportes']=transporte_get()
                 data['solicitudes']=solicitud_get()
                 
+            except:
+                return render(request, 'm_web/subasta.html',data)
+            print("hola")    
+
     except:
-        return render(request, 'm_web/subasta.html',data)
+        print("aa")
+        return redirect(to="login")
+    
     
     return render(request, 'm_web/subasta.html', data)
 

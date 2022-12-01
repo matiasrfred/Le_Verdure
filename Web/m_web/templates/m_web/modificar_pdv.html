@@ -15,7 +15,7 @@
             {% if s.id_solicitud == pdvs.solicitud_compra_id_solicitud_id %}
                 <h3 class="card-text">Solicitud N°: {{ s.id_solicitud }}</h3>
                 <h3 class="card-text">Cantidad Necesaria: {{ s.ctdad_necesaria }} KG</h3>
-                <h3 class="card-text">Precio Total: ${{ pdvs.precio_total }}</h3>
+                <h3 class="card-text">Precio Total: ${{ pdvs.precio_total | intcomma }}</h3>
                 {% for u in usuarios %}
                     {% if u.id_usuario == s.id_solicitud %}
                     <h3 class="card-text">Solicitado por: {{ u.nombre }}</h3>
@@ -32,9 +32,9 @@
     <div class="mb-3">
         <input type="text" name="id_pdv" hidden value="{{pdvs.id_pdv}}">
         <label for="formGroupExampleInput2" class="form-label">Cantidad:(En KG)</label>
-        <input type="number" name="ctdad_reunida" class="form-control" value="{{pdvs.ctdad_reunida}}">
+        <input type="number" name="ctdad_reunida" class="form-control" value="{{pdvs.ctdad_reunida | intcomma }}">
         <label for="formGroupExampleInput2" class="form-label">Precio Total:</label>
-        $<input type="number" name="precio_total" class="form-control" value="{{pdvs.precio_total}}">
+        $<input type="number" name="precio_total" class="form-control" value="{{pdvs.precio_total | intcomma }}">
     </div>  
         <div class="modal-footer">
         <input type="submit" style="background-color: #7d4dcd;" value="Modificar" class="btn btn-success">
