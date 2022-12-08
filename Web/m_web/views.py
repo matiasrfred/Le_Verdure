@@ -51,18 +51,26 @@ def pdv_id(request,id_pdv):
                 id_pdv = request.POST.get('id_pdv')
                 ctdad_reunida = request.POST.get('ctdad_reunida')
                 precio_total = request.POST.get('precio_total')
-                Response = pdv_put(id_pdv,ctdad_reunida,precio_total)
-                print(id_pdv,ctdad_reunida,precio_total)
-                if Response.status_code == 200:
-                        messages.success(request,"Modificado Correctamente")
-                        print(Response)
-                else:
+                pdv = data['pdvs']
+                if int(pdv['ctdad_reunida'])+1 <= int(ctdad_reunida):
                     messages.error(request,"No se pudo Agregar correctamente")
+
+                if int(pdv['ctdad_reunida']) >= int(ctdad_reunida):
+                    messages.error(request,"No se pudo Agregar correctamente")
+
+                else:
+                    Response = pdv_put(id_pdv,ctdad_reunida,precio_total)
+                    print(id_pdv,ctdad_reunida,precio_total)
+                    if Response.status_code == 200:
+                            messages.success(request,"Modificado Correctamente")
+                            print(Response)
+                    else:
+                        messages.error(request,"No se pudo Agregar correctamente")
+                        print(Response)
                     print(Response)
-                print(Response)
-                return redirect(to="pdvext")
+                    return redirect(to='pdvext')
     except:
-        return redirect(to="login")
+        return redirect(to='login')
     return render(request, 'm_web/modificar_pdv.html',data)
 
 
@@ -238,11 +246,9 @@ def lista_pdv(request,id_pdv):
                 data['productos']=producto_get()
 
             except:
-                print("casi3")
                 return render(request, 'm_web/pdvext.html',data)
 
     except:
-        print("casi3")
         return redirect(to="login")
     return render(request, 'm_web/lista_pdv.html',data)
 

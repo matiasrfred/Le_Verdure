@@ -49,29 +49,37 @@
     </form>
 </div>
 <div class="row">
-    
-    {% for g in solicitudes %}
-    <div class="card col-3 mx-3 my-3">
-        <div class="card-body">
-            <h5 class="card-title">Solicitud de compra #{{ g.id_solicitud }}</h5>
-            {% for v in estadosolicitudes %}
-                {% if v.id_estado == g.estado_solicitud_id_estado_id %}
-                    <p>Estado: {{ v.d_estado }}</p>
-                {% endif %}
-            {% endfor %}
-            <p class="card-text">Fecha Creacion: {{ g.fecha_solicitud }} </p>
-            <p class="card-text">Cantidad Necesaria: {{ g.ctdad_necesaria }} KG</p>
-            {% for r in productos %}
-                {% if r.id_prod == g.producto_id_prod_id %}
-                <p class="card-text">Producto: {{ r.n_prod }}</p>
-                {% endif %}
-            {% endfor %}
-            <p class="card-text">Solicitado por: {{ nombre }}</p>
-            <a href="#" style="background-color: #7d4dcd;" class="btn btn-primary">Ver detalles</a>
-    
-    </div>
-    </div>
-    {% endfor %}
+
+        {% for g in solicitudes %}
+            {% if id == g.usuario_id_usuario_id %}
+                <div class="card col-3 mx-3 my-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Solicitud de compra #{{ g.id_solicitud }}</h5>
+                        {% for v in estadosolicitudes %}
+                            {% if v.id_estado == g.estado_solicitud_id_estado_id %}
+                                <p>Estado: {{ v.d_estado }}</p>
+                            {% endif %}
+                        {% endfor %}
+                        <p class="card-text">Fecha Creacion: {{ g.fecha_solicitud }} </p>
+                        <p class="card-text">Cantidad Necesaria: {{ g.ctdad_necesaria }} KG</p>
+                        {% for r in productos %}
+                            {% if r.id_prod == g.producto_id_prod_id %}
+                            <p class="card-text">Producto: {{ r.n_prod }}</p>
+                            {% endif %}
+                        {% endfor %}
+                        {% for u in usuarios %}
+                            {% if u.id_usuario == g.usuario_id_usuario_id %}
+                            <p class="card-text">Solicitado por: {{ u.nombre }}</p>
+                            {% endif %}
+                        {% endfor %}
+
+                        <a href="#" style="background-color: #7d4dcd;" class="btn btn-primary">Ver detalles</a>
+                
+                </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+
 </div>
 </div>
 {% endblock %}

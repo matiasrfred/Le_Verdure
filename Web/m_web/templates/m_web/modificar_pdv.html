@@ -32,9 +32,9 @@
     <div class="mb-3">
         <input type="text" name="id_pdv" hidden value="{{pdvs.id_pdv}}">
         <label for="formGroupExampleInput2" class="form-label">Cantidad:(En KG)</label>
-        <input type="number" name="ctdad_reunida" class="form-control" value="{{pdvs.ctdad_reunida | intcomma }}">
+        <input type="number" name="ctdad_reunida" class="form-control" value="{{pdvs.ctdad_reunida }}">
         <label for="formGroupExampleInput2" class="form-label">Precio Total:</label>
-        $<input type="number" name="precio_total" class="form-control" value="{{pdvs.precio_total | intcomma }}">
+        $<input type="number" name="precio_total" class="form-control" value="{{pdvs.precio_total }}">
     </div>  
         <div class="modal-footer">
         <input type="submit" style="background-color: #7d4dcd;" value="Modificar" class="btn btn-success">

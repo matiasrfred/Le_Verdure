@@ -41,8 +41,6 @@ def eliminar_subasta(id_subasta):
     salida = cursor.var(cx_Oracle.NUMBER)
     cursor.callproc('ELIMINAR_SUBASTAS',[id_subasta,salida])
 
-
-
 ######################################################################################
 class subastaView(View):
     @method_decorator(csrf_exempt)
