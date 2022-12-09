@@ -6,11 +6,13 @@
 <div class="container-fluid mx-4 py-5">
     <div>
         <h2>Productos</h2>
+        {% if rol == 'Productor' %}
         <p>
             <button class="btn btn-success" style="background-color: #7d4dcd;" data-bs-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample2">
             Agregar Producto
             </button>
         </p>
+        {% endif %}
 
         <form method='POST'>
             <div class="collapse col-10 mx-10 my-10" id="collapseExample2">

@@ -191,3 +191,14 @@ def estadopdv_get():
     if r.status_code == 200:
         content = json.loads(r.content)
         return content['estadopdvs']
+
+def cap_transporte_post(refrigeracion,cap_carga,cap_tamano,usuario_id_usuario_id):
+    url = 'http://127.0.0.1:8000/api/transporte/'
+    body ={
+        "refrigeracion": str(refrigeracion),
+        "cap_carga": str(cap_carga),
+        "cap_tamano": str(cap_tamano),
+        "usuario_id_usuario_id": str(usuario_id_usuario_id)
+    }
+    response=requests.post(url,json=body)
+    return response

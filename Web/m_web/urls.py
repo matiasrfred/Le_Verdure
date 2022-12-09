@@ -11,5 +11,6 @@ urlpatterns = [
     path('subasta/', subasta, name="subasta"),
     path('solicitud_compra/', solicitud_compra, name="solicitud_compra"),
     path('lista_pdv/<str:id_pdv>', lista_pdv, name="lista_pdv"),
+    path('cap_transporte/', cap_transporte, name="cap_transporte"),
     
 ]

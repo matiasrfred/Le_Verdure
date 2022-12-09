@@ -587,7 +587,11 @@ class TransporteView(View):
         jd = json.loads(request.body)
         Transportes = list(CapTransporte.objects.filter(id_transporte=id_transporte).values())
         if len(Transportes) > 0:
-            modificar_cap_transporte(id_transporte=jd['id_transporte'],refrigeracion=jd['refrigeracion'],cap_carga=jd['cap_carga'],cap_tamano=jd['cap_tamano'],usuario_id_usuario=jd['usuario_id_usuario'])            
+            modificar_cap_transporte(id_transporte=jd['id_transporte'],
+            refrigeracion=jd['refrigeracion'],
+            ap_carga=jd['cap_carga'],
+            cap_tamano=jd['cap_tamano'],
+            usuario_id_usuario=jd['usuario_id_usuario'])            
             datos={'message' : "Exitoso"}
             
         else:

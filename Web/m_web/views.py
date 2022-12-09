@@ -10,6 +10,7 @@ from django.contrib import messages
 def home(request):
     if request.method == 'POST':
         cerrar_session(request)
+        messages.success(request,"Sesión Cerrada Correctamente")
     data = obtener_session(request)
     return render(request, 'm_web/home.html',data)
     
@@ -26,8 +27,11 @@ def pdvext(request):
                 data['productos']=producto_get()
 
             except:
-                print("casi3")
-                return render(request, 'm_web/pdvext.html',data)
+                messages.error(request,"No tiene el cargo necesario")
+                return redirect(to="home")
+        else:
+            messages.error(request,"No tiene el cargo necesario")
+            return redirect(to="home")
     except:
         print("casi2")
         return redirect(to="login")
@@ -52,11 +56,8 @@ def pdv_id(request,id_pdv):
                 ctdad_reunida = request.POST.get('ctdad_reunida')
                 precio_total = request.POST.get('precio_total')
                 pdv = data['pdvs']
-                if int(pdv['ctdad_reunida'])+1 <= int(ctdad_reunida):
-                    messages.error(request,"No se pudo Agregar correctamente")
-
-                if int(pdv['ctdad_reunida']) >= int(ctdad_reunida):
-                    messages.error(request,"No se pudo Agregar correctamente")
+                if int(pdv['ctdad_reunida']) <= int(ctdad_reunida):
+                    messages.error(request,"La cantidad no debe exceder la necesaria")
 
                 else:
                     Response = pdv_put(id_pdv,ctdad_reunida,precio_total)
@@ -69,6 +70,9 @@ def pdv_id(request,id_pdv):
                         print(Response)
                     print(Response)
                     return redirect(to='pdvext')
+        else:
+            messages.error(request,"No tiene el cargo necesario")
+            return redirect(to="home")
     except:
         return redirect(to='login')
     return render(request, 'm_web/modificar_pdv.html',data)
@@ -103,6 +107,9 @@ def subasta(request):
             except:
                 return render(request, 'm_web/subasta.html',data)
             print("hola")    
+        else:
+            messages.error(request,"No tiene el cargo necesario")
+            return redirect(to="home")
 
     except:
         print("aa")
@@ -115,7 +122,7 @@ def subasta(request):
 def productos(request):
     try:
         data = obtener_session(request)
-        if data['rol']=='Productor':
+        if data['rol']=='Productor' or 'Cliente Interno':
             try:
                 data['productos']=producto_get()
                 data['calidades']=calidad_get()
@@ -140,6 +147,9 @@ def productos(request):
             except:
                 print("aca4")
                 return render(request, 'm_web/productos.html',data)
+        else:
+            messages.error(request,"No tiene el cargo necesario")
+            return redirect(to="home")
     except:
         print("aca2")
         return redirect(to="home")
@@ -197,38 +207,42 @@ def pdvint(request):
 def solicitud_compra(request):
     try:
         data = obtener_session(request)
-        if data['rol']!='Cliente Externo':
+        if data['rol']=='Cliente Externo':
+            try:
+                data['solicitudes']=solicitud_get()
+                data['estadosolicitudes']=estadosolicitud_get()
+                data['productos']=producto_get()
+                data['calidades']=calidad_get()
+                data['usuarios']=usuarios_get()
+
+                if request.method == 'POST':
+                    fecha_solicitud = request.POST.get('fecha_solicitud')
+                    ctdad_necesaria = request.POST.get('ctdad_necesaria')
+                    estado_solicitud_id_estado_id = request.POST.get('estado_solicitud_id_estado_id')
+                    producto_id_prod_id = request.POST.get('producto_id_prod_id')
+                    usuario_id_usuario_id = request.POST.get('usuario_id_usuario_id')
+                    Response = solicitud_post(fecha_solicitud,ctdad_necesaria,estado_solicitud_id_estado_id,producto_id_prod_id,usuario_id_usuario_id)
+                    print(fecha_solicitud,ctdad_necesaria,estado_solicitud_id_estado_id,producto_id_prod_id,usuario_id_usuario_id)
+                    if Response.status_code == 200:
+                        messages.success(request,"Agregado Correctamente")
+                        print(Response)
+                    else:
+                        messages.error(request,"No se pudo Agregar correctamente")
+                        print(Response)
+                    print(Response)
+                    return redirect(to="solicitud_compra")
+                        
+            except:
+                return render(request, 'm_web/solicitudcompra.html',data)
+
+        else:
+            messages.error(request,"No tiene el cargo necesario")
             return redirect(to="home")
-
     except:
-        return redirect(to="login")
+        messages.error(request,"No tiene el cargo necesario")
+        return redirect(to="home")
 
-    try:
-        data['solicitudes']=solicitud_get()
-        data['estadosolicitudes']=estadosolicitud_get()
-        data['productos']=producto_get()
-        data['calidades']=calidad_get()
-        data['usuarios']=usuarios_get()
-
-        if request.method == 'POST':
-            fecha_solicitud = request.POST.get('fecha_solicitud')
-            ctdad_necesaria = request.POST.get('ctdad_necesaria')
-            estado_solicitud_id_estado_id = request.POST.get('estado_solicitud_id_estado_id')
-            producto_id_prod_id = request.POST.get('producto_id_prod_id')
-            usuario_id_usuario_id = request.POST.get('usuario_id_usuario_id')
-            Response = solicitud_post(fecha_solicitud,ctdad_necesaria,estado_solicitud_id_estado_id,producto_id_prod_id,usuario_id_usuario_id)
-            print(fecha_solicitud,ctdad_necesaria,estado_solicitud_id_estado_id,producto_id_prod_id,usuario_id_usuario_id)
-            if Response.status_code == 200:
-                messages.success(request,"Agregado Correctamente")
-                print(Response)
-            else:
-                messages.error(request,"No se pudo Agregar correctamente")
-                print(Response)
-            print(Response)
-            return redirect(to="solicitud_compra")
-            
-    except:
-        return render(request, 'm_web/solicitudcompra.html',data)
+    
     return render(request, 'm_web/solicitudcompra.html',data)
 
 
@@ -247,11 +261,47 @@ def lista_pdv(request,id_pdv):
 
             except:
                 return render(request, 'm_web/pdvext.html',data)
+        else:
+            messages.error(request,"No tiene el cargo necesario")
+            return redirect(to="home")
 
     except:
         return redirect(to="login")
     return render(request, 'm_web/lista_pdv.html',data)
 
+def cap_transporte(request):
+    try:
+        data = obtener_session(request)
+        if data['rol']=='Transportista':
+                try:
+
+                    data['Transportes']=transporte_get()
+                    if request.method == 'POST':
+                        Refrigeracion = request.POST.get('Refrigeracion')
+                        cap_carga = request.POST.get('cap_carga')
+                        cap_tamaño = request.POST.get('cap_tamaño')
+                        usuario_id_usuario_id = request.POST.get('usuario_id_usuario_id')
+                        Response = cap_transporte_post(Refrigeracion,cap_carga,cap_tamaño,usuario_id_usuario_id)
+                        print(Refrigeracion,cap_carga,cap_tamaño,usuario_id_usuario_id)
+                        if Response.status_code == 200:
+                            messages.success(request,"Agregado Correctamente")
+                            print(Response)
+                        else:
+                            messages.error(request,"No se pudo Agregar correctamente")
+                            print(Response)
+                        print(Response)
+                        return redirect(to="transportista")
+
+
+                except:
+                    return render(request, 'm_web/pdvint.html',data)
+        else:
+            messages.error(request,"No tiene el cargo necesario")
+            return redirect(to="home")
+    except:
+        print("aca")
+        return redirect(to="login")
+    return render(request, 'm_web/cap_transporte.html',data)
 
 
 

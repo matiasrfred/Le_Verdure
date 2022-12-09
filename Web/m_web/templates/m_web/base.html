@@ -43,14 +43,7 @@
                             <span class="text nav-text">Inicio</span>
                         </a>
                     </li>
-                    {% if rol == 'Transportista' %}
-                    <li class="nav-link">
-                        <a href="{% url 'subasta' %}">
-                            <i class='bx bx-money-withdraw icon'></i>
-                            <span class="text nav-text">Subastas</span>
-                        </a>
-                    </li>
-                    {% endif %}
+
                     {% if rol == 'Cliente Externo' %}
                     <li class="nav-link">
                         <a href="{% url 'pdvext' %}">
@@ -76,6 +69,14 @@
                     </li>
                     {% endif %}
                     {% if rol == 'Productor' %}
+                    <li class="nav-link">
+                        <a href="{% url 'productos' %}">
+                            <i class='bx bx-lemon icon' ></i>
+                            <span class="text nav-text">Productos</span>
+                        </a>
+                    </li>
+                    {% endif %}
+                    {% if rol == 'Cliente Interno' %}
                     <li class="nav-link">
                         <a href="{% url 'productos' %}">
                             <i class='bx bx-lemon icon' ></i>

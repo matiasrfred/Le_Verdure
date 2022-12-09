@@ -8,7 +8,7 @@
 
             <tr>
                 <th scope="col">N°Pdv</th>
-                <th scope="col">Usuario</th>
+
                 <th scope="col">Cantidad</th>
                 <th scope="col">Precio</th>
             </tr>
@@ -16,8 +16,7 @@
 
             <tr>
                 <td>{{ pdvs.id_pdv | title }}</td>
-                <td>{{ usuarios.nombre | title }}</td>
-                <td>{{ pdvs.ctdad_reunida }}</td>
+                <td>{{ pdvs.ctdad_reunida | intcomma }} KG</td>
                 <td>${{ pdvs.precio_total | intcomma }}</td>
             </tr>
 
